@@ -28,10 +28,14 @@
             padding: 20px;
             min-height: 100vh;
             position: relative;
+            background-color: #111;
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
         }
         .prompt {
             color: #0f0;
             display: inline;
+            font-weight: bold;
         }
         .blink {
             animation: blink 1s step-end infinite;
@@ -50,8 +54,11 @@
             from { width: 0; }
             to { width: 100%; }
         }
-        .command {
-            margin: 10px 0;
+        .command-links {
+            margin: 15px 0;
+            padding: 10px;
+            background-color: rgba(0, 255, 0, 0.1);
+            border-left: 3px solid #0f0;
         }
         .command a {
             color: #0f0;
@@ -63,7 +70,10 @@
         }
         .section {
             display: none;
-            margin-top: 20px;
+            padding: 15px;
+            border-left: 2px solid #0f0;
+            margin: 10px 0;
+            background-color: rgba(0, 0, 0, 0.3);
         }
         .section.active {
             display: block;
@@ -81,6 +91,33 @@
             font-size: 16px;
             flex-grow: 1;
             outline: none;
+            padding: 5px;
+            margin-left: 5px;
+        }
+        .cmd-link {
+            position: relative;
+            transition: all 0.3s;
+            color: #0f0;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .cmd-link:hover {
+            color: #fff;
+            text-shadow: 0 0 5px #0f0;
+        }
+        .cmd-link::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #0f0;
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+        .cmd-link:hover::after {
+            transform: scaleX(1);
         }
         @media (max-width: 600px) {
             body {
@@ -89,6 +126,19 @@
             }
             .terminal {
                 padding: 10px;
+                border: none;
+            }
+            .command-links {
+                font-size: 12px;
+            }
+            .input-line {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            #commandInput {
+                width: 100%;
+                margin-left: 0;
+                margin-top: 5px;
             }
         }
     </style>
@@ -98,12 +148,13 @@
         <div class="typewriter">
             Welcome to IDM.web.id - aiksatria's Terminal Interface
         </div>
-        <div class="command">
-            <p>Type a command below or use the links: 
-                <a href="#" onclick="showSection('home')">home</a> |
-                <a href="#" onclick="showSection('about')">about</a> |
-                <a href="#" onclick="showSection('portfolio')">portfolio</a> |
-                <a href="#" onclick="showSection('contact')">contact</a>
+        <div class="command-links">
+            <p>Available commands: 
+                <a href="#" onclick="showSection('home')" class="cmd-link">home</a> |
+                <a href="#" onclick="showSection('about')" class="cmd-link">about</a> |
+                <a href="#" onclick="showSection('portfolio')" class="cmd-link">portfolio</a> |
+                <a href="#" onclick="showSection('contact')" class="cmd-link">contact</a> |
+                <a href="#" onclick="showSection('help')" class="cmd-link">help</a>
             </p>
         </div>
         <div id="home" class="section active">
@@ -119,15 +170,27 @@
         <div id="portfolio" class="section">
             <p>PORTFOLIO</p>
             <p>Berikut beberapa proyek saya:</p>
-            <p>- <a href="https://github.com/aiksatria/proyek1">Proyek 1</a>: Deskripsi singkat proyek.</p>
-            <p>- <a href="https://github.com/aiksatria/proyek2">Proyek 2</a>: Deskripsi singkat lainnya.</p>
+            <p>- <a href="https://github.com/aiksatria/proyek1" class="cmd-link">Proyek 1</a>: Deskripsi singkat proyek.</p>
+            <p>- <a href="https://github.com/aiksatria/proyek2" class="cmd-link">Proyek 2</a>: Deskripsi singkat lainnya.</p>
         </div>
         <div id="contact" class="section">
             <p>CONTACT</p>
             <p>Hubungi saya melalui:</p>
-            <p>- Email: <a href="mailto:youremail@example.com">youremail@example.com</a></p>
-            <p>- GitHub: <a href="https://github.com/aiksatria">aiksatria</a></p>
+            <p>- Email: <a href="mailto:youremail@example.com" class="cmd-link">youremail@example.com</a></p>
+            <p>- GitHub: <a href="https://github.com/aiksatria" class="cmd-link">aiksatria</a></p>
         </div>
+        <div id="help" class="section">
+            <p>HELP MENU</p>
+            <p>Available commands:</p>
+            <ul>
+                <li><strong>home</strong> - Kembali ke halaman utama</li>
+                <li><strong>about</strong> - Tentang saya</li>
+                <li><strong>portfolio</strong> - Proyek-proyek saya</li>
+                <li><strong>contact</strong> - Cara menghubungi saya</li>
+                <li><strong>clear</strong> - Membersihkan terminal</li>
+            </ul>
+        </div>
+        <div id="commandHistory"></div>
         <div class="input-line">
             <span class="prompt">C:\IDM.WEB.ID></span>
             <input type="text" id="commandInput" placeholder="_" onkeydown="handleCommand(event)">
@@ -146,14 +209,39 @@
         function handleCommand(event) {
             if (event.key === 'Enter') {
                 const input = event.target.value.trim().toLowerCase();
-                const sections = ['home', 'about', 'portfolio', 'contact'];
+                const sections = ['home', 'about', 'portfolio', 'contact', 'help'];
+                
+                // Tambahkan command history
+                addToHistory(input);
+                
                 if (sections.includes(input)) {
                     showSection(input);
+                } else if (input === 'clear') {
+                    clearTerminal();
                 } else {
-                    alert('Perintah tidak dikenal. Coba: home, about, portfolio, contact');
+                    showMessage(`Command not found: ${input}. Type 'help' for available commands.`);
                 }
                 event.target.value = '';
             }
+        }
+        
+        function addToHistory(command) {
+            const historyDiv = document.getElementById('commandHistory');
+            const prompt = document.createElement('div');
+            prompt.innerHTML = `<span class="prompt">C:\IDM.WEB.ID></span> ${command}`;
+            historyDiv.appendChild(prompt);
+        }
+        
+        function clearTerminal() {
+            document.getElementById('commandHistory').innerHTML = '';
+        }
+        
+        function showMessage(msg) {
+            const historyDiv = document.getElementById('commandHistory');
+            const message = document.createElement('div');
+            message.textContent = msg;
+            message.style.color = '#f00';
+            historyDiv.appendChild(message);
         }
     </script>
 </body>
