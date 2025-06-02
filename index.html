@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IDM.web.id - Terminal</title>
-    <meta name="description" content="Situs resmi IDM.web.id dengan antarmuka CMD-style oleh aiksatria">
-    <meta name="keywords" content="idm, aiksatria, terminal, portfolio">
+    <title>IDM.web.id - Advanced Terminal</title>
+    <meta name="description" content="Situs resmi IDM.web.id dengan simulasi CMD lengkap oleh aiksatria">
+    <meta name="keywords" content="idm, aiksatria, terminal, cmd, simulation">
     <style>
         * {
             margin: 0;
@@ -14,28 +14,49 @@
         }
         body {
             background-color: #000;
-            color: #0f0;
-            font-family: 'Courier New', Courier, monospace;
+            color: #ccc;
+            font-family: 'Consolas', 'Courier New', monospace;
             font-size: 16px;
-            line-height: 1.5;
+            line-height: 1.4;
             padding: 20px;
             overflow-x: hidden;
         }
         .terminal {
             max-width: 800px;
             margin: 0 auto;
-            border: 2px solid #0f0;
-            padding: 20px;
+            border: 1px solid #333;
+            padding: 15px;
             min-height: 100vh;
             position: relative;
-            background-color: #111;
-            border-radius: 5px;
-            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+            background-color: #0C0C0C;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
         }
+        .terminal-header {
+            background-color: #1A1A1A;
+            padding: 5px 10px;
+            margin: -15px -15px 15px -15px;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .terminal-title {
+            color: #ccc;
+            font-weight: bold;
+        }
+        .terminal-controls span {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            margin-left: 5px;
+            border-radius: 50%;
+        }
+        .terminal-controls .close { background-color: #ff5f56; }
+        .terminal-controls .minimize { background-color: #ffbd2e; }
+        .terminal-controls .maximize { background-color: #27c93f; }
         .prompt {
             color: #0f0;
             display: inline;
-            font-weight: bold;
         }
         .blink {
             animation: blink 1s step-end infinite;
@@ -43,81 +64,42 @@
         @keyframes blink {
             50% { opacity: 0; }
         }
-        .typewriter {
-            display: inline-block;
-            overflow: hidden;
-            white-space: nowrap;
-            border-right: 2px solid #0f0;
-            animation: typing 3s steps(40, end), blink 1s step-end infinite;
-        }
-        @keyframes typing {
-            from { width: 0; }
-            to { width: 100%; }
-        }
-        .command-links {
-            margin: 15px 0;
-            padding: 10px;
-            background-color: rgba(0, 255, 0, 0.1);
-            border-left: 3px solid #0f0;
-        }
-        .command a {
-            color: #0f0;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        .command a:hover {
-            text-decoration: underline;
-        }
-        .section {
-            display: none;
-            padding: 15px;
-            border-left: 2px solid #0f0;
-            margin: 10px 0;
-            background-color: rgba(0, 0, 0, 0.3);
-        }
-        .section.active {
-            display: block;
-        }
-        .input-line {
+        .command-line {
             display: flex;
             align-items: center;
-            margin-top: 20px;
+            margin: 5px 0;
         }
-        .input-line input {
-            background: none;
+        .command-line input {
+            background: transparent;
             border: none;
-            color: #0f0;
-            font-family: 'Courier New', Courier, monospace;
+            color: #ccc;
+            font-family: 'Consolas', 'Courier New', monospace;
             font-size: 16px;
             flex-grow: 1;
             outline: none;
-            padding: 5px;
-            margin-left: 5px;
+            padding: 2px 5px;
+            caret-color: #0f0;
         }
+        .output {
+            margin-bottom: 10px;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        .output.success { color: #0f0; }
+        .output.error { color: #f00; }
+        .output.info { color: #00b4ff; }
+        .output.warning { color: #ffbd2e; }
+        .dir-item { margin-left: 20px; }
+        .dir-item:before { content: "📄 "; }
+        .dir-item.dir:before { content: "📁 "; color: #00b4ff; }
+        .dir-item.exe:before { content: "⚙️ "; color: #0f0; }
         .cmd-link {
-            position: relative;
-            transition: all 0.3s;
             color: #0f0;
             text-decoration: none;
             cursor: pointer;
         }
         .cmd-link:hover {
-            color: #fff;
-            text-shadow: 0 0 5px #0f0;
-        }
-        .cmd-link::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            bottom: -2px;
-            left: 0;
-            background-color: #0f0;
-            transform: scaleX(0);
-            transition: transform 0.3s;
-        }
-        .cmd-link:hover::after {
-            transform: scaleX(1);
+            text-decoration: underline;
         }
         @media (max-width: 600px) {
             body {
@@ -126,123 +108,226 @@
             }
             .terminal {
                 padding: 10px;
-                border: none;
-            }
-            .command-links {
-                font-size: 12px;
-            }
-            .input-line {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            #commandInput {
-                width: 100%;
-                margin-left: 0;
-                margin-top: 5px;
             }
         }
     </style>
 </head>
 <body>
     <div class="terminal">
-        <div class="typewriter">
-            Welcome to IDM.web.id - aiksatria's Terminal Interface
+        <div class="terminal-header">
+            <div class="terminal-title">Command Prompt</div>
+            <div class="terminal-controls">
+                <span class="close"></span>
+                <span class="minimize"></span>
+                <span class="maximize"></span>
+            </div>
         </div>
-        <div class="command-links">
-            <p>Available commands: 
-                <a href="#" onclick="showSection('home')" class="cmd-link">home</a> |
-                <a href="#" onclick="showSection('about')" class="cmd-link">about</a> |
-                <a href="#" onclick="showSection('portfolio')" class="cmd-link">portfolio</a> |
-                <a href="#" onclick="showSection('contact')" class="cmd-link">contact</a> |
-                <a href="#" onclick="showSection('help')" class="cmd-link">help</a>
-            </p>
+
+        <div id="output-container">
+            <div class="output">
+                Microsoft Windows [Version 10.0.19044.1766]<br>
+                (c) Microsoft Corporation. All rights reserved.<br><br>
+            </div>
+            <div class="output info">
+                IDM Terminal v2.0 - Type 'help' for available commands<br><br>
+            </div>
         </div>
-        <div id="home" class="section active">
-            <p>SELAMAT DATANG DI IDM.WEB.ID</p>
-            <p>Ini adalah terminal digital aiksatria. Jelajahi situs dengan mengetik perintah atau klik link di atas.</p>
-            <p>Ketik 'about' untuk tahu lebih banyak, atau 'portfolio' untuk lihat proyek saya!</p>
-        </div>
-        <div id="about" class="section">
-            <p>ABOUT ME</p>
-            <p>Saya aiksatria, pengembang dan penggemar teknologi. Situs ini adalah eksperimen saya untuk membawa nuansa CMD ke web.</p>
-            <p>Berbasis di Indonesia, saya suka coding, kopi, dan membangun hal-hal keren.</p>
-        </div>
-        <div id="portfolio" class="section">
-            <p>PORTFOLIO</p>
-            <p>Berikut beberapa proyek saya:</p>
-            <p>- <a href="https://github.com/aiksatria/proyek1" class="cmd-link">Proyek 1</a>: Deskripsi singkat proyek.</p>
-            <p>- <a href="https://github.com/aiksatria/proyek2" class="cmd-link">Proyek 2</a>: Deskripsi singkat lainnya.</p>
-        </div>
-        <div id="contact" class="section">
-            <p>CONTACT</p>
-            <p>Hubungi saya melalui:</p>
-            <p>- Email: <a href="mailto:youremail@example.com" class="cmd-link">youremail@example.com</a></p>
-            <p>- GitHub: <a href="https://github.com/aiksatria" class="cmd-link">aiksatria</a></p>
-        </div>
-        <div id="help" class="section">
-            <p>HELP MENU</p>
-            <p>Available commands:</p>
-            <ul>
-                <li><strong>home</strong> - Kembali ke halaman utama</li>
-                <li><strong>about</strong> - Tentang saya</li>
-                <li><strong>portfolio</strong> - Proyek-proyek saya</li>
-                <li><strong>contact</strong> - Cara menghubungi saya</li>
-                <li><strong>clear</strong> - Membersihkan terminal</li>
-            </ul>
-        </div>
-        <div id="commandHistory"></div>
-        <div class="input-line">
+
+        <div class="command-line">
             <span class="prompt">C:\IDM.WEB.ID></span>
-            <input type="text" id="commandInput" placeholder="_" onkeydown="handleCommand(event)">
+            <input type="text" id="commandInput" spellcheck="false" autocomplete="off" onkeydown="handleCommand(event)" autofocus>
         </div>
     </div>
 
     <script>
-        function showSection(sectionId) {
-            document.querySelectorAll('.section').forEach(section => {
-                section.classList.remove('active');
-            });
-            document.getElementById(sectionId).classList.add('active');
-            document.getElementById('commandInput').value = '';
-        }
+        // Command history and index
+        let commandHistory = [];
+        let historyIndex = 0;
+        let currentCommand = '';
 
-        function handleCommand(event) {
-            if (event.key === 'Enter') {
-                const input = event.target.value.trim().toLowerCase();
-                const sections = ['home', 'about', 'portfolio', 'contact', 'help'];
-                
-                // Tambahkan command history
-                addToHistory(input);
-                
-                if (sections.includes(input)) {
-                    showSection(input);
-                } else if (input === 'clear') {
-                    clearTerminal();
-                } else {
-                    showMessage(`Command not found: ${input}. Type 'help' for available commands.`);
+        // Available commands
+        const commands = {
+            help: {
+                description: "Displays help information for available commands",
+                execute: () => {
+                    addOutput("<br>Available commands:<br><br>", "info");
+                    Object.keys(commands).sort().forEach(cmd => {
+                        addOutput(`${cmd.padEnd(15)} ${commands[cmd].description}`, "info");
+                    });
+                    addOutput("<br>For more information on a specific command, type HELP command-name", "info");
                 }
-                event.target.value = '';
+            },
+            cls: {
+                description: "Clears the terminal screen",
+                execute: () => {
+                    document.getElementById('output-container').innerHTML = '';
+                }
+            },
+            dir: {
+                description: "Displays a list of files and subdirectories in a directory",
+                execute: () => {
+                    addOutput("<br> Directory of C:\\IDM.WEB.ID<br><br>", "info");
+                    addOutput("<div class='dir-item dir'>projects</div>", "");
+                    addOutput("<div class='dir-item dir'>documents</div>", "");
+                    addOutput("<div class='dir-item'>resume.txt</div>", "");
+                    addOutput("<div class='dir-item'>about.txt</div>", "");
+                    addOutput("<div class='dir-item exe'>start.exe</div>", "");
+                    addOutput("<br>        5 File(s)     15,360 bytes", "info");
+                    addOutput("        2 Dir(s)   1,024,000 bytes free", "info");
+                }
+            },
+            ping: {
+                description: "Tests network connectivity to a host",
+                execute: (args) => {
+                    if (!args || args.length === 0) {
+                        addOutput("Ping requires a host parameter", "error");
+                        return;
+                    }
+                    
+                    const host = args[0];
+                    addOutput(`<br>Pinging ${host} with 32 bytes of data:`, "info");
+                    
+                    // Simulate ping with random response times
+                    for (let i = 0; i < 4; i++) {
+                        const time = Math.floor(Math.random() * 100) + 20;
+                        setTimeout(() => {
+                            addOutput(`Reply from ${host}: bytes=32 time=${time}ms TTL=55`, "success");
+                            
+                            if (i === 3) {
+                                setTimeout(() => {
+                                    addOutput(`<br>Ping statistics for ${host}:`, "info");
+                                    addOutput("    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss)", "info");
+                                    const min = Math.floor(Math.random() * 20) + 20;
+                                    const max = min + Math.floor(Math.random() * 30);
+                                    const avg = Math.floor((min + max) / 2);
+                                    addOutput(`Approximate round trip times in milli-seconds:`, "info");
+                                    addOutput(`    Minimum = ${min}ms, Maximum = ${max}ms, Average = ${avg}ms`, "info");
+                                }, 100);
+                            }
+                        }, i * 500);
+                    }
+                }
+            },
+            whoami: {
+                description: "Displays information about the current user",
+                execute: () => {
+                    addOutput("<br>idm\\aiksatria", "info");
+                }
+            },
+            date: {
+                description: "Displays or sets the system date",
+                execute: () => {
+                    const now = new Date();
+                    addOutput(`<br>The current date is: ${now.toLocaleDateString()}`, "info");
+                }
+            },
+            time: {
+                description: "Displays or sets the system time",
+                execute: () => {
+                    const now = new Date();
+                    addOutput(`<br>The current time is: ${now.toLocaleTimeString()}`, "info");
+                }
+            },
+            ver: {
+                description: "Displays the Windows version",
+                execute: () => {
+                    addOutput("<br>Microsoft Windows [Version 10.0.19044.1766]", "info");
+                }
+            },
+            exit: {
+                description: "Closes the terminal window",
+                execute: () => {
+                    addOutput("<br>Closing terminal...", "warning");
+                    setTimeout(() => {
+                        window.close();
+                    }, 500);
+                }
+            },
+            notfound: {
+                execute: (cmd) => {
+                    addOutput(`'${cmd}' is not recognized as an internal or external command,<br>operable program or batch file.`, "error");
+                    addOutput("Type 'help' for available commands", "info");
+                }
+            }
+        };
+
+        // Handle command input
+        function handleCommand(event) {
+            const input = document.getElementById('commandInput');
+            
+            // Handle up/down arrows for command history
+            if (event.key === 'ArrowUp') {
+                if (historyIndex === 0) {
+                    currentCommand = input.value;
+                }
+                if (historyIndex < commandHistory.length) {
+                    historyIndex++;
+                    input.value = commandHistory[commandHistory.length - historyIndex] || '';
+                }
+                event.preventDefault();
+                return;
+            }
+            
+            if (event.key === 'ArrowDown') {
+                if (historyIndex > 0) {
+                    historyIndex--;
+                    input.value = historyIndex === 0 ? currentCommand : commandHistory[commandHistory.length - historyIndex] || '';
+                }
+                event.preventDefault();
+                return;
+            }
+            
+            if (event.key === 'Enter') {
+                const commandText = input.value.trim();
+                if (commandText) {
+                    // Add command to history
+                    commandHistory.push(commandText);
+                    historyIndex = 0;
+                    currentCommand = '';
+                    
+                    // Display the command in output
+                    addOutput(`<span class="prompt">C:\\IDM.WEB.ID></span> ${commandText}`, "");
+                    
+                    // Process command
+                    processCommand(commandText);
+                    
+                    // Clear input
+                    input.value = '';
+                }
+                event.preventDefault();
             }
         }
-        
-        function addToHistory(command) {
-            const historyDiv = document.getElementById('commandHistory');
-            const prompt = document.createElement('div');
-            prompt.innerHTML = `<span class="prompt">C:\IDM.WEB.ID></span> ${command}`;
-            historyDiv.appendChild(prompt);
+
+        // Process the command
+        function processCommand(commandText) {
+            const parts = commandText.split(' ');
+            const cmd = parts[0].toLowerCase();
+            const args = parts.slice(1);
+            
+            // Find and execute command
+            if (commands[cmd]) {
+                commands[cmd].execute(args);
+            } else {
+                commands.notfound.execute(cmd);
+            }
         }
-        
-        function clearTerminal() {
-            document.getElementById('commandHistory').innerHTML = '';
+
+        // Add output to terminal
+        function addOutput(text, className = '') {
+            const outputContainer = document.getElementById('output-container');
+            const outputElement = document.createElement('div');
+            outputElement.className = `output ${className}`;
+            outputElement.innerHTML = text;
+            outputContainer.appendChild(outputElement);
+            
+            // Scroll to bottom
+            outputContainer.scrollTop = outputContainer.scrollHeight;
         }
-        
-        function showMessage(msg) {
-            const historyDiv = document.getElementById('commandHistory');
-            const message = document.createElement('div');
-            message.textContent = msg;
-            message.style.color = '#f00';
-            historyDiv.appendChild(message);
-        }
+
+        // Focus input on click anywhere
+        document.addEventListener('click', () => {
+            document.getElementById('commandInput').focus();
+        });
     </script>
 </body>
 </html>
