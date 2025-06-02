@@ -1,1 +1,160 @@
-ind3x
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IDM.web.id - Terminal</title>
+    <meta name="description" content="Situs resmi IDM.web.id dengan antarmuka CMD-style oleh aiksatria">
+    <meta name="keywords" content="idm, aiksatria, terminal, portfolio">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 16px;
+            line-height: 1.5;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        .terminal {
+            max-width: 800px;
+            margin: 0 auto;
+            border: 2px solid #0f0;
+            padding: 20px;
+            min-height: 100vh;
+            position: relative;
+        }
+        .prompt {
+            color: #0f0;
+            display: inline;
+        }
+        .blink {
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+        .typewriter {
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 2px solid #0f0;
+            animation: typing 3s steps(40, end), blink 1s step-end infinite;
+        }
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        .command {
+            margin: 10px 0;
+        }
+        .command a {
+            color: #0f0;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .command a:hover {
+            text-decoration: underline;
+        }
+        .section {
+            display: none;
+            margin-top: 20px;
+        }
+        .section.active {
+            display: block;
+        }
+        .input-line {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .input-line input {
+            background: none;
+            border: none;
+            color: #0f0;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 16px;
+            flex-grow: 1;
+            outline: none;
+        }
+        @media (max-width: 600px) {
+            body {
+                font-size: 14px;
+                padding: 10px;
+            }
+            .terminal {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal">
+        <div class="typewriter">
+            Welcome to IDM.web.id - aiksatria's Terminal Interface
+        </div>
+        <div class="command">
+            <p>Type a command below or use the links: 
+                <a href="#" onclick="showSection('home')">home</a> |
+                <a href="#" onclick="showSection('about')">about</a> |
+                <a href="#" onclick="showSection('portfolio')">portfolio</a> |
+                <a href="#" onclick="showSection('contact')">contact</a>
+            </p>
+        </div>
+        <div id="home" class="section active">
+            <p>SELAMAT DATANG DI IDM.WEB.ID</p>
+            <p>Ini adalah terminal digital aiksatria. Jelajahi situs dengan mengetik perintah atau klik link di atas.</p>
+            <p>Ketik 'about' untuk tahu lebih banyak, atau 'portfolio' untuk lihat proyek saya!</p>
+        </div>
+        <div id="about" class="section">
+            <p>ABOUT ME</p>
+            <p>Saya aiksatria, pengembang dan penggemar teknologi. Situs ini adalah eksperimen saya untuk membawa nuansa CMD ke web.</p>
+            <p>Berbasis di Indonesia, saya suka coding, kopi, dan membangun hal-hal keren.</p>
+        </div>
+        <div id="portfolio" class="section">
+            <p>PORTFOLIO</p>
+            <p>Berikut beberapa proyek saya:</p>
+            <p>- <a href="https://github.com/aiksatria/proyek1">Proyek 1</a>: Deskripsi singkat proyek.</p>
+            <p>- <a href="https://github.com/aiksatria/proyek2">Proyek 2</a>: Deskripsi singkat lainnya.</p>
+        </div>
+        <div id="contact" class="section">
+            <p>CONTACT</p>
+            <p>Hubungi saya melalui:</p>
+            <p>- Email: <a href="mailto:youremail@example.com">youremail@example.com</a></p>
+            <p>- GitHub: <a href="https://github.com/aiksatria">aiksatria</a></p>
+        </div>
+        <div class="input-line">
+            <span class="prompt">C:\IDM.WEB.ID></span>
+            <input type="text" id="commandInput" placeholder="_" onkeydown="handleCommand(event)">
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+            document.getElementById('commandInput').value = '';
+        }
+
+        function handleCommand(event) {
+            if (event.key === 'Enter') {
+                const input = event.target.value.trim().toLowerCase();
+                const sections = ['home', 'about', 'portfolio', 'contact'];
+                if (sections.includes(input)) {
+                    showSection(input);
+                } else {
+                    alert('Perintah tidak dikenal. Coba: home, about, portfolio, contact');
+                }
+                event.target.value = '';
+            }
+        }
+    </script>
+</body>
+</html>
