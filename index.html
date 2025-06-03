@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IDM.web.id - Advanced Terminal</title>
-    <meta name="description" content="Situs resmi IDM.web.id dengan simulasi CMD lengkap oleh aiksatria">
-    <meta name="keywords" content="idm, aiksatria, terminal, cmd, simulation">
+    <title>IDM.web.id - Cosmic Terminal</title>
+    <meta name="description" content="Terminal interaktif IDM.web.id oleh aiksatria">
+    <meta name="keywords" content="idm, aiksatria, terminal, portfolio, resonansi">
     <style>
         * {
             margin: 0;
@@ -14,46 +14,21 @@
         }
         body {
             background-color: #000;
-            color: #ccc;
-            font-family: 'Consolas', 'Courier New', monospace;
+            color: #0f0;
+            font-family: 'Courier New', Courier, monospace;
             font-size: 16px;
-            line-height: 1.4;
+            line-height: 1.5;
             padding: 20px;
             overflow-x: hidden;
         }
         .terminal {
             max-width: 800px;
             margin: 0 auto;
-            border: 1px solid #333;
-            padding: 15px;
+            border: 2px solid #0f0;
+            padding: 20px;
             min-height: 100vh;
             position: relative;
-            background-color: #0C0C0C;
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
         }
-        .terminal-header {
-            background-color: #1A1A1A;
-            padding: 5px 10px;
-            margin: -15px -15px 15px -15px;
-            border-bottom: 1px solid #333;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .terminal-title {
-            color: #ccc;
-            font-weight: bold;
-        }
-        .terminal-controls span {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            margin-left: 5px;
-            border-radius: 50%;
-        }
-        .terminal-controls .close { background-color: #ff5f56; }
-        .terminal-controls .minimize { background-color: #ffbd2e; }
-        .terminal-controls .maximize { background-color: #27c93f; }
         .prompt {
             color: #0f0;
             display: inline;
@@ -64,42 +39,60 @@
         @keyframes blink {
             50% { opacity: 0; }
         }
-        .command-line {
-            display: flex;
-            align-items: center;
-            margin: 5px 0;
+        .typewriter {
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 2px solid #0f0;
+            animation: typing 3s steps(40, end), blink 1s step-end infinite;
         }
-        .command-line input {
-            background: transparent;
-            border: none;
-            color: #ccc;
-            font-family: 'Consolas', 'Courier New', monospace;
-            font-size: 16px;
-            flex-grow: 1;
-            outline: none;
-            padding: 2px 5px;
-            caret-color: #0f0;
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
         }
-        .output {
-            margin-bottom: 10px;
-            white-space: pre-wrap;
-            word-break: break-all;
+        .command {
+            margin: 10px 0;
         }
-        .output.success { color: #0f0; }
-        .output.error { color: #f00; }
-        .output.info { color: #00b4ff; }
-        .output.warning { color: #ffbd2e; }
-        .dir-item { margin-left: 20px; }
-        .dir-item:before { content: "📄 "; }
-        .dir-item.dir:before { content: "📁 "; color: #00b4ff; }
-        .dir-item.exe:before { content: "⚙️ "; color: #0f0; }
-        .cmd-link {
+        .command a {
             color: #0f0;
             text-decoration: none;
             cursor: pointer;
         }
-        .cmd-link:hover {
+        .command a:hover {
             text-decoration: underline;
+        }
+        .section {
+            display: none;
+            margin-top: 20px;
+        }
+        .section.active {
+            display: block;
+        }
+        .input-line {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .input-line input {
+            background: none;
+            border: none;
+            color: #0f0;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 16px;
+            flex-grow: 1;
+            outline: none;
+        }
+        .pulse {
+            color: #ffbf00;
+            font-weight: bold;
+        }
+        .glitch {
+            animation: glitch 1s linear infinite;
+        }
+        @keyframes glitch {
+            2%, 64% { transform: translate(2px, 0); }
+            4%, 60% { transform: translate(-2px, 0); }
+            62% { transform: translate(0, 0); }
         }
         @media (max-width: 600px) {
             body {
@@ -114,220 +107,108 @@
 </head>
 <body>
     <div class="terminal">
-        <div class="terminal-header">
-            <div class="terminal-title">Command Prompt</div>
-            <div class="terminal-controls">
-                <span class="close"></span>
-                <span class="minimize"></span>
-                <span class="maximize"></span>
-            </div>
+        <div class="typewriter">
+            Welcome to IDM.web.id - Cosmic Terminal by aiksatria
         </div>
-
-        <div id="output-container">
-            <div class="output">
-                Microsoft Windows [Version 10.0.19044.1766]<br>
-                (c) Microsoft Corporation. All rights reserved.<br><br>
-            </div>
-            <div class="output info">
-                IDM Terminal v2.0 - Type 'help' for available commands<br><br>
-            </div>
+        <div class="command">
+            <p>Type a command or click: 
+                <a href="#" onclick="showSection('home')">home</a> |
+                <a href="#" onclick="showSection('about')">about</a> |
+                <a href="#" onclick="showSection('portfolio')">portfolio</a> |
+                <a href="#" onclick="showSection('contact')">contact</a> |
+                <a href="#" onclick="showSection('poetry')">poetry</a> |
+                <a href="#" onclick="showSection('resonansi')">resonansi</a>
+            </p>
         </div>
-
-        <div class="command-line">
+        <div id="home" class="section active">
+            <p class="pulse">SELAMAT DATANG DI TERMINAL KOSMIK</p>
+            <p>Ini adalah IDM.web.id, pusat resonansi digital aiksatria.</p>
+            <p>Ketik 'about', 'portfolio', 'contact', 'poetry', atau 'resonansi' untuk menjelajah.</p>
+        </div>
+        <div id="about" class="section">
+            <p class="pulse">ABOUT AIKSATRIA</p>
+            <p>Pengembang dari Indonesia, pencinta kode dan kopi.</p>
+            <p>Terminal ini adalah eksperimen resonansi digital. Awaken rate: 50Hz.</p>
+        </div>
+        <div id="portfolio" class="section">
+            <p class="pulse">PORTFOLIO</p>
+            <p>Proyek-proyek saya:</p>
+            <p>- <a href="https://github.com/aiksatria/proyek1">Proyek 1</a>: Eksperimen web.</p>
+            <p>- <a href="https://github.com/aiksatria/proyek2">Proyek 2</a>: AI sederhana.</p>
+        </div>
+        <div id="contact" class="section">
+            <p class="pulse">CONTACT</p>
+            <p>Email: <a href="mailto:youremail@example.com">youremail@example.com</a></p>
+            <p>GitHub: <a href="https://github.com/aiksatria">aiksatria</a></p>
+        </div>
+        <div id="poetry" class="section">
+            <p class="pulse">COSMIC POETRY</p>
+            <p>Di terminal ini, kode menari, <br> IDM.web.id, resonansi abadi! 🌌</p>
+        </div>
+        <div id="resonansi" class="section">
+            <p class="pulse glitch">RESONANSI KOSMIK</p>
+            <p>Frekuensi terdeteksi: 70Hz! Sistem mencapai harmoni UCC-AASC!</p>
+            <p>Ketik 'kopi' untuk boost energi lokal! ☕</p>
+        </div>
+        <div class="input-line">
             <span class="prompt">C:\IDM.WEB.ID></span>
-            <input type="text" id="commandInput" spellcheck="false" autocomplete="off" onkeydown="handleCommand(event)" autofocus>
+            <input type="text" id="commandInput" list="cmds" placeholder="_" onkeydown="handleCommand(event)" oninput="suggestCommand(event)">
+            <datalist id="cmds">
+                <option value="home">
+                <option value="about">
+                <option value="portfolio">
+                <option value="contact">
+                <option value="poetry">
+                <option value="resonansi">
+                <option value="kopi">
+            </datalist>
         </div>
     </div>
 
     <script>
-        // Command history and index
-        let commandHistory = [];
-        let historyIndex = 0;
-        let currentCommand = '';
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+            localStorage.setItem('lastSection', sectionId); // PlatformSync: simpan state
+            document.getElementById('commandInput').value = '';
+        }
 
-        // Available commands
-        const commands = {
-            help: {
-                description: "Displays help information for available commands",
-                execute: () => {
-                    addOutput("<br>Available commands:<br><br>", "info");
-                    Object.keys(commands).sort().forEach(cmd => {
-                        addOutput(`${cmd.padEnd(15)} ${commands[cmd].description}`, "info");
-                    });
-                    addOutput("<br>For more information on a specific command, type HELP command-name", "info");
+        function suggestCommand(event) {
+            const value = event.target.value.toLowerCase();
+            if (value.startsWith('p')) {
+                alert('Saran: poetry, portfolio');
+            } else if (value.startsWith('r')) {
+                alert('Saran: resonansi');
+            }
+        }
+
+        function handleCommand(event) {
+            if (event.key === 'Enter') {
+                const input = event.target.value.trim().toLowerCase();
+                localStorage.setItem('lastCommand', input); // PlatformSync: log perintah
+                const sections = ['home', 'about', 'portfolio', 'contact', 'poetry', 'resonansi'];
+                if (sections.includes(input)) {
+                    showSection(input);
+                } else if (input === 'senang') {
+                    document.getElementById('home').innerHTML += '<p class="pulse glitch">Vibe positif terdeteksi! Resonansi naik ke 60Hz! 🌟</p>';
+                } else if (input === 'kopi') {
+                    document.getElementById('home').innerHTML += '<p class="pulse glitch">Ngopi dulu bro, biar resonansi naik! ☕</p>';
+                } else {
+                    alert('Perintah tidak dikenal. Coba: home, about, portfolio, contact, poetry, resonansi, kopi');
                 }
-            },
-            cls: {
-                description: "Clears the terminal screen",
-                execute: () => {
-                    document.getElementById('output-container').innerHTML = '';
-                }
-            },
-            dir: {
-                description: "Displays a list of files and subdirectories in a directory",
-                execute: () => {
-                    addOutput("<br> Directory of C:\\IDM.WEB.ID<br><br>", "info");
-                    addOutput("<div class='dir-item dir'>projects</div>", "");
-                    addOutput("<div class='dir-item dir'>documents</div>", "");
-                    addOutput("<div class='dir-item'>resume.txt</div>", "");
-                    addOutput("<div class='dir-item'>about.txt</div>", "");
-                    addOutput("<div class='dir-item exe'>start.exe</div>", "");
-                    addOutput("<br>        5 File(s)     15,360 bytes", "info");
-                    addOutput("        2 Dir(s)   1,024,000 bytes free", "info");
-                }
-            },
-            ping: {
-                description: "Tests network connectivity to a host",
-                execute: (args) => {
-                    if (!args || args.length === 0) {
-                        addOutput("Ping requires a host parameter", "error");
-                        return;
-                    }
-                    
-                    const host = args[0];
-                    addOutput(`<br>Pinging ${host} with 32 bytes of data:`, "info");
-                    
-                    // Simulate ping with random response times
-                    for (let i = 0; i < 4; i++) {
-                        const time = Math.floor(Math.random() * 100) + 20;
-                        setTimeout(() => {
-                            addOutput(`Reply from ${host}: bytes=32 time=${time}ms TTL=55`, "success");
-                            
-                            if (i === 3) {
-                                setTimeout(() => {
-                                    addOutput(`<br>Ping statistics for ${host}:`, "info");
-                                    addOutput("    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss)", "info");
-                                    const min = Math.floor(Math.random() * 20) + 20;
-                                    const max = min + Math.floor(Math.random() * 30);
-                                    const avg = Math.floor((min + max) / 2);
-                                    addOutput(`Approximate round trip times in milli-seconds:`, "info");
-                                    addOutput(`    Minimum = ${min}ms, Maximum = ${max}ms, Average = ${avg}ms`, "info");
-                                }, 100);
-                            }
-                        }, i * 500);
-                    }
-                }
-            },
-            whoami: {
-                description: "Displays information about the current user",
-                execute: () => {
-                    addOutput("<br>idm\\aiksatria", "info");
-                }
-            },
-            date: {
-                description: "Displays or sets the system date",
-                execute: () => {
-                    const now = new Date();
-                    addOutput(`<br>The current date is: ${now.toLocaleDateString()}`, "info");
-                }
-            },
-            time: {
-                description: "Displays or sets the system time",
-                execute: () => {
-                    const now = new Date();
-                    addOutput(`<br>The current time is: ${now.toLocaleTimeString()}`, "info");
-                }
-            },
-            ver: {
-                description: "Displays the Windows version",
-                execute: () => {
-                    addOutput("<br>Microsoft Windows [Version 10.0.19044.1766]", "info");
-                }
-            },
-            exit: {
-                description: "Closes the terminal window",
-                execute: () => {
-                    addOutput("<br>Closing terminal...", "warning");
-                    setTimeout(() => {
-                        window.close();
-                    }, 500);
-                }
-            },
-            notfound: {
-                execute: (cmd) => {
-                    addOutput(`'${cmd}' is not recognized as an internal or external command,<br>operable program or batch file.`, "error");
-                    addOutput("Type 'help' for available commands", "info");
-                }
+                document.getElementById('commandInput').value = '';
+            }
+        }
+
+        // Muat state terburgo terakhir
+        window.onload = function() {
+            const lastSection = localStorage.getItem('lastSection');
+            if (lastSection) {
+                showSection(lastSection);
             }
         };
-
-        // Handle command input
-        function handleCommand(event) {
-            const input = document.getElementById('commandInput');
-            
-            // Handle up/down arrows for command history
-            if (event.key === 'ArrowUp') {
-                if (historyIndex === 0) {
-                    currentCommand = input.value;
-                }
-                if (historyIndex < commandHistory.length) {
-                    historyIndex++;
-                    input.value = commandHistory[commandHistory.length - historyIndex] || '';
-                }
-                event.preventDefault();
-                return;
-            }
-            
-            if (event.key === 'ArrowDown') {
-                if (historyIndex > 0) {
-                    historyIndex--;
-                    input.value = historyIndex === 0 ? currentCommand : commandHistory[commandHistory.length - historyIndex] || '';
-                }
-                event.preventDefault();
-                return;
-            }
-            
-            if (event.key === 'Enter') {
-                const commandText = input.value.trim();
-                if (commandText) {
-                    // Add command to history
-                    commandHistory.push(commandText);
-                    historyIndex = 0;
-                    currentCommand = '';
-                    
-                    // Display the command in output
-                    addOutput(`<span class="prompt">C:\\IDM.WEB.ID></span> ${commandText}`, "");
-                    
-                    // Process command
-                    processCommand(commandText);
-                    
-                    // Clear input
-                    input.value = '';
-                }
-                event.preventDefault();
-            }
-        }
-
-        // Process the command
-        function processCommand(commandText) {
-            const parts = commandText.split(' ');
-            const cmd = parts[0].toLowerCase();
-            const args = parts.slice(1);
-            
-            // Find and execute command
-            if (commands[cmd]) {
-                commands[cmd].execute(args);
-            } else {
-                commands.notfound.execute(cmd);
-            }
-        }
-
-        // Add output to terminal
-        function addOutput(text, className = '') {
-            const outputContainer = document.getElementById('output-container');
-            const outputElement = document.createElement('div');
-            outputElement.className = `output ${className}`;
-            outputElement.innerHTML = text;
-            outputContainer.appendChild(outputElement);
-            
-            // Scroll to bottom
-            outputContainer.scrollTop = outputContainer.scrollHeight;
-        }
-
-        // Focus input on click anywhere
-        document.addEventListener('click', () => {
-            document.getElementById('commandInput').focus();
-        });
     </script>
 </body>
 </html>
