@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IDM Group - Berbagai Solusi Bisnis Profesional</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --text-color: #333;
+            --text-light: #7f8c8d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: #f9f9f9;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--dark-color));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+        
+        nav {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+        }
+        
+        nav li {
+            padding: 1rem 1.5rem;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover {
+            color: var(--secondary-color);
+        }
+        
+        section {
+            padding: 4rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary-color);
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 3px;
+            background-color: var(--secondary-color);
+            margin: 1rem auto;
+        }
+        
+        .business-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .business-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .business-title {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .business-title i {
+            margin-right: 1rem;
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+        }
+        
+        .business-description {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+        }
+        
+        .contact-info {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        .contact-item {
+            margin: 1rem 0;
+        }
+        
+        .contact-item i {
+            margin-right: 0.5rem;
+            color: var(--secondary-color);
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            font-size: 0.9rem;
+        }
+        
+        .map-container {
+            height: 400px;
+            margin-top: 2rem;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .business-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">IDM GROUP</div>
+            <div class="tagline">Solusi Profesional untuk Berbagai Kebutuhan Bisnis Anda</div>
+        </div>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#laser">Laser Marking</a></li>
+            <li><a href="#ceker">Ceker Ayam</a></li>
+            <li><a href="#mujair">Budidaya Mujair</a></li>
+            <li><a href="#brilink">Brilink</a></li>
+            <li><a href="#shopee">Seller Shopee</a></li>
+            <li><a href="#kontak">Kontak</a></li>
+        </ul>
+    </nav>
+    
+    <section id="laser">
+        <div class="container">
+            <h2 class="section-title">Jasa Laser Marking dan Cutting</h2>
+            <div class="business-card">
+                <h3 class="business-title"><i class="fas fa-cut"></i> Laser Marking & Cutting Profesional</h3>
+                <p class="business-description">
+                    Kami menyediakan jasa laser marking dan cutting dengan presisi tinggi untuk berbagai kebutuhan industri. 
+                    Dengan teknologi terkini, kami dapat mengerjakan berbagai material seperti logam, akrilik, kayu, dan lainnya.
+                </p>
+                <ul>
+                    <li>Laser marking untuk produk logam dan non-logam</li>
+                    <li>Pemotongan presisi dengan laser cutting</li>
+                    <li>Desain custom sesuai kebutuhan</li>
+                    <li>Pengerjaan cepat dan hasil rapi</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    
+    <section id="ceker">
+        <div class="container">
+            <h2 class="section-title">Produsen Ceker Ayam Tanpa Tulang</h2>
+            <div class="business-card">
+                <h3 class="business-title"><i class="fas fa-drumstick-bite"></i> Ceker Ayam Premium Tanpa Tulang</h3>
+                <p class="business-description">
+                    Produk unggulan kami berupa ceker ayam tanpa tulang yang diproses secara higienis dan berkualitas. 
+                    Cocok untuk usaha kuliner, hotel, restoran, atau kebutuhan pribadi.
+                </p>
+                <ul>
+                    <li>Dibersihkan secara profesional</li>
+                    <li>Tanpa tulang, siap olah</li>
+                    <li>Kualitas ekspor</li>
+                    <li>Harga kompetitif</li>
+                    <li>Pengiriman seluruh Indonesia</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    
+    <section id="mujair">
+        <div class="container">
+            <h2 class="section-title">Budidaya Ikan Mujair</h2>
+            <div class="business-card">
+                <h3 class="business-title"><i class="fas fa-fish"></i> Budidaya Ikan Mujair Berkualitas</h3>
+                <p class="business-description">
+                    Kami mengelola budidaya ikan mujair dengan sistem modern dan terjamin kualitasnya. 
+                    Menyediakan ikan mujair segar untuk kebutuhan pasar, restoran, atau pengolahan lebih lanjut.
+                </p>
+                <ul>
+                    <li>Budidaya dengan sistem terkontrol</li>
+                    <li>Kualitas ikan premium</li>
+                    <li>Supply rutin dan konsisten</li>
+                    <li>Harga grosir kompetitif</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    
+    <section id="brilink">
+        <div class="container">
+            <h2 class="section-title">Agen Brilink</h2>
+            <div class="business-card">
+                <h3 class="business-title"><i class="fas fa-money-bill-wave"></i> Layanan Keuangan Brilink</h3>
+                <p class="business-description">
+                    Sebagai agen resmi Brilink, kami menyediakan berbagai layanan keuangan praktis untuk memudahkan transaksi Anda.
+                </p>
+                <ul>
+                    <li>Transfer antar bank</li>
+                    <li>Pembayaran tagihan (listrik, BPJS, PDAM, dll)</li>
+                    <li>Isi ulang pulsa dan paket data</li>
+                    <li>Pembayaran PPOB lainnya</li>
+                    <li>Proses cepat dan aman</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    
+    <section id="shopee">
+        <div class="container">
+            <h2 class="section-title">Seller Shopee</h2>
+            <div class="business-card">
+                <h3 class="business-title"><i class="fas fa-store"></i> Toko Online Profesional</h3>
+                <p class="business-description">
+                    Kami merupakan seller terpercaya di platform Shopee dengan berbagai produk berkualitas. 
+                    Transaksi aman dengan jaminan uang kembali.
+                </p>
+                <ul>
+                    <li>Produk berkualitas dengan harga kompetitif</li>
+                    <li>Pengiriman cepat</li>
+                    <li>Layanan pelanggan 24 jam</li>
+                    <li>Berbagai promo menarik</li>
+                    <li>Garansi produk</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    
+    <section id="lokasi">
+        <div class="container">
+            <h2 class="section-title">Lokasi Kami</h2>
+            <div class="map-container">
+                <!-- Ganti dengan embed Google Maps Anda -->
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1dYOUR_LOCATION_DATA_HERE!2dYOUR_LONGITUDE!3dYOUR_LATITUDE!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDLCsDAwJzAwLjAiTiA2N8KwMDAnMDAuMCJF!5e0!3m2!1sen!2sid!4vYOUR_TIMESTAMP!5m2!1sen!2sid" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </section>
+    
+    <section class="contact-info" id="kontak">
+        <div class="container">
+            <h2 class="section-title" style="color: white;">Hubungi Kami</h2>
+            <div class="contact-item">
+                <i class="fas fa-globe"></i> Website: <a href="https://idm.web.id" style="color: white;">idm.web.id</a>
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-envelope"></i> Email: <a href="mailto:cs@idm.web.id" style="color: white;">cs@idm.web.id</a>
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-phone"></i> Telepon/WA: <a href="https://wa.me/6285175127954" style="color: white;">+62 85175127954</a>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 IDM Group. All Rights Reserved.</p>
+            <p>Solusi profesional untuk berbagai kebutuhan bisnis Anda.</p>
+        </div>
+    </footer>
+</body>
+</html>
