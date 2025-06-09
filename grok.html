@@ -19,7 +19,10 @@
         }
     </style>
 </head>
-<body><div id="time-widget" style="text-align: center; font-family: Arial, sans-serif; font-size: 16px; color: #fff; background: #2a2a2a; padding: 10px; border-radius: 5px; max-width: 250px; margin: 10px auto;">
+<body>
+    
+
+<div id="time-widget" style="text-align: center; font-family: Arial, sans-serif; font-size: 16px; color: #fff; background: #2a2a2a; padding: 10px; border-radius: 5px; max-width: 250px; margin: 10px auto;">
     <p id="date-time"></p>
     <p id="jawa-date"></p>
 </div>
@@ -36,13 +39,17 @@
         const minutes = now.getMinutes().toString().padStart(2, "0");
         const seconds = now.getSeconds().toString().padStart(2, "0");
 
-        // Penanggalan Jawa (sederhana)
+        // Penanggalan Jawa
         const pasaran = ["Legi", "Pahing", "Pon", "Wage", "Kliwon"];
-        const jawaMonths = ["Sura", "Sapar", "Mulud", "Bakda Mulud", "Jumadil Awal", "Jumadil Akhir", "Rejeb", "Ruwah", "Pasa", "Syawal", "Dulkangidah", "Besar"];
-        const jawaYear = year - 67; // Estimasi tahun Jawa (2025 - 67 = 1958 Jawa)
-        const pasaranIndex = (day + year) % 5; // Siklus pasaran sederhana
-        const jawaMonthIndex = now.getMonth(); // Sinkron bulan Gregorian ke Jawa
-        const jawaDate = `${dayName} ${pasaran[pasaranIndex]} ${jawaMonths[jawaMonthIndex]} ${jawaYear}`;
+        const jawaMonths = ["Sura", "Sapar", "Mulud", "Bakda Mulud", "Jumadil Awal", "Jumadilahir", "Rejeb", "Ruwah", "Pasa", "Syawal", "Dulkangidah", "Besar"];
+        const jawaYear = year - 67; // Estimasi tahun Jawa
+        const pasaranIndex = (day + year) % 5; // Siklus pasaran
+        const jawaMonthIndex = now.getMonth(); // Sinkron bulan
+        // Naptu: hari (Minggu=5, Senin=4, dll) + pasaran (Legi=5, Pahing=9, dll)
+        const naptuHari = [5, 4, 3, 7, 8, 6, 9][now.getDay()];
+        const naptuPasaran = [5, 9, 7, 4, 8][pasaranIndex];
+        const naptuTotal = naptuHari + naptuPasaran;
+        const jawaDate = `${dayName} ${pasaran[pasaranIndex]} (${naptuTotal}) ${jawaMonths[jawaMonthIndex]} ${jawaYear}`;
 
         document.getElementById("date-time").innerHTML = `${dayName} ${day} ${month} ${year}<br>Jam ${hours}:${minutes}:${seconds}`;
         document.getElementById("jawa-date").innerHTML = jawaDate;
@@ -50,6 +57,7 @@
     updateTime();
     setInterval(updateTime, 1000);
 </script>
+    
     <div id="chat-container">
         <div id="chat-output"></div>
         <div id="input-container">
