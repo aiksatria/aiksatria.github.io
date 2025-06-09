@@ -6,7 +6,7 @@ async function sendMessage() {
         const response = await fetch("https://api.x.ai/v1/grok", {
             method: "POST",
             headers: {
-                "Authorization": "Bearer YOUR_API_KEY",
+                "Authorization": "Bearer xai-YFawrLzBwTf94EI2Jbp3vhIEXSfkWIerCZ5rMoqFnMIs5GNiPuPmuonRV6OylaBXsjq4TWGGx5cGDgYA",
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({ query: input })
