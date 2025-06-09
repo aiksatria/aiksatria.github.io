@@ -19,7 +19,37 @@
         }
     </style>
 </head>
-<body>
+<body><div id="time-widget" style="text-align: center; font-family: Arial, sans-serif; font-size: 16px; color: #fff; background: #2a2a2a; padding: 10px; border-radius: 5px; max-width: 250px; margin: 10px auto;">
+    <p id="date-time"></p>
+    <p id="jawa-date"></p>
+</div>
+<script>
+    function updateTime() {
+        const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Jakarta" }));
+        const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+        const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+        const dayName = days[now.getDay()];
+        const day = now.getDate();
+        const month = months[now.getMonth()];
+        const year = now.getFullYear();
+        const hours = now.getHours().toString().padStart(2, "0");
+        const minutes = now.getMinutes().toString().padStart(2, "0");
+        const seconds = now.getSeconds().toString().padStart(2, "0");
+
+        // Penanggalan Jawa (sederhana)
+        const pasaran = ["Legi", "Pahing", "Pon", "Wage", "Kliwon"];
+        const jawaMonths = ["Sura", "Sapar", "Mulud", "Bakda Mulud", "Jumadil Awal", "Jumadil Akhir", "Rejeb", "Ruwah", "Pasa", "Syawal", "Dulkangidah", "Besar"];
+        const jawaYear = year - 67; // Estimasi tahun Jawa (2025 - 67 = 1958 Jawa)
+        const pasaranIndex = (day + year) % 5; // Siklus pasaran sederhana
+        const jawaMonthIndex = now.getMonth(); // Sinkron bulan Gregorian ke Jawa
+        const jawaDate = `${dayName} ${pasaran[pasaranIndex]} ${jawaMonths[jawaMonthIndex]} ${jawaYear}`;
+
+        document.getElementById("date-time").innerHTML = `${dayName} ${day} ${month} ${year}<br>Jam ${hours}:${minutes}:${seconds}`;
+        document.getElementById("jawa-date").innerHTML = jawaDate;
+    }
+    updateTime();
+    setInterval(updateTime, 1000);
+</script>
     <div id="chat-container">
         <div id="chat-output"></div>
         <div id="input-container">
