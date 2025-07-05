@@ -1,35 +1,520 @@
-<!DOCTYPE html>
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IDM Group - Solusi Bisnis Profesional Terbaik di Indonesia</title>
-    <meta name="description" content="IDM Group adalah mitra terpercaya untuk jasa laser marking & cutting presisi, produsen ceker ayam tanpa tulang higienis, budidaya ikan mujair berkualitas, serta layanan Agen Brilink dan Agen SPX Express di Lumbangrejo. Temukan juga produk unggulan kami di Shopee. Solusi lengkap untuk bisnis Anda.">
-    
+    <title>IDM Group - Solusi Bisnis Teknologi Tinggi</title>
+    <meta name="description" content="IDM Group menyediakan solusi bisnis canggih di Lumbangrejo: laser marking & cutting presisi, ceker ayam higienis, budidaya ikan mujair berkualitas, Agen Brilink, dan SPX Express. Belanja produk unggulan di Shopee. Inovasi untuk masa depan Anda.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
-    <link rel="stylesheet" href="style.css">
-    
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-TH4V3GWK');</script>
+    <style>
+        :root {
+            --primary: #1e2a3c; /* Abu-abu metalik */
+            --secondary: #00d4ff; /* Biru neon */
+            --accent: #e0f7ff; /* Putih neon */
+            --dark: #0f141a; /* Hitam gelap */
+            --light: #f0f4f8; /* Abu-abu terang */
+            --text: #d1d5db; /* Abu-abu muda */
+            --text-dark: #1f2937; /* Abu-abu gelap */
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            color: var(--text-dark);
+            line-height: 1.6;
+            background-color: var(--light);
+        }
+
+        /* Header */
+        .header {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--secondary);
+            text-decoration: none;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .navbar a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .navbar a:hover {
+            color: var(--secondary);
+            text-shadow: 0 0 5px var(--secondary);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary), var(--dark));
+            color: var(--white);
+            text-align: center;
+            overflow: hidden;
+        }
+
+        #neon-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .hero .container {
+            z-index: 2;
+        }
+
+        .hero h1.main-logo {
+            font-size: 3.5rem;
+            font-weight: 700;
+            text-shadow: 0 0 10px var(--secondary);
+            animation: fadeIn 2s ease-in;
+        }
+
+        .tagline {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 1rem auto 2rem;
+            opacity: 0;
+            animation: fadeIn 3s ease-in forwards;
+            animation-delay: 0.5s;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: transparent;
+            color: var(--secondary);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            border: 2px solid var(--secondary);
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px var(--secondary);
+        }
+
+        .cta-button:hover {
+            background: var(--secondary);
+            color: var(--dark);
+            box-shadow: 0 0 20px var(--secondary);
+            transform: translateY(-5px);
+        }
+
+        /* General Section */
+        .section {
+            padding: 5rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--secondary);
+            margin: 1rem auto;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* About Section */
+        .about-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .about-text {
+            flex: 2;
+            min-width: 300px;
+            max-width: 600px;
+        }
+
+        .about-text h3 {
+            color: var(--secondary);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .about-text p {
+            color: var(--text-dark);
+            font-size: 1.05rem;
+            margin-bottom: 1rem;
+        }
+
+        .about-image {
+            max-width: 400px;
+        }
+
+        .about-image svg {
+            width: 100%;
+            height: auto;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us {
+            background: var(--dark);
+            color: var(--white);
+            padding: 5rem 0;
+        }
+
+        .why-choose-us .section-title {
+            color: var(--white);
+        }
+
+        .why-choose-us .section-title::after {
+            background: var(--secondary);
+        }
+
+        .advantages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .advantage-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid var(--secondary);
+        }
+
+        .advantage-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 15px var(--secondary);
+        }
+
+        .advantage-item i {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        .advantage-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Services Section */
+        #layanan {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--dark));
+            z-index: 100;
+            overflow-y: auto;
+            padding: 5rem 0;
+        }
+
+        #layanan.active {
+            display: block;
+        }
+
+        #services-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(5px);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px) rotateX(10deg);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3), 0 0 20px var(--secondary);
+        }
+
+        .service-icon {
+            background: var(--secondary);
+            color: var(--white);
+            font-size: 2.5rem;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .service-content {
+            padding: 1.5rem;
+        }
+
+        .service-title {
+            color: var(--accent);
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-desc {
+            color: var(--text);
+            margin-bottom: 1rem;
+        }
+
+        .service-content ul {
+            list-style: disc;
+            padding-left: 1.5rem;
+            color: var(--text);
+        }
+
+        .service-content a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .service-content a:hover {
+            color: var(--accent);
+            text-shadow: 0 0 5px var(--accent);
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: linear-gradient(135deg, var(--primary), var(--dark));
+            color: var(--white);
+            text-align: center;
+            padding: 5rem 0;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            font-size: 1.2rem;
+        }
+
+        .contact-item i {
+            margin-right: 0.8rem;
+            color: var(--secondary);
+            font-size: 1.5rem;
+        }
+
+        .contact-section .cta-button {
+            background: transparent;
+            border-color: var(--secondary);
+            box-shadow: 0 0 10px var(--secondary);
+        }
+
+        .contact-section .cta-button:hover {
+            background: var(--secondary);
+            color: var(--dark);
+        }
+
+        .map-container {
+            height: 400px;
+            margin-top: 2rem;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: var(--white);
+            text-align: center;
+            padding: 2rem 0;
+            font-size: 0.95rem;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes neonPulse {
+            0% { stroke: var(--secondary); stroke-opacity: 0.3; }
+            50% { stroke: var(--secondary); stroke-opacity: 0.9; }
+            100% { stroke: var(--secondary); stroke-opacity: 0.3; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero h1.main-logo {
+                font-size: 3rem;
+            }
+            .tagline {
+                font-size: 1.2rem;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header .container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .navbar ul {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+            .hero {
+                min-height: 80vh;
+                padding: 4rem 0;
+            }
+            .hero h1.main-logo {
+                font-size: 2.5rem;
+            }
+            .tagline {
+                font-size: 1.1rem;
+            }
+            .about-content {
+                flex-direction: column;
+            }
+            #layanan {
+                padding: 3rem 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1.main-logo {
+                font-size: 2rem;
+            }
+            .tagline {
+                font-size: 1rem;
+            }
+            .section-title {
+                font-size: 1.8rem;
+            }
+            .service-title {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TH4V3GWK"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
     <header class="header">
         <div class="container">
             <a href="#" class="logo">IDM Group</a>
             <nav class="navbar">
                 <ul>
                     <li><a href="#tentang-kami">Tentang Kami</a></li>
-                    <li><a href="#layanan">Layanan</a></li>
-                    <li><a href="#mengapa-kami">Mengapa Kami</a></li>
+                    <li><a href="#layanan" onclick="toggleServices()">Layanan</a></li>
+                    <li><a href="#mengapa-kami">Keunggulan Kami</a></li>
                     <li><a href="#kontak">Kontak</a></li>
                 </ul>
             </nav>
@@ -37,27 +522,43 @@
     </header>
 
     <section class="hero">
-        
-
+        <canvas id="neon-grid"></canvas>
         <div class="container">
             <h1 class="main-logo">Ismaya Dewa Mitra</h1>
-            <p class="tagline">Solusi profesional untuk berbagai kebutuhan bisnis Anda dengan layanan berkualitas tinggi</p>
-            <a href="#layanan" class="cta-button">Lihat Layanan Kami</a>
+            <p class="tagline">Solusi bisnis canggih untuk masa depan, dirancang dengan presisi dan efisiensi.</p>
+            <a href="#layanan" class="cta-button" aria-label="Lihat layanan IDM Group" onclick="toggleServices()">Jelajahi Layanan</a>
         </div>
     </section>
-    
+
     <section id="tentang-kami" class="section">
         <div class="container">
             <h2 class="section-title">Tentang IDM Group</h2>
             <div class="about-content">
                 <div class="about-text">
                     <h3>Visi Kami</h3>
-                    <p>Menjadi mitra bisnis terkemuka yang inovatif dan terpercaya, menyediakan solusi holistik untuk mendorong pertumbuhan dan keberlanjutan klien kami di berbagai sektor.</p>
+                    <p>Menjadi penyedia solusi bisnis terdepan, menggerakkan inovasi dan efisiensi di berbagai industri.</p>
                     <h3>Misi Kami</h3>
-                    <p>Kami berdedikasi untuk memberikan layanan terbaik di bidang laser marking & cutting, penyediaan produk pangan berkualitas (ceker ayam, ikan mujair), dan layanan keuangan yang mudah diakses (Agen Brilink, Agen SPX Express), serta memperluas jangkauan pasar melalui platform e-commerce.</p>
+                    <p>Menyediakan layanan teknologi tinggi seperti laser marking & cutting, produk pangan berkualitas, dan solusi keuangan serta logistik yang andal di Lumbangrejo dan sekitarnya.</p>
                 </div>
                 <div class="about-image">
-                    <img src="/logo2.png?usp=sharing&text=IDM+Group+Office" alt="Kantor atau Tim IDM Group" width="400" height="300"> 
+                    <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <style>
+                            .neon-glow {
+                                filter: drop-shadow(0 0 5px #00d4ff) drop-shadow(0 0 10px #00d4ff);
+                                animation: pulse 2s infinite ease-in-out;
+                            }
+                            @keyframes pulse {
+                                0%, 100% { opacity: 0.8; }
+                                50% { opacity: 1; }
+                            }
+                        </style>
+                        <g class="neon-glow">
+                            <rect x="40" y="30" width="20" height="100" fill="#00d4ff" stroke="#e0f7ff" stroke-width="2"/>
+                            <path d="M80 30 H110 A50 50 0 0 1 110 130 H80 Z" fill="#00d4ff" stroke="#e0f7ff" stroke-width="2"/>
+                            <path d="M130 30 V130 M130 30 L150 80 L170 30 V130" fill="none" stroke="#00d4ff" stroke-width="8" stroke-linecap="round"/>
+                            <line x1="50" y1="150" x2="150" y2="150" stroke="#e0f7ff" stroke-width="2" stroke-dasharray="5,5"/>
+                        </g>
+                    </svg>
                 </div>
             </div>
         </div>
@@ -65,146 +566,124 @@
 
     <section id="mengapa-kami" class="why-choose-us">
         <div class="container">
-            <h2 class="section-title">Mengapa Memilih Kami?</h2>
+            <h2 class="section-title">Keunggulan Kami</h2>
             <div class="advantages-grid">
                 <div class="advantage-item">
-                    <i class="fas fa-check-circle"></i>
-                    <h3>Kualitas Terjamin</h3>
-                    <p>Kami selalu mengedepankan kualitas terbaik dalam setiap produk dan layanan yang kami tawarkan.</p>
+                    <i class="fas fa-bolt"></i>
+                    <h3>Teknologi Presisi</h3>
+                    <p>Layanan kami didukung teknologi mutakhir untuk hasil optimal.</p>
                 </div>
                 <div class="advantage-item">
-                    <i class="fas fa-handshake"></i>
-                    <h3>Profesional & Terpercaya</h3>
-                    <p>Dengan tim berpengalaman, kami berkomitmen memberikan pelayanan yang profesional dan membangun kepercayaan.</p>
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Keandalan Terjamin</h3>
+                    <p>Komitmen kami adalah memberikan layanan yang konsisten dan terpercaya.</p>
                 </div>
                 <div class="advantage-item">
-                    <i class="fas fa-lightbulb"></i>
-                    <h3>Solusi Inovatif</h3>
-                    <p>Kami terus berinovasi untuk menyediakan solusi yang relevan dan efisien sesuai kebutuhan pasar dan klien.</p>
+                    <i class="fas fa-rocket"></i>
+                    <h3>Inovasi Progresif</h3>
+                    <p>Kami terus berinovasi untuk memenuhi kebutuhan pasar modern.</p>
                 </div>
-               
             </div>
         </div>
     </section>
-    
+
     <section id="layanan" class="section">
+        <canvas id="services-bg"></canvas>
         <div class="container">
-            <h2 class="section-title">Layanan Profesional Kami</h2>
+            <h2 class="section-title">Layanan Kami</h2>
             <div class="services-grid">
                 <div class="service-card">
                     <div class="service-icon">
                         <i class="fas fa-cut"></i>
                     </div>
                     <div class="service-content">
-                        <h3 class="service-title">Jasa Laser Marking & Cutting</h3>
-                        <p class="service-desc">
-                            Layanan presisi tinggi untuk marking dan cutting berbagai material dengan hasil akurat dan rapi. Ideal untuk personalisasi produk atau produksi massal.
-                        </p>
+                        <h3 class="service-title">Laser Marking & Cutting</h3>
+                        <p class="service-desc">Teknologi presisi untuk memahat dan memotong material dengan akurasi tinggi.</p>
                         <ul>
-                            <li>Material: Logam, akrilik, kayu, kulit, kaca</li>
-                            <li>Desain custom & prototyping</li>
-                            <li>Pengerjaan cepat & hasil detail</li>
+                            <li>Material: Logam, akrilik, kayu, kaca</li>
+                            <li>Desain kustom cepat</li>
+                            <li>Proses efisien dan akurat</li>
                         </ul>
                     </div>
                 </div>
-                
                 <div class="service-card">
                     <div class="service-icon">
                         <i class="fas fa-drumstick-bite"></i>
                     </div>
                     <div class="service-content">
                         <h3 class="service-title">Ceker Ayam Tanpa Tulang</h3>
-                        <p class="service-desc">
-                            Produsen ceker ayam tanpa tulang premium dengan proses higienis dan kualitas terbaik, siap memenuhi kebutuhan industri kuliner Anda.
-                        </p>
+                        <p class="service-desc">Produk higienis berkualitas tinggi untuk kebutuhan kuliner modern.</p>
                         <ul>
-                            <li>Produk bersih dan higienis</li>
-                            <li>Kualitas standar ekspor</li>
-                            <li>Kapasitas supply besar</li>
+                            <li>Proses higienis, standar ekspor</li>
+                            <li>Pasokan konsisten</li>
+                            <li>Cocok untuk industri kuliner</li>
                         </ul>
                     </div>
                 </div>
-                
                 <div class="service-card">
                     <div class="service-icon">
                         <i class="fas fa-fish"></i>
                     </div>
                     <div class="service-content">
                         <h3 class="service-title">Budidaya Ikan Mujair</h3>
-                        <p class="service-desc">
-                            Penyedia ikan mujair segar berkualitas dari budidaya modern dengan sistem terkontrol, menjamin pasokan berkelanjutan.
-                        </p>
+                        <p class="service-desc">Ikan segar dari sistem budidaya modern, kualitas terjamin.</p>
                         <ul>
-                            <li>Supply rutin untuk pasar lokal</li>
-                            <li>Ikan sehat & berkualitas premium</li>
-                            <li>Harga kompetitif untuk grosir</li>
+                            <li>Pasokan rutin</li>
+                            <li>Kualitas premium</li>
+                            <li>Harga kompetitif</li>
                         </ul>
                     </div>
                 </div>
-                
                 <div class="service-card">
                     <div class="service-icon">
                         <i class="fas fa-money-bill-wave"></i>
                     </div>
                     <div class="service-content">
                         <h3 class="service-title">Agen Brilink Lumbangrejo</h3>
-                        <p class="service-desc">
-                            Layanan keuangan praktis untuk berbagai kebutuhan transaksi harian Anda. Solusi cepat dan aman untuk komunitas lokal.
-                        </p>
+                        <p class="service-desc">Layanan keuangan cepat untuk transaksi harian yang efisien.</p>
                         <ul>
-                            <li>Transfer antar bank & tarik tunai</li>
-                            <li>Pembayaran tagihan (listrik, air, BPJS)</li>
-                            <li>Isi pulsa & paket data semua operator</li>
-                            <li>Top up e-wallet & pembayaran digital lainnya</li>
+                            <li>Transfer, tarik tunai, tagihan</li>
+                            <li>Isi pulsa & e-wallet</li>
+                            <li>Layanan andal</li>
                         </ul>
                     </div>
                 </div>
-
                 <div class="service-card">
                     <div class="service-icon">
                         <i class="fas fa-shipping-fast"></i>
                     </div>
                     <div class="service-content">
                         <h3 class="service-title">Agen SPX Express</h3>
-                        <p class="service-desc">
-                            Layanan pengiriman paket cepat dan terpercaya dari SPX Express. Kirim atau ambil paket dengan mudah dan aman di lokasi kami.
-                        </p>
+                        <p class="service-desc">Pengiriman paket cepat dengan pelacakan real-time.</p>
                         <ul>
-                            <li>Kirim dan ambil paket</li>
-                            <li>Jangkauan luas seluruh Indonesia</li>
-                            <li>Harga kompetitif</li>
-                            <li>Pelacakan paket real-time</li>
+                            <li>Kirim dan terima paket</li>
+                            <li>Jangkauan nasional</li>
+                            <li>Proses efisien</li>
                         </ul>
                     </div>
                 </div>
-                
                 <div class="service-card">
                     <div class="service-icon">
                         <i class="fas fa-store"></i>
                     </div>
                     <div class="service-content">
                         <h3 class="service-title">IDM di Shopee</h3>
-                        <p class="service-desc">
-                            Temukan berbagai produk unggulan kami di platform e-commerce Shopee. Belanja mudah, aman, dan dapatkan penawaran menarik!
-                        </p>
+                        <p class="service-desc">Produk unggulan tersedia di Shopee dengan akses mudah.</p>
                         <ul>
-                            <li><a target="_blank" href="https://shopee.co.id/pt.ismayadewamitra#product_list">Kunjungi Toko Kami di Shopee</a></li>
-                            <li>Produk Terlaris:</li>
-                            <li><a target="_blank" href="https://shopee.co.id/Ceker-Ayam-Tanpa-Tulang-Termurah-i.237163709.22685283866">Ceker Ayam Tanpa Tulang</a></li>
-                            <li><a target="_blank" href="https://shopee.co.id/%E2%9C%85-Kopi-Tubruk-Hitam-Plus-Gula-500g-%E2%80%93-Harum-Berkualitas-Termurah!-Kemasan-Polos-Bisa-Rebrand!-i.237163709.27513141272">Kopi Tubruk Hitam Plus Gula</a></li>
-                            <li><a target="_blank" href="https://shopee.co.id/Kopi-susu-caramel-Termurah-kemasan-500-gram-i.237163709.25828546683">Kopi Susu Caramel</a></li>
-                            <li><a target="_blank" href="https://shopee.co.id/Permen-Foxs-500Gram-Los-lebih-banyak-lebih-puas-termurah-permen-rasa-buah-mint--i.237163709.29002264879">Permen Fox's 500Gram</a></li>
-                            <li><a target="_blank" href="https://shopee.co.id/Permen-kristal-bening-Foxs-i.237163709.25915700148">Permen Kristal Bening Fox's</a></li>
+                            <li><a href="https://shopee.co.id/pt.ismayadewamitra#product_list" target="_blank">Kunjungi Toko</a></li>
+                            <li><a href="https://shopee.co.id/Ceker-Ayam-Tanpa-Tulang-Termurah-i.237163709.22685283866" target="_blank">Ceker Ayam</a></li>
+                            <li><a href="https://shopee.co.id/%E2%9C%85-Kopi-Tubruk-Hitam-Plus-Gula-500g-%E2%80%93-Harum-Berkualitas-Termurah!-Kemasan-Polos-Bisa-Rebrand!-i.237163709.27513141272" target="_blank">Kopi Tubruk</a></li>
+                            <li><a href="https://shopee.co.id/Kopi-susu-caramel-Termurah-kemasan-500-gram-i.237163709.25828546683" target="_blank">Kopi Susu Caramel</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    
+
     <section id="kontak" class="contact-section">
         <div class="container">
-            <h2 class="contact-title">Hubungi Kami Sekarang</h2>
+            <h2 class="section-title">Hubungi Kami</h2>
             <div class="contact-info">
                 <div class="contact-item">
                     <i class="fas fa-globe"></i>
@@ -219,23 +698,121 @@
                     <span>+62 851 7512 7954</span>
                 </div>
             </div>
-            <a href="https://wa.me/6285175127954" target="_blank" class="cta-button">
-                <i class="fab fa-whatsapp"></i> Chat via WhatsApp
+            <a href="https://wa.me/6285175127954" target="_blank" class="cta-button" aria-label="Hubungi IDM Group via WhatsApp">
+                <i class="fab fa-whatsapp"></i> Hubungi via WhatsApp
             </a>
-            
             <div class="map-container">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3954.0386621310618!2d112.62483548414721!3d-7.678992656244092!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7d73fa8debd7b%3A0x7a7d3c43dd643e05!2sAgen%20BRI%20Link%20Lumbangrejo!5e0!3m2!1sid!2sid!4v1750616862665!5m2!1sid!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Lokasi Kantor IDM Group"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3954.0386621310618!2d112.62483548414721!3d-7.678992656244092!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7d73fa8debd7b%3A0x7a7d3c43dd643e05!2sAgen%20BRI%20Link%20Lumbangrejo!5e0!3m2!1sid!2sid!4v1750616862665!5m2!1sid!2sid" width="600" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Lokasi Kantor IDM Group di Lumbangrejo"></iframe>
             </div>
         </div>
     </section>
-    
+
     <footer>
         <div class="container">
-            <p>© 2023 IDM Group. All Rights Reserved.</p>
-            <p style="margin-top: 0.5rem; opacity: 0.8;">Solusi profesional untuk berbagai kebutuhan bisnis Anda</p>
+            <p>© 2025 IDM Group. Solusi Bisnis Masa Depan.</p>
         </div>
     </footer>
 
-   
+    <script>
+        // Toggle services section
+        function toggleServices() {
+            const servicesSection = document.getElementById('layanan');
+            servicesSection.classList.toggle('active');
+        }
+
+        // Neon grid animation for hero and services background
+        const canvas = document.getElementById('neon-grid');
+        const servicesCanvas = document.getElementById('services-bg');
+        const ctx = canvas.getContext('2d');
+        const servicesCtx = servicesCanvas ? servicesCanvas.getContext('2d') : null;
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        if (servicesCanvas) {
+            servicesCanvas.width = window.innerWidth;
+            servicesCanvas.height = window.innerHeight;
+        }
+
+        const gridLines = [];
+        const numberOfLines = 30;
+
+        class GridLine {
+            constructor() {
+                this.isHorizontal = Math.random() > 0.5;
+                if (this.isHorizontal) {
+                    this.y = Math.random() * canvas.height;
+                    this.x1 = 0;
+                    this.x2 = canvas.width;
+                    this.speed = Math.random() * 2 - 1;
+                } else {
+                    this.x = Math.random() * canvas.width;
+                    this.y1 = 0;
+                    this.y2 = canvas.height;
+                    this.speed = Math.random() * 2 - 1;
+                }
+                this.opacity = Math.random() * 0.3 + 0.1;
+            }
+            update() {
+                if (this.isHorizontal) {
+                    this.y += this.speed;
+                    if (this.y < 0 || this.y > canvas.height) {
+                        this.y = Math.random() * canvas.height;
+                        this.opacity = Math.random() * 0.3 + 0.1;
+                    }
+                } else {
+                    this.x += this.speed;
+                    if (this.x < 0 || this.x > canvas.width) {
+                        this.x = Math.random() * canvas.width;
+                        this.opacity = Math.random() * 0.3 + 0.1;
+                    }
+                }
+            }
+            draw(ctx) {
+                ctx.beginPath();
+                if (this.isHorizontal) {
+                    ctx.moveTo(this.x1, this.y);
+                    ctx.lineTo(this.x2, this.y);
+                } else {
+                    ctx.moveTo(this.x, this.y1);
+                    ctx.lineTo(this.x, this.y2);
+                }
+                ctx.strokeStyle = `rgba(0, 212, 255, ${this.opacity})`;
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+        }
+
+        function init() {
+            for (let i = 0; i < numberOfLines; i++) {
+                gridLines.push(new GridLine());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (servicesCtx && document.getElementById('layanan').classList.contains('active')) {
+                servicesCtx.clearRect(0, 0, servicesCanvas.width, servicesCanvas.height);
+            }
+            for (let i = 0; i < gridLines.length; i++) {
+                gridLines[i].update();
+                gridLines[i].draw(ctx);
+                if (servicesCtx && document.getElementById('layanan').classList.contains('active')) {
+                    gridLines[i].draw(servicesCtx);
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            if (servicesCanvas) {
+                servicesCanvas.width = window.innerWidth;
+                servicesCanvas.height = window.innerHeight;
+            }
+        });
+    </script>
 </body>
 </html>
