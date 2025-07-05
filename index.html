@@ -37,11 +37,7 @@
     </header>
 
     <section class="hero">
-        <div class="time-widget-container">
-            <p id="date-time"></p>
-            <p id="jawa-date"></p>
-            <p id="hijri-date"></p>
-        </div>
+        
 
         <div class="container">
             <h1 class="main-logo">Ismaya Dewa Mitra</h1>
@@ -240,77 +236,6 @@
         </div>
     </footer>
 
-    <script defer>
-        function getJawaDate(date) {
-            // Ini adalah implementasi SANGAT SEDERHANA dan TIDAK AKURAT untuk kalender Jawa/Pasaran.
-            // Untuk akurasi, sangat direkomendasikan menggunakan library seperti 'moment-hijri' atau 'jawa-calendar' jika tersedia.
-            const pasaran = ["Legi", "Pahing", "Pon", "Wage", "Kliwon"];
-            const hari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
-            const bulanJawa = ["Sura", "Sapar", "Mulud", "Bakda Mulud", "Jumadil Awal", "Jumadil Akhir", "Rejeb", "Ruwah", "Pasa", "Syawal", "Dulkangidah", "Besar"];
-
-            const dayOfWeek = date.getDay(); 
-            const dayOfMonth = date.getDate();
-            const monthIndex = date.getMonth();
-            const year = date.getFullYear();
-
-            const pasaranIndex = (dayOfMonth + dayOfWeek) % 5; 
-            const naptuHariArr = [5, 4, 3, 7, 8, 6, 9]; 
-            const naptuHari = naptuHariArr[dayOfWeek];
-            const naptuPasaranArr = [5, 9, 7, 4, 8]; 
-            const naptuPasaran = naptuPasaranArr[pasaranIndex];
-            const naptuTotal = naptuHari + naptuPasaran;
-
-            const tahunJawa = year - 500; 
-
-            return `${hari[dayOfWeek]} ${pasaran[pasaranIndex]} (${naptuTotal}) ${bulanJawa[monthIndex]} ${tahunJawa} Jw.`;
-        }
-
-        function getHijriDate(date) {
-            try {
-                const hijriDateFormatter = new Intl.DateTimeFormat('id-ID-u-ca-islamic', {
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric'
-                });
-                return hijriDateFormatter.format(date);
-            } catch (e) {
-                console.warn("Intl.DateTimeFormat for Islamic calendar not fully supported or error occurred:", e);
-                const hijriMonths = ["Muharram", "Safar", "Rabiul Awal", "Rabiul Akhir", "Jumadil Awal", "Jumadil Akhir", "Rajab", "Syaban", "Ramadan", "Syawal", "Dzulkaidah", "Dzulhijjah"];
-                const hijriYearApprox = Math.floor((date.getFullYear() - 622) * 33 / 32);
-                return `${date.getDate()} ${hijriMonths[date.getMonth()]} ${hijriYearApprox} H`;
-            }
-        }
-
-        function updateTime() {
-            try {
-                const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Jakarta" }));
-                
-                const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
-                const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-                
-                const dayName = days[now.getDay()];
-                const day = now.getDate();
-                const month = months[now.getMonth()];
-                const year = now.getFullYear();
-                
-                const hours = now.getHours().toString().padStart(2, "0");
-                const minutes = now.getMinutes().toString().padStart(2, "0");
-                const seconds = now.getSeconds().toString().padStart(2, "0");
-                
-                document.getElementById("date-time").innerHTML = `${dayName}, ${day} ${month} ${year}<br>Jam ${hours}:${minutes}:${seconds} WIB`;
-                document.getElementById("jawa-date").innerHTML = `Kalender Jawa: ${getJawaDate(now)}`;
-                document.getElementById("hijri-date").innerHTML = `Kalender Hijriah: ${getHijriDate(now)}`;
-
-            } catch (error) {
-                console.error("Widget error:", error);
-                document.getElementById("date-time").innerHTML = "Gagal memuat waktu.";
-                document.getElementById("jawa-date").innerHTML = "";
-                document.getElementById("hijri-date").innerHTML = "";
-            }
-        }
-
-        updateTime();
-        setInterval(updateTime, 1000);
-    </script>
+   
 </body>
 </html>
