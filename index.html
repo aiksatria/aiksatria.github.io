@@ -1,7 +1,3 @@
-
-
-
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -38,6 +34,7 @@
             color: var(--text-dark);
             line-height: 1.6;
             background-color: var(--light);
+            overflow-x: hidden; /* Mencegah scroll horizontal yang tidak diinginkan */
         }
 
         /* Header */
@@ -62,6 +59,7 @@
             font-weight: 700;
             color: var(--secondary);
             text-decoration: none;
+            flex-shrink: 0; /* Mencegah logo mengecil */
         }
 
         .navbar ul {
@@ -83,6 +81,15 @@
             text-shadow: 0 0 5px var(--secondary);
         }
 
+        /* Hamburger Menu */
+        .menu-toggle {
+            display: none; /* Sembunyikan secara default */
+            font-size: 1.8rem;
+            color: var(--secondary);
+            cursor: pointer;
+            z-index: 1001; /* Pastikan di atas navbar */
+        }
+
         /* Hero Section */
         .hero {
             position: relative;
@@ -94,6 +101,7 @@
             color: var(--white);
             text-align: center;
             overflow: hidden;
+            padding: 2rem 1rem; /* Tambahkan padding agar tidak terlalu mepet */
         }
 
         #neon-grid {
@@ -114,6 +122,7 @@
             font-weight: 700;
             text-shadow: 0 0 10px var(--secondary);
             animation: fadeIn 2s ease-in;
+            word-wrap: break-word; /* Memastikan teks panjang tidak meluber */
         }
 
         .tagline {
@@ -136,6 +145,7 @@
             border: 2px solid var(--secondary);
             transition: all 0.3s ease;
             box-shadow: 0 0 10px var(--secondary);
+            white-space: nowrap; /* Mencegah teks tombol pecah */
         }
 
         .cta-button:hover {
@@ -155,6 +165,7 @@
             font-size: 2.5rem;
             color: var(--primary);
             margin-bottom: 2rem;
+            word-wrap: break-word;
         }
 
         .section-title::after {
@@ -180,6 +191,7 @@
             gap: 2rem;
             align-items: center;
             justify-content: center;
+            text-align: center; /* Pusat teks saat di mobile */
         }
 
         .about-text {
@@ -202,6 +214,8 @@
 
         .about-image {
             max-width: 400px;
+            width: 100%; /* Pastikan gambar responsif */
+            margin: 0 auto; /* Tengah gambar */
         }
 
         .about-image svg {
@@ -282,11 +296,20 @@
             z-index: 1;
         }
 
+        #layanan .section-title {
+            color: var(--white); /* Pastikan judul layanan terlihat di background gelap */
+        }
+
+        #layanan .section-title::after {
+            background: var(--secondary);
+        }
+
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
             margin-top: 2rem;
+            justify-content: center; /* Pusatkan item grid */
         }
 
         .service-card {
@@ -297,6 +320,8 @@
             display: flex;
             flex-direction: column;
             backdrop-filter: blur(5px);
+            max-width: 100%; /* Pastikan card tidak meluber */
+            margin: 0 auto; /* Pusatkan card */
         }
 
         .service-card:hover {
@@ -310,10 +335,13 @@
             font-size: 2.5rem;
             padding: 1.5rem;
             text-align: center;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
         }
 
         .service-content {
             padding: 1.5rem;
+            flex-grow: 1; /* Memastikan konten mengisi ruang yang tersedia */
         }
 
         .service-title {
@@ -356,39 +384,36 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 2rem;
+            gap: 1.5rem; /* Kurangi sedikit gap */
             margin-bottom: 2rem;
         }
 
         .contact-item {
             display: flex;
             align-items: center;
-            font-size: 1.2rem;
+            font-size: 1.1rem; /* Sedikit perkecil font */
+            flex-direction: column; /* Teks di bawah ikon di mobile */
+            text-align: center;
         }
 
         .contact-item i {
-            margin-right: 0.8rem;
+            margin-right: 0; /* Hilangkan margin kanan */
+            margin-bottom: 0.5rem; /* Beri margin bawah */
             color: var(--secondary);
             font-size: 1.5rem;
         }
 
-        .contact-section .cta-button {
-            background: transparent;
-            border-color: var(--secondary);
-            box-shadow: 0 0 10px var(--secondary);
-        }
-
-        .contact-section .cta-button:hover {
-            background: var(--secondary);
-            color: var(--dark);
-        }
-
         .map-container {
-            height: 400px;
+            height: 300px; /* Kurangi tinggi di mobile */
             margin-top: 2rem;
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
         }
 
         /* Footer */
@@ -427,19 +452,58 @@
 
         @media (max-width: 768px) {
             .header .container {
-                flex-direction: column;
-                gap: 1rem;
+                flex-direction: row; /* Kembali ke row untuk logo dan hamburger */
+                justify-content: space-between;
+                align-items: center;
             }
+
+            .navbar {
+                display: none; /* Sembunyikan navbar secara default */
+                flex-direction: column;
+                position: fixed;
+                top: 0;
+                right: -100%; /* Sembunyikan di luar layar */
+                width: 70%; /* Lebar menu overlay */
+                height: 100%;
+                background-color: var(--primary); /* Latar belakang menu */
+                padding: 4rem 1rem 1rem;
+                box-shadow: -2px 0 8px rgba(0,0,0,0.3);
+                transition: right 0.3s ease-in-out;
+                z-index: 999;
+            }
+
+            .navbar.active {
+                display: flex; /* Tampilkan saat aktif */
+                right: 0; /* Geser ke dalam layar */
+            }
+
             .navbar ul {
                 flex-direction: column;
-                gap: 0.8rem;
+                gap: 1.5rem;
+                width: 100%;
             }
+
+            .navbar ul li {
+                width: 100%;
+                text-align: center;
+            }
+
+            .navbar a {
+                display: block;
+                padding: 0.8rem 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .menu-toggle {
+                display: block; /* Tampilkan hamburger menu */
+            }
+
             .hero {
                 min-height: 80vh;
-                padding: 4rem 0;
+                padding: 4rem 1rem; /* Sesuaikan padding */
             }
             .hero h1.main-logo {
-                font-size: 2.5rem;
+                font-size: 2.2rem; /* Sedikit perkecil di tablet */
             }
             .tagline {
                 font-size: 1.1rem;
@@ -450,20 +514,39 @@
             #layanan {
                 padding: 3rem 0;
             }
+            .services-grid {
+                grid-template-columns: 1fr; /* Satu kolom di tablet */
+            }
         }
 
         @media (max-width: 480px) {
             .hero h1.main-logo {
-                font-size: 2rem;
+                font-size: 1.8rem; /* Lebih kecil lagi di ponsel */
             }
             .tagline {
-                font-size: 1rem;
+                font-size: 0.95rem;
             }
             .section-title {
-                font-size: 1.8rem;
+                font-size: 1.6rem;
             }
             .service-title {
-                font-size: 1.4rem;
+                font-size: 1.3rem;
+            }
+            .container {
+                padding: 0 0.8rem; /* Padding yang lebih kecil di ponsel */
+            }
+            .cta-button {
+                padding: 0.8rem 2rem; /* Ukuran tombol lebih kecil */
+                font-size: 0.9rem;
+            }
+            .contact-item {
+                font-size: 1rem;
+            }
+            .contact-item i {
+                font-size: 1.3rem;
+            }
+            .map-container {
+                height: 250px; /* Lebih pendek di ponsel */
             }
         }
     </style>
@@ -475,12 +558,15 @@
     <header class="header">
         <div class="container">
             <a href="#" class="logo">IDM Group</a>
-            <nav class="navbar">
+            <div class="menu-toggle" id="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <nav class="navbar" id="navbar">
                 <ul>
-                    <li><a href="#tentang-kami">Tentang Kami</a></li>
-                    <li><a href="#layanan" onclick="toggleServices()">Layanan</a></li>
-                    <li><a href="#mengapa-kami">Keunggulan Kami</a></li>
-                    <li><a href="#kontak">Kontak</a></li>
+                    <li><a href="#tentang-kami" onclick="closeNavbar()">Tentang Kami</a></li>
+                    <li><a href="#layanan" onclick="toggleServices(); closeNavbar()">Layanan</a></li>
+                    <li><a href="#mengapa-kami" onclick="closeNavbar()">Keunggulan Kami</a></li>
+                    <li><a href="#kontak" onclick="closeNavbar()">Kontak</a></li>
                 </ul>
             </nav>
         </div>
@@ -667,7 +753,7 @@
                 <i class="fab fa-whatsapp"></i> Hubungi via WhatsApp
             </a>
             <div class="map-container">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3954.0386621310618!2d112.62483548414721!3d-7.678992656244092!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7d73fa8debd7b%3A0x7a7d3c43dd643e05!2sAgen%20BRI%20Link%20Lumbangrejo!5e0!3m2!1sid!2sid!4v1750616862665!5m2!1sid!2sid" width="600" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Lokasi Kantor IDM Group di Lumbangrejo"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15802.730248232231!2d112.9818815!3d-7.7912443!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd5df2b6b21696b%3A0x1d7c3d2e6a9a0e6!2sLumbangrejo%2C%20Kec.%20Prigen%2C%20Pasuruan%2C%20Jawa%20Timur!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid" width="600" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Lokasi Kantor IDM Group di Lumbangrejo"></iframe>
             </div>
         </div>
     </section>
@@ -679,10 +765,25 @@
     </footer>
 
     <script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const navbar = document.getElementById('navbar');
+
         // Toggle services section
         function toggleServices() {
             const servicesSection = document.getElementById('layanan');
             servicesSection.classList.toggle('active');
+        }
+
+        // Toggle Navbar (Hamburger Menu)
+        menuToggle.addEventListener('click', () => {
+            navbar.classList.toggle('active');
+        });
+
+        // Close Navbar when a link is clicked (for smooth scroll)
+        function closeNavbar() {
+            if (navbar.classList.contains('active')) {
+                navbar.classList.remove('active');
+            }
         }
 
         // Neon grid animation for hero and services background
@@ -690,12 +791,16 @@
         const servicesCanvas = document.getElementById('services-bg');
         const ctx = canvas.getContext('2d');
         const servicesCtx = servicesCanvas ? servicesCanvas.getContext('2d') : null;
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        if (servicesCanvas) {
-            servicesCanvas.width = window.innerWidth;
-            servicesCanvas.height = window.innerHeight;
+        
+        function setCanvasDimensions() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            if (servicesCanvas) {
+                servicesCanvas.width = window.innerWidth;
+                servicesCanvas.height = window.innerHeight;
+            }
         }
+        setCanvasDimensions(); // Set dimensions initially
 
         const gridLines = [];
         const numberOfLines = 30;
@@ -707,12 +812,12 @@
                     this.y = Math.random() * canvas.height;
                     this.x1 = 0;
                     this.x2 = canvas.width;
-                    this.speed = Math.random() * 2 - 1;
+                    this.speed = (Math.random() * 2 - 1) * 0.5; // Kurangi kecepatan
                 } else {
                     this.x = Math.random() * canvas.width;
                     this.y1 = 0;
                     this.y2 = canvas.height;
-                    this.speed = Math.random() * 2 - 1;
+                    this.speed = (Math.random() * 2 - 1) * 0.5; // Kurangi kecepatan
                 }
                 this.opacity = Math.random() * 0.3 + 0.1;
             }
@@ -746,11 +851,13 @@
             }
         }
 
-        function init() {
+        function initGridLines() {
+            gridLines.length = 0; // Bersihkan array jika ada
             for (let i = 0; i < numberOfLines; i++) {
                 gridLines.push(new GridLine());
             }
         }
+        initGridLines();
 
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -767,17 +874,15 @@
             requestAnimationFrame(animate);
         }
 
-        init();
         animate();
 
         window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            if (servicesCanvas) {
-                servicesCanvas.width = window.innerWidth;
-                servicesCanvas.height = window.innerHeight;
-            }
+            setCanvasDimensions();
+            initGridLines(); // Inisialisasi ulang grid lines saat ukuran berubah
         });
+
+        // Pastikan link peta Google berfungsi
+        document.querySelector('.map-container iframe').src = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15802.730248232231!2d112.9818815!3d-7.7912443!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd5df2b6b21696b%3A0x1d7c3d2e6a9a0e6!2sLumbangrejo%2C%20Kec.%20Prigen%2C%20Pasuruan%2C%20Jawa%20Timur!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid";
     </script>
 </body>
 </html>
