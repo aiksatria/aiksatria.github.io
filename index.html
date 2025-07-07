@@ -23,6 +23,7 @@
             --text-dark: #1f2937; /* Abu-abu gelap */
             --white: #ffffff;
             --footer-height: 80px; /* Tambahkan variabel untuk tinggi footer */
+            --header-height: 60px; /* Tambahkan variabel untuk tinggi header */
         }
 
         /* Reset dan Gaya Dasar */
@@ -73,8 +74,9 @@
 
         /* Kontainer di dalam overlay agar ada padding atas dan bawah */
         .section-overlay .container {
-            padding-top: calc(1rem + 60px); /* Padding atas, sesuaikan dengan tinggi header + sedikit margin */
-            padding-bottom: var(--footer-height); /* Padding bawah setinggi footer */
+            /* Perhitungan padding sekarang lebih presisi dengan variabel tinggi header/footer */
+            padding-top: calc(1rem + var(--header-height));
+            padding-bottom: var(--footer-height);
             min-height: 100%; /* Pastikan kontainer setidaknya setinggi viewport overlay */
             display: flex;
             flex-direction: column;
@@ -137,14 +139,18 @@
             top: 0; /* Tetap di atas */
             left: 0; /* Penuh lebar */
             width: 100%; /* Penuh lebar */
+            height: var(--header-height); /* Tetapkan tinggi header */
             z-index: 1000; /* Z-index tinggi agar selalu di atas */
             box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            display: flex; /* Tambahkan untuk pusatkan konten vertikal */
+            align-items: center; /* Pusatkan konten vertikal */
         }
 
         .header .container {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            width: 100%; /* Pastikan kontainer header juga penuh lebar */
         }
 
         .header .logo {
@@ -607,6 +613,8 @@
         </div>
     </section>
 
+    <canvas id="services-bg"></canvas>
+
     <section id="tentang-kami" class="section-overlay">
         <button class="close-button" onclick="hideSection('tentang-kami')" aria-label="Tutup Tentang Kami">
             <i class="fas fa-times"></i>
@@ -654,7 +662,6 @@
     </section>
 
     <section id="layanan" class="section-overlay">
-        <canvas id="services-bg"></canvas>
         <button class="close-button" onclick="hideSection('layanan')" aria-label="Tutup Layanan">
             <i class="fas fa-times"></i>
         </button>
@@ -793,6 +800,9 @@
 
         const allOverlaySections = document.querySelectorAll('.section-overlay');
 
+        // Referensi langsung ke section layanan
+        const servicesSection = document.getElementById('layanan');
+
         function showSection(sectionId) {
             allOverlaySections.forEach(section => {
                 section.classList.remove('active');
@@ -803,20 +813,20 @@
                 targetSection.classList.add('active');
                 body.style.overflow = 'hidden';
 
-                // --- PERUBAHAN UTAMA DI SINI ---
-                // Memastikan canvas services disetel ulang dan digambar ulang
+                // Kontrol visibilitas servicesCanvas
                 if (sectionId === 'layanan' && servicesCanvas) {
-                    setCanvasDimensions(); // Atur ulang dimensi canvas
-                    // Re-draw immediately after setting dimensions to ensure it appears
-                    // Forcing a re-render by drawing one frame right away
+                    servicesCanvas.style.display = 'block'; // Tampilkan canvas layanan
+                    setCanvasDimensions(); // Setel ulang dimensi canvas layanan
+                    // Re-draw immediately after setting dimensions
                     if (servicesCtx) {
                         servicesCtx.clearRect(0, 0, servicesCanvas.width, servicesCanvas.height);
                         for (let i = 0; i < gridLines.length; i++) {
                             gridLines[i].draw(servicesCtx, servicesCanvas.width, servicesCanvas.height);
                         }
                     }
+                } else if (servicesCanvas) {
+                    servicesCanvas.style.display = 'none'; // Sembunyikan canvas layanan untuk overlay lain
                 }
-                // --- AKHIR PERUBAHAN UTAMA ---
             }
         }
 
@@ -825,6 +835,11 @@
             if (targetSection) {
                 targetSection.classList.remove('active');
                 body.style.overflow = '';
+                
+                // Sembunyikan servicesCanvas saat layanan ditutup
+                if (sectionId === 'layanan' && servicesCanvas) {
+                    servicesCanvas.style.display = 'none';
+                }
             }
         }
 
@@ -838,8 +853,8 @@
             }
         }
 
-        const canvas = document.getElementById('neon-grid');
-        const servicesCanvas = document.getElementById('services-bg');
+        const canvas = document.getElementById('neon-grid'); // Canvas untuk Hero Section
+        const servicesCanvas = document.getElementById('services-bg'); // Canvas untuk Layanan Kami
         const ctx = canvas.getContext('2d');
         const servicesCtx = servicesCanvas ? servicesCanvas.getContext('2d') : null;
 
@@ -859,32 +874,30 @@
         class GridLine {
             constructor() {
                 this.isHorizontal = Math.random() > 0.5;
+                // Inisialisasi posisi berdasarkan ukuran window saat ini
                 if (this.isHorizontal) {
-                    this.y = Math.random() * canvas.height;
-                    this.x1 = 0;
-                    this.x2 = canvas.width;
+                    this.y = Math.random() * window.innerHeight;
                     this.speed = (Math.random() * 2 - 1) * 0.5;
                 } else {
-                    this.x = Math.random() * canvas.width;
-                    this.y1 = 0;
-                    this.y2 = canvas.height;
+                    this.x = Math.random() * window.innerWidth;
                     this.speed = (Math.random() * 2 - 1) * 0.5;
                 }
                 this.opacity = Math.random() * 0.3 + 0.1;
             }
             update() {
+                // Update posisi berdasarkan kecepatan
                 if (this.isHorizontal) {
                     this.y += this.speed;
                     if (this.y < 0) {
-                        this.y = canvas.height;
-                    } else if (this.y > canvas.height) {
+                        this.y = window.innerHeight;
+                    } else if (this.y > window.innerHeight) {
                         this.y = 0;
                     }
                 } else {
                     this.x += this.speed;
                     if (this.x < 0) {
-                        this.x = canvas.width;
-                    } else if (this.x > canvas.width) {
+                        this.x = window.innerWidth;
+                    } else if (this.x > window.innerWidth) {
                         this.x = 0;
                     }
                 }
@@ -913,32 +926,31 @@
         initGridLines();
 
         function animate() {
+            // Gambar di canvas hero (selalu aktif)
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // Hanya bersihkan canvas services jika overlay layanan sedang aktif
-            // Tidak perlu clearRect di sini karena sudah dilakukan di showSection untuk draw pertama
-            // dan akan dilakukan di sini lagi setiap frame jika overlay aktif
-            if (servicesCtx && document.getElementById('layanan').classList.contains('active')) {
-                servicesCtx.clearRect(0, 0, servicesCanvas.width, servicesCanvas.height);
-            }
-
             for (let i = 0; i < gridLines.length; i++) {
                 gridLines[i].update();
                 gridLines[i].draw(ctx, canvas.width, canvas.height);
+            }
 
-                if (servicesCtx && document.getElementById('layanan').classList.contains('active')) {
+            // Gambar di canvas services HANYA jika services overlay sedang aktif
+            if (servicesCtx && servicesSection.classList.contains('active')) {
+                servicesCtx.clearRect(0, 0, servicesCanvas.width, servicesCanvas.height);
+                for (let i = 0; i < gridLines.length; i++) {
                     gridLines[i].draw(servicesCtx, servicesCanvas.width, servicesCanvas.height);
                 }
             }
             requestAnimationFrame(animate);
         }
 
+        // Jalankan animasi setelah semua fungsi didefinisikan
         animate();
 
         window.addEventListener('resize', () => {
             setCanvasDimensions();
-            initGridLines();
+            initGridLines(); // Reset grid lines on resize
         });
     </script>
 </body>
 </html>
+
