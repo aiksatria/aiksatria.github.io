@@ -27,6 +27,8 @@
             --white: #ffffff;
             --footer-height: 80px; /* Tambahkan variabel untuk tinggi footer */
             --header-height: 60px; /* Tambahkan variabel untuk tinggi header */
+            --glass-background: rgba(30, 42, 60, 0.5); /* Background transparan untuk efek kaca */
+            --glass-border: rgba(0, 212, 255, 0.3); /* Border transparan untuk efek kaca */
         }
 
         /* Reset dan Gaya Dasar */
@@ -90,9 +92,6 @@
         
         .hero .container {
             z-index: 2; /* Konten hero di atas neon-grid */
-            /* Tambahan untuk Parallax (opsional, jika ingin elemen kontainer hero bergerak sedikit berbeda) */
-            /* transform: translateY(0); */
-            /* will-change: transform; */
         }
 
         .hero h1.main-logo {
@@ -140,6 +139,11 @@
             left: 0;
             width: 100%;
             height: 100%;
+            /* FIX: Menggunakan background transparan dan backdrop-filter */
+            background: var(--glass-background); 
+            backdrop-filter: blur(10px); /* Efek blur */
+            -webkit-backdrop-filter: blur(10px); /* Dukungan browser lama */
+            border: 1px solid var(--glass-border); /* Border tipis efek kaca */
             z-index: 90; /* Di bawah header (1000) dan footer (100), di atas hero (50) */
             overflow-y: auto; /* Memungkinkan scroll di dalam overlay jika konten panjang */
             display: none; /* Sembunyikan secara default */
@@ -220,7 +224,11 @@
 
         /* Header */
         .header {
-            background-color: var(--primary);
+            /* FIX: Menggunakan background transparan dan backdrop-filter */
+            background: var(--glass-background);
+            backdrop-filter: blur(10px); /* Efek blur */
+            -webkit-backdrop-filter: blur(10px); /* Dukungan browser lama */
+            border-bottom: 1px solid var(--glass-border); /* Border tipis efek kaca */
             color: var(--white);
             padding: 1rem 0;
             position: fixed; 
@@ -277,7 +285,33 @@
             z-index: 1001; 
             position: relative; 
         }
-        
+
+        /* FIX: Gaya Navbar (saat mobile, ini adalah menu hamburger yang terbuka) */
+        .navbar {
+            /* FIX: Menggunakan background transparan dan backdrop-filter */
+            background: var(--glass-background); 
+            backdrop-filter: blur(10px); 
+            -webkit-backdrop-filter: blur(10px); 
+            border-left: 1px solid var(--glass-border); /* Border tipis di sisi kiri */
+
+            display: none; 
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 70%; 
+            height: 100%;
+            padding: 4rem 1rem 1rem;
+            box-shadow: -2px 0 8px rgba(0,0,0,0.3);
+            transition: right 0.3s ease-in-out;
+            z-index: 999;
+        }
+
+        .navbar.active {
+            display: flex;
+            right: 0;
+        }
+
         /* About Section */
         #tentang-kami .about-content {
             display: flex;
@@ -326,31 +360,26 @@
             gap: 2rem;
         }
 
-        #mengapa-kami .advantage-item {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 2rem;
+        /* FIX: Gaya item card di dalam overlay (efek kaca) */
+        #mengapa-kami .advantage-item,
+        #layanan .service-card {
+            background: var(--glass-background); 
+            backdrop-filter: blur(5px); /* Sedikit blur untuk item */
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid var(--glass-border); 
             border-radius: 8px;
-            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             transition: all 0.3s ease;
-            border: 1px solid var(--secondary);
             color: var(--white);
+            padding: 2rem;
+            text-align: center;
         }
-
-        #mengapa-kami .advantage-item:hover {
+        #mengapa-kami .advantage-item:hover,
+        #layanan .service-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 0 15px var(--secondary);
+            box-shadow: 0 0 20px var(--secondary), 0 10px 20px rgba(0,0,0,0.3);
         }
 
-        #mengapa-kami .advantage-item i {
-            font-size: 2.5rem;
-            color: var(--secondary);
-            margin-bottom: 1rem;
-        }
-
-        #mengapa-kami .advantage-item h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
 
         /* Services Section */
         #layanan .services-grid {
@@ -360,24 +389,7 @@
             margin-top: 2rem;
             justify-content: center;
         }
-
-        #layanan .service-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            backdrop-filter: blur(5px);
-            max-width: 100%;
-            margin: 0 auto;
-        }
-
-        #layanan .service-card:hover {
-            transform: translateY(-10px) rotateX(5deg);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3), 0 0 20px var(--secondary);
-        }
-
+        
         #layanan .service-icon {
             background: var(--secondary);
             color: var(--white);
@@ -430,12 +442,25 @@
             margin-bottom: 2rem;
         }
 
+        /* FIX: Gaya item kontak (efek kaca) */
         #kontak .contact-item {
+            background: var(--glass-background);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 1.5rem; /* Tambahkan padding */
             display: flex;
             align-items: center;
             font-size: 1.1rem;
             flex-direction: column;
             text-align: center;
+            color: var(--white);
+            transition: all 0.3s ease;
+        }
+        #kontak .contact-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 15px var(--secondary);
         }
 
         #kontak .contact-item i {
@@ -460,7 +485,12 @@
 
         /* Footer */
         footer {
-            background: var(--dark);
+            /* FIX: Menggunakan background transparan dan backdrop-filter */
+            background: var(--glass-background); 
+            backdrop-filter: blur(10px); 
+            -webkit-backdrop-filter: blur(10px); 
+            border-top: 1px solid var(--glass-border); 
+
             color: var(--white);
             text-align: center;
             padding: 2rem 0;
@@ -530,9 +560,8 @@
                 position: fixed;
                 top: 0;
                 right: -100%;
-                width: 70%;
+                width: 70%; 
                 height: 100%;
-                background-color: var(--primary);
                 padding: 4rem 1rem 1rem;
                 box-shadow: -2px 0 8px rgba(0,0,0,0.3);
                 transition: right 0.3s ease-in-out;
@@ -850,16 +879,17 @@
         class GridLine {
             constructor() {
                 this.isHorizontal = Math.random() > 0.5;
+                // FIX: Inisialisasi posisi berdasarkan ukuran window saat ini untuk kedua orientasi
                 if (this.isHorizontal) {
                     this.y = Math.random() * window.innerHeight;
-                    this.speed = (Math.random() * 2 - 1) * 0.5;
                 } else {
                     this.x = Math.random() * window.innerWidth;
-                    this.speed = (Math.random() * 2 - 1) * 0.5;
                 }
+                this.speed = (Math.random() * 2 - 1) * 0.5; // Kecepatan tetap untuk kedua orientasi
                 this.opacity = Math.random() * 0.3 + 0.1;
             }
             update() {
+                // Update posisi berdasarkan kecepatan
                 if (this.isHorizontal) {
                     this.y += this.speed;
                     if (this.y < 0) {
@@ -925,7 +955,7 @@
                 if (overlayCanvas) {
                     overlayCanvas.style.display = 'block';
                     setCanvasDimensions(); 
-                    if (overlayCtx) {
+                    if (overlayCtx) { 
                         overlayCtx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
                         for (let i = 0; i < gridLines.length; i++) {
                             gridLines[i].draw(overlayCtx, overlayCanvas.width, overlayCanvas.height);
@@ -975,7 +1005,8 @@
                 overlayCtx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
                 for (let i = 0; i < gridLines.length; i++) {
                     gridLines[i].update(); 
-                    gridLines[i].draw(overlayCtx, overlayCanvas.width, overlayCtx.height); // Perbaikan: Gunakan overlayCtx.height
+                    // FIX: Perbaikan bug canvas vertikal hilang, pastikan canvasHeight yang benar
+                    gridLines[i].draw(overlayCtx, overlayCanvas.width, overlayCanvas.height); 
                 }
             }
             requestAnimationFrame(animate);
@@ -1002,7 +1033,11 @@
             setCanvasDimensions();
             initGridLines();
             setHeroSectionLayout();
-            AOS.init(); // Inisialisasi AOS saat semua elemen dimuat
+            AOS.init({ // Konfigurasi AOS global
+                duration: 800, // durasi animasi dalam ms
+                once: false, // animasi selalu terjadi setiap kali elemen masuk viewport
+                mirror: true, // animasi akan terjadi saat scroll ke atas juga
+            }); 
         });
         
         window.addEventListener('resize', () => {
