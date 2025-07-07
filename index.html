@@ -55,7 +55,7 @@
             width: 100%;
             height: 100%;
             background: linear-gradient(135deg, var(--primary), var(--dark)); /* Latar belakang gelap untuk overlay */
-            z-index: 99; /* Di bawah header (1000) dan navbar (999) */
+            z-index: 90; /* Di bawah header (1000) dan footer (100) */
             overflow-y: auto; /* Memungkinkan scroll di dalam overlay jika konten panjang */
             padding-top: 5rem; /* Beri ruang di atas untuk header */
             display: none; /* Sembunyikan secara default */
@@ -123,7 +123,7 @@
             padding: 1rem 0;
             position: sticky;
             top: 0;
-            z-index: 1000;
+            z-index: 1000; /* Z-index tinggi agar selalu di atas */
             box-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
 
@@ -276,9 +276,6 @@
         }
 
         /* Why Choose Us Section (di dalam overlay) */
-        #mengapa-kami {
-            /* Warna dan padding sudah diatur di .section-overlay */
-        }
         #mengapa-kami .advantages-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -381,9 +378,6 @@
         }
 
         /* Contact Section (di dalam overlay) */
-        #kontak {
-            /* Warna dan padding sudah diatur di .section-overlay */
-        }
         #kontak .contact-info {
             display: flex;
             flex-wrap: wrap;
@@ -427,8 +421,12 @@
             text-align: center;
             padding: 2rem 0;
             font-size: 0.95rem;
-            position: relative; /* Agar z-index bekerja */
-            z-index: 10; /* Pastikan footer di atas canvas hero */
+            position: fixed; /* Diubah dari relative ke fixed */
+            bottom: 0; /* Posisikan di bagian bawah */
+            left: 0; /* Posisikan dari kiri */
+            width: 100%; /* Lebar penuh */
+            z-index: 100; /* Z-index tinggi agar di atas overlay */
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.3); /* Tambahkan shadow */
         }
 
         /* Animasi */
