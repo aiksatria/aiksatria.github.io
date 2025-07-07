@@ -791,53 +791,55 @@
         const navbar = document.getElementById('navbar');
         const body = document.body;
 
-        const allOverlaySections = document.querySelectorAll('.section-overlay'); // Kumpulan semua overlay
+        const allOverlaySections = document.querySelectorAll('.section-overlay');
 
-        // Fungsi untuk menampilkan overlay section tertentu
         function showSection(sectionId) {
-            // Sembunyikan semua overlay terlebih dahulu
             allOverlaySections.forEach(section => {
                 section.classList.remove('active');
             });
 
-            // Tampilkan overlay yang diminta
             const targetSection = document.getElementById(sectionId);
             if (targetSection) {
                 targetSection.classList.add('active');
-                body.style.overflow = 'hidden'; // Nonaktifkan scroll body
+                body.style.overflow = 'hidden';
 
-                // Pastikan canvas services diatur ulang jika layanan aktif
+                // --- PERUBAHAN UTAMA DI SINI ---
+                // Memastikan canvas services disetel ulang dan digambar ulang
                 if (sectionId === 'layanan' && servicesCanvas) {
-                    setCanvasDimensions(); // Setel ulang dimensi canvas
-                    // initGridLines(); // Animate sudah berjalan terus, tidak perlu init ulang grid
+                    setCanvasDimensions(); // Atur ulang dimensi canvas
+                    // Re-draw immediately after setting dimensions to ensure it appears
+                    // Forcing a re-render by drawing one frame right away
+                    if (servicesCtx) {
+                        servicesCtx.clearRect(0, 0, servicesCanvas.width, servicesCanvas.height);
+                        for (let i = 0; i < gridLines.length; i++) {
+                            gridLines[i].draw(servicesCtx, servicesCanvas.width, servicesCanvas.height);
+                        }
+                    }
                 }
+                // --- AKHIR PERUBAHAN UTAMA ---
             }
         }
 
-        // Fungsi untuk menyembunyikan overlay section tertentu
         function hideSection(sectionId) {
             const targetSection = document.getElementById(sectionId);
             if (targetSection) {
                 targetSection.classList.remove('active');
-                body.style.overflow = ''; // Aktifkan kembali scroll body
+                body.style.overflow = '';
             }
         }
 
-        // Toggle Navbar (Hamburger Menu)
         menuToggle.addEventListener('click', () => {
             navbar.classList.toggle('active');
         });
 
-        // Close Navbar when a link is clicked
         function closeNavbar() {
             if (navbar.classList.contains('active')) {
                 navbar.classList.remove('active');
             }
         }
 
-        // Neon grid animation for hero and services background
         const canvas = document.getElementById('neon-grid');
-        const servicesCanvas = document.getElementById('services-bg'); // Canvas khusus untuk services overlay
+        const servicesCanvas = document.getElementById('services-bg');
         const ctx = canvas.getContext('2d');
         const servicesCtx = servicesCanvas ? servicesCanvas.getContext('2d') : null;
 
@@ -845,7 +847,6 @@
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
             if (servicesCanvas) {
-                // Hanya servicesCanvas yang memerlukan dimensi penuh viewport karena hanya services yang memiliki canvas bg
                 servicesCanvas.width = window.innerWidth;
                 servicesCanvas.height = window.innerHeight;
             }
@@ -912,18 +913,19 @@
         initGridLines();
 
         function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height); // Bersihkan canvas hero
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             // Hanya bersihkan canvas services jika overlay layanan sedang aktif
+            // Tidak perlu clearRect di sini karena sudah dilakukan di showSection untuk draw pertama
+            // dan akan dilakukan di sini lagi setiap frame jika overlay aktif
             if (servicesCtx && document.getElementById('layanan').classList.contains('active')) {
                 servicesCtx.clearRect(0, 0, servicesCanvas.width, servicesCanvas.height);
             }
 
             for (let i = 0; i < gridLines.length; i++) {
                 gridLines[i].update();
-                gridLines[i].draw(ctx, canvas.width, canvas.height); // Gambar di canvas hero
+                gridLines[i].draw(ctx, canvas.width, canvas.height);
 
-                // Gambar di canvas services HANYA jika services overlay sedang aktif
                 if (servicesCtx && document.getElementById('layanan').classList.contains('active')) {
                     gridLines[i].draw(servicesCtx, servicesCanvas.width, servicesCanvas.height);
                 }
