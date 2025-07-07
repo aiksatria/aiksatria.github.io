@@ -37,7 +37,6 @@
         body {
             color: var(--text-dark);
             line-height: 1.6;
-            /* FIX: Ubah background body agar cocok dengan background canvas */
             background-color: var(--dark); /* Menggunakan warna gelap yang sama dengan canvas */
             overflow-x: hidden; /* Mencegah scroll horizontal yang tidak diinginkan */
         }
@@ -50,184 +49,50 @@
             padding: 0 1rem;
         }
 
-        /* Section Umum (untuk semua overlay) */
-        .section-overlay {
-            position: fixed;
+        /* Section Hero (Sekarang juga diatur untuk disembunyikan/ditampilkan) */
+        .hero {
+            position: fixed; /* Ubah ke fixed */
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            /* FIX: Hapus background gradient di sini, karena sudah ada canvas sebagai background */
-            /* background: linear-gradient(135deg, var(--primary), var(--dark)); */
-            z-index: 90; /* Di bawah header (1000) dan footer (100) */
-            overflow-y: auto; /* Memungkinkan scroll di dalam overlay jika konten panjang */
-            display: none; /* Sembunyikan secara default */
-            opacity: 0; /* Untuk transisi fade */
-            visibility: hidden; /* Untuk transisi fade */
-            transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
-            color: var(--white); /* Teks putih di dalam overlay gelap */
-        }
-
-        .section-overlay.active {
-            display: block; /* Tampilkan saat aktif */
-            opacity: 1; /* Transisi fade in */
-            visibility: visible; /* Transisi fade in */
-        }
-
-        /* Kontainer di dalam overlay agar ada padding atas dan bawah */
-        .section-overlay .container {
-            /* Perhitungan padding sekarang lebih presisi dengan variabel tinggi header/footer */
-            padding-top: calc(1rem + var(--header-height));
-            padding-bottom: var(--footer-height);
-            min-height: 100%; /* Pastikan kontainer setidaknya setinggi viewport overlay */
+            height: 100%; /* Hero sekarang full viewport height */
+            /* min-height: 100dvh; min-height: 100vh; tidak lagi diperlukan di sini */
             display: flex;
             flex-direction: column;
-            justify-content: flex-start; /* Konten dimulai dari atas */
-            align-items: center; /* Pusatkan secara horizontal */
-            text-align: center;
-            position: relative; /* Penting agar konten overlay berada di atas canvas */
-            z-index: 95; /* Di atas canvas overlay (80) tapi di bawah close-button (101) */
-        }
-
-        .section-overlay .section-title {
-            color: var(--white); /* Pastikan judul terlihat di background gelap */
-            margin-bottom: 2rem; /* Tetap ada margin bawah untuk judul */
-        }
-        .section-overlay .section-title::after {
-            background: var(--secondary);
-        }
-
-        /* Tombol Tutup Overlay */
-        .close-button {
-            position: fixed; /* Ubah menjadi fixed agar tidak ikut scroll */
-            top: 1.5rem;
-            right: 2rem;
-            background: none;
-            border: none;
-            font-size: 2rem;
-            color: var(--secondary);
-            cursor: pointer;
-            z-index: 101; /* Pastikan di atas header, footer, dan konten overlay */
-            transition: color 0.3s ease;
-        }
-
-        .close-button:hover {
-            color: var(--accent);
-            text-shadow: 0 0 10px var(--secondary);
-        }
-
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            color: var(--primary); /* Default untuk section non-overlay */
-            margin-bottom: 2rem;
-            word-wrap: break-word;
-        }
-
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 80px;
-            height: 4px;
-            background: var(--secondary);
-            margin: 1rem auto;
-        }
-
-        /* Header */
-        .header {
-            background-color: var(--primary);
-            color: var(--white);
-            padding: 1rem 0;
-            position: fixed; /* Ubah ke fixed */
-            top: 0; /* Tetap di atas */
-            left: 0; /* Penuh lebar */
-            width: 100%; /* Penuh lebar */
-            height: var(--header-height); /* Tetapkan tinggi header */
-            z-index: 1000; /* Z-index tinggi agar selalu di atas */
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-            display: flex; /* Tambahkan untuk pusatkan konten vertikal */
-            align-items: center; /* Pusatkan konten vertikal */
-        }
-
-        .header .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%; /* Pastikan kontainer header juga penuh lebar */
-        }
-
-        .header .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--secondary);
-            text-decoration: none;
-            flex-shrink: 0; /* Mencegah logo mengecil */
-        }
-
-        .navbar ul {
-            list-style: none;
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .navbar a {
-            color: var(--white);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-            cursor: pointer;
-        }
-
-        .navbar a:hover {
-            color: var(--secondary);
-            text-shadow: 0 0 5px var(--secondary);
-        }
-
-        /* Hamburger Menu */
-        .menu-toggle {
-            display: none; /* Sembunyikan secara default */
-            font-size: 1.8rem;
-            color: var(--secondary);
-            cursor: pointer;
-            z-index: 1001; /* Pastikan di atas navbar */
-            /* FIX: Tambahkan position:relative untuk memastikan z-index bekerja */
-            position: relative; 
-        }
-
-        /* Hero Section */
-        .hero {
-            position: relative;
-            /* Menggunakan min-height yang lebih aman untuk mobile */
-            min-height: 100dvh; /* Ini adalah unit viewport height yang lebih baru dan aman di mobile */
-            /* Fallback jika 100dvh tidak didukung */
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column; /* Konten di tengah vertikal */
             align-items: center;
             justify-content: center;
-            /* FIX: Hapus background gradient di sini, karena sudah ada canvas sebagai background */
-            /* background: linear-gradient(135deg, var(--primary), var(--dark)); */
+            /* background: linear-gradient(135deg, var(--primary), var(--dark)); Ini juga tidak perlu karena canvas */
             color: var(--white);
             text-align: center;
             overflow: hidden;
             padding: 2rem 1rem;
-            /* Tambahkan padding-top dan padding-bottom untuk mengakomodasi fixed header/footer */
-            padding-top: calc(var(--header-height) + 2rem); /* Ruang untuk header + sedikit margin */
-            padding-bottom: calc(var(--footer-height) + 2rem); /* Ruang untuk footer + sedikit margin */
+            /* Padding untuk mengakomodasi fixed header/footer agar konten tidak tersembunyi */
+            padding-top: calc(var(--header-height) + 2rem);
+            padding-bottom: calc(var(--footer-height) + 2rem);
+            z-index: 50; /* Z-index hero, di bawah overlay (90) */
+            opacity: 1; /* Default visible */
+            visibility: visible;
+            transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
         }
 
+        .hero.hidden { /* Kelas baru untuk menyembunyikan hero */
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none; /* Mencegah interaksi saat tersembunyi */
+        }
+
+        /* Canvas untuk Hero Section */
         #neon-grid {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%; /* Pastikan canvas memenuhi hero */
-            z-index: 0;
+            height: 100%;
+            z-index: 0; /* Tetap di bawah konten hero */
         }
-
+        
         .hero .container {
-            z-index: 2;
+            z-index: 2; /* Konten hero di atas neon-grid */
         }
 
         .hero h1.main-logo {
@@ -268,7 +133,148 @@
             transform: translateY(-5px);
         }
 
-        /* About Section (di dalam overlay) */
+        /* Section Umum (untuk semua overlay) */
+        .section-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* background: linear-gradient(135deg, var(--primary), var(--dark)); Ini juga tidak perlu karena canvas */
+            z-index: 90; /* Di bawah header (1000) dan footer (100), di atas hero (50) */
+            overflow-y: auto; /* Memungkinkan scroll di dalam overlay jika konten panjang */
+            display: none; /* Sembunyikan secara default */
+            opacity: 0; /* Untuk transisi fade */
+            visibility: hidden; /* Untuk transisi fade */
+            transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+            color: var(--white); /* Teks putih di dalam overlay gelap */
+        }
+
+        .section-overlay.active {
+            display: block; /* Tampilkan saat aktif */
+            opacity: 1; /* Transisi fade in */
+            visibility: visible; /* Transisi fade in */
+        }
+
+        /* Kontainer di dalam overlay agar ada padding atas dan bawah */
+        .section-overlay .container {
+            padding-top: calc(1rem + var(--header-height));
+            padding-bottom: var(--footer-height);
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            text-align: center;
+            position: relative; 
+            z-index: 95; /* Konten overlay di atas canvas overlay (80) */
+        }
+
+        .section-overlay .section-title {
+            color: var(--white);
+            margin-bottom: 2rem;
+        }
+        .section-overlay .section-title::after {
+            background: var(--secondary);
+        }
+
+        /* Tombol Tutup Overlay */
+        .close-button {
+            position: fixed; 
+            top: 1.5rem;
+            right: 2rem;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: var(--secondary);
+            cursor: pointer;
+            z-index: 101; /* Pastikan di atas header, footer, dan konten overlay */
+            transition: color 0.3s ease;
+        }
+
+        .close-button:hover {
+            color: var(--accent);
+            text-shadow: 0 0 10px var(--secondary);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--primary); 
+            margin-bottom: 2rem;
+            word-wrap: break-word;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--secondary);
+            margin: 1rem auto;
+        }
+
+        /* Header */
+        .header {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 1rem 0;
+            position: fixed; 
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            z-index: 1000; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            display: flex; 
+            align-items: center; 
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .header .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--secondary);
+            text-decoration: none;
+            flex-shrink: 0; 
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .navbar a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .navbar a:hover {
+            color: var(--secondary);
+            text-shadow: 0 0 5px var(--secondary);
+        }
+
+        /* Hamburger Menu */
+        .menu-toggle {
+            display: none; 
+            font-size: 1.8rem;
+            color: var(--secondary);
+            cursor: pointer;
+            z-index: 1001; 
+            position: relative; 
+        }
+        
+        /* About Section */
         #tentang-kami .about-content {
             display: flex;
             flex-wrap: wrap;
@@ -285,13 +291,13 @@
         }
 
         #tentang-kami .about-text h3 {
-            color: var(--secondary); /* Ubah warna h3 di dalam overlay */
+            color: var(--secondary);
             font-size: 1.8rem;
             margin-bottom: 1rem;
         }
 
         #tentang-kami .about-text p {
-            color: var(--text); /* Ubah warna p di dalam overlay */
+            color: var(--text);
             font-size: 1.05rem;
             margin-bottom: 1rem;
         }
@@ -309,7 +315,7 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        /* Why Choose Us Section (di dalam overlay) */
+        /* Why Choose Us Section */
         #mengapa-kami .advantages-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -342,7 +348,7 @@
             margin-bottom: 0.5rem;
         }
 
-        /* Services Section (di dalam overlay) */
+        /* Services Section */
         #layanan .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -411,7 +417,7 @@
             text-shadow: 0 0 5px var(--accent);
         }
 
-        /* Contact Section (di dalam overlay) */
+        /* Contact Section */
         #kontak .contact-info {
             display: flex;
             flex-wrap: wrap;
@@ -455,27 +461,27 @@
             text-align: center;
             padding: 2rem 0;
             font-size: 0.95rem;
-            position: fixed; /* Diubah dari relative ke fixed */
-            bottom: 0; /* Posisikan di bagian bawah */
-            left: 0; /* Penuh lebar */
-            width: 100%; /* Penuh lebar */
-            height: var(--footer-height); /* Tetapkan tinggi footer */
-            z-index: 100; /* Z-index tinggi agar di atas overlay */
-            box-shadow: 0 -2px 8px rgba(0,0,0,0.3); /* Tambahkan shadow */
-            display: flex; /* Untuk pusatkan konten vertikal */
-            align-items: center; /* Pusatkan konten vertikal */
-            justify-content: center; /* Pusatkan konten horizontal */
+            position: fixed; 
+            bottom: 0; 
+            left: 0; 
+            width: 100%; 
+            height: var(--footer-height); 
+            z-index: 100; 
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.3); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
         }
 
         /* Canvas Background untuk semua overlay */
-        .overlay-bg-canvas { /* Class baru untuk canvas background overlay */
-            position: fixed; /* PENTING: Fixed agar tidak ikut scroll */
+        .overlay-bg-canvas { 
+            position: fixed; 
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 80; /* Z-index di bawah section-overlay (90) */
-            display: none; /* Sembunyikan secara default, dikontrol oleh JS */
+            z-index: 80; 
+            display: none; 
         }
 
 
@@ -503,7 +509,7 @@
                 font-size: 2rem;
             }
             .section-overlay .container {
-                padding-top: calc(1rem + 50px); /* Sesuaikan padding atas untuk mobile */
+                padding-top: calc(1rem + 50px); 
             }
         }
 
@@ -566,7 +572,7 @@
                 font-size: 1.1rem;
             }
             .section-overlay .container {
-                padding-top: calc(1rem + 40px); /* Sesuaikan padding atas untuk mobile */
+                padding-top: calc(1rem + 40px); 
             }
             .services-grid {
                 grid-template-columns: 1fr;
@@ -630,8 +636,7 @@
         </div>
     </header>
 
-    <section class="hero">
-        <canvas id="neon-grid"></canvas>
+    <section class="hero" id="hero-section"> <canvas id="neon-grid"></canvas>
         <div class="container">
             <h1 class="main-logo">Ismaya Dewa Mitra</h1>
             <p class="tagline">Solusi bisnis canggih untuk masa depan, dirancang dengan presisi dan efisiensi.</p>
@@ -824,24 +829,24 @@
         const navbar = document.getElementById('navbar');
         const body = document.body;
 
-        const allOverlaySections = document.querySelectorAll('.section-overlay');
-
-        // Referensi canvas utama (hero) dan canvas overlay
+        // Referensi hero section
+        const heroSection = document.getElementById('hero-section'); 
         const heroCanvas = document.getElementById('neon-grid');
-        const overlayCanvas = document.getElementById('overlay-background-canvas'); // Canvas baru untuk semua overlay
-
         const heroCtx = heroCanvas.getContext('2d');
+
+        // Referensi overlay canvas
+        const overlayCanvas = document.getElementById('overlay-background-canvas');
         const overlayCtx = overlayCanvas ? overlayCanvas.getContext('2d') : null;
+
+        const allOverlaySections = document.querySelectorAll('.section-overlay');
 
         const gridLines = [];
         const numberOfLines = 30; // Jumlah garis grid
 
-        // Class untuk garis grid, disatukan untuk kedua canvas
         class GridLine {
             constructor() {
                 this.isHorizontal = Math.random() > 0.5;
                 if (this.isHorizontal) {
-                    // Inisialisasi posisi berdasarkan ukuran window saat ini
                     this.y = Math.random() * window.innerHeight;
                     this.speed = (Math.random() * 2 - 1) * 0.5;
                 } else {
@@ -851,7 +856,6 @@
                 this.opacity = Math.random() * 0.3 + 0.1;
             }
             update() {
-                // Update posisi berdasarkan kecepatan
                 if (this.isHorizontal) {
                     this.y += this.speed;
                     if (this.y < 0) {
@@ -889,41 +893,38 @@
                 gridLines.push(new GridLine());
             }
         }
-        initGridLines(); // Inisialisasi garis saat halaman dimuat
+        initGridLines();
 
-        // Fungsi untuk mengatur dimensi canvas
         function setCanvasDimensions() {
-            const buffer = 5; // Meningkatkan buffer menjadi 5px
+            const buffer = 5;
+            // Set Hero Canvas dimensions
             heroCanvas.width = window.innerWidth + buffer;
             heroCanvas.height = window.innerHeight + buffer;
 
+            // Set Overlay Canvas dimensions
             if (overlayCanvas) {
                 overlayCanvas.width = window.innerWidth + buffer;
                 overlayCanvas.height = window.innerHeight + buffer;
             }
         }
-        setCanvasDimensions(); // Setel dimensi awal
+        setCanvasDimensions();
 
-        // --- Fungsi Utama untuk Menampilkan/Menyembunyikan Section ---
         function showSection(sectionId) {
-            // Sembunyikan semua overlay terlebih dahulu
+            // Sembunyikan semua overlay dan juga hero section
             allOverlaySections.forEach(section => {
                 section.classList.remove('active');
             });
+            heroSection.classList.add('hidden'); // Sembunyikan hero section
 
             const targetSection = document.getElementById(sectionId);
             if (targetSection) {
                 targetSection.classList.add('active');
-                body.style.overflow = 'hidden'; // Nonaktifkan scroll body
-
-                // FIX: Sembunyikan heroCanvas saat overlay aktif
-                heroCanvas.style.display = 'none';
+                body.style.overflow = 'hidden';
 
                 // Tampilkan overlay canvas background dan setel dimensinya
                 if (overlayCanvas) {
                     overlayCanvas.style.display = 'block';
                     setCanvasDimensions(); // Pastikan dimensinya sudah benar saat tampil
-                    // Paksa re-render canvas overlay segera setelah ditampilkan
                     if (overlayCtx) {
                         overlayCtx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
                         for (let i = 0; i < gridLines.length; i++) {
@@ -945,8 +946,7 @@
                     overlayCanvas.style.display = 'none';
                 }
 
-                // FIX: Tampilkan kembali heroCanvas saat tidak ada overlay yang aktif
-                // Periksa apakah tidak ada overlay lain yang aktif sebelum menampilkan heroCanvas
+                // Tampilkan kembali hero section jika tidak ada overlay lain yang aktif
                 let anyOverlayActive = false;
                 for (let i = 0; i < allOverlaySections.length; i++) {
                     if (allOverlaySections[i].classList.contains('active')) {
@@ -955,38 +955,34 @@
                     }
                 }
                 if (!anyOverlayActive) {
-                    heroCanvas.style.display = 'block';
+                    heroSection.classList.remove('hidden'); // Tampilkan kembali hero section
                 }
             }
         }
 
-        // --- Fungsi Animasi Canvas ---
         function animate() {
-            // Gambar di heroCanvas HANYA jika heroCanvas sedang ditampilkan
-            if (heroCanvas.style.display !== 'none') { // FIX: Periksa display style
+            // Gambar di heroCanvas HANYA jika heroSection tidak hidden
+            if (!heroSection.classList.contains('hidden')) {
                 heroCtx.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
                 for (let i = 0; i < gridLines.length; i++) {
-                    gridLines[i].update(); // Update posisi garis
-                    gridLines[i].draw(heroCtx, heroCanvas.width, heroCanvas.height); // Gambar di heroCanvas
+                    gridLines[i].update();
+                    gridLines[i].draw(heroCtx, heroCanvas.width, heroCanvas.height);
                 }
             }
             
-
             // Gambar di overlayCanvas HANYA jika overlay canvas sedang ditampilkan
             if (overlayCanvas && overlayCanvas.style.display === 'block') {
                 overlayCtx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
                 for (let i = 0; i < gridLines.length; i++) {
-                    gridLines[i].draw(overlayCtx, overlayCanvas.width, overlayCanvas.height); // Gambar di overlayCanvas
+                    gridLines[i].draw(overlayCtx, overlayCanvas.width, overlayCanvas.height);
                 }
             }
             requestAnimationFrame(animate);
         }
 
-        animate(); // Jalankan animasi utama
+        animate();
 
-        // --- Penyesuaian Tinggi Hero Section untuk Mobile/Desktop (dengan fixed header/footer) ---
-        function setHeroHeight() {
-            const hero = document.querySelector('.hero');
+        function setHeroSectionLayout() {
             const headerHeight = document.querySelector('.header').offsetHeight || 0;
             const footerHeight = document.querySelector('footer').offsetHeight || 0;
             
@@ -995,23 +991,29 @@
                 viewportHeight = window.document.documentElement.clientHeight;
             }
 
-            const availableHeight = viewportHeight - headerHeight - footerHeight;
-            hero.style.minHeight = `${availableHeight}px`;
+            // Tinggi efektif untuk konten hero (viewport - header - footer)
+            // Padding sudah diatur di CSS hero, jadi kita tidak perlu menguranginya lagi di sini
+            heroSection.style.paddingTop = `${headerHeight + 2*16}px`; // headerHeight + 2rem
+            heroSection.style.paddingBottom = `${footerHeight + 2*16}px`; // footerHeight + 2rem
+            heroSection.style.minHeight = `${viewportHeight}px`; // Hero section memenuhi tinggi viewport
         }
 
-        setHeroHeight(); // Panggil saat load
+        // Jalankan saat awal dan setiap kali ukuran jendela berubah
+        window.addEventListener('load', () => {
+            setCanvasDimensions();
+            initGridLines();
+            setHeroSectionLayout(); // Sesuaikan layout hero saat load
+        });
+        
         window.addEventListener('resize', () => {
-            setCanvasDimensions(); // Sesuaikan ukuran canvas
-            initGridLines(); // Reset posisi garis untuk mencegah pola aneh
-            setHeroHeight(); // Sesuaikan tinggi hero
+            setCanvasDimensions();
+            initGridLines();
+            setHeroSectionLayout(); // Sesuaikan layout hero saat resize
         });
 
-        window.addEventListener('load', setHeroHeight); 
-
-        // FIX: Event listener untuk menu toggle
+        // Event listener untuk menu toggle
         menuToggle.addEventListener('click', () => {
             navbar.classList.toggle('active');
-            // FIX: Tambahkan ini untuk memastikan body tidak scroll saat navbar aktif di mobile
             if (navbar.classList.contains('active')) {
                 body.style.overflow = 'hidden';
             } else {
@@ -1022,7 +1024,7 @@
         function closeNavbar() {
             if (navbar.classList.contains('active')) {
                 navbar.classList.remove('active');
-                body.style.overflow = ''; // Pastikan scroll body kembali normal saat navbar ditutup
+                body.style.overflow = ''; 
             }
         }
     </script>
