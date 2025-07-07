@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -59,7 +58,6 @@
             background: linear-gradient(135deg, var(--primary), var(--dark)); /* Latar belakang gelap untuk overlay */
             z-index: 90; /* Di bawah header (1000) dan footer (100) */
             overflow-y: auto; /* Memungkinkan scroll di dalam overlay jika konten panjang */
-            /* padding-top tidak lagi di sini, akan ada di .section-overlay .container */
             display: none; /* Sembunyikan secara default */
             opacity: 0; /* Untuk transisi fade */
             visibility: hidden; /* Untuk transisi fade */
@@ -87,7 +85,6 @@
 
         .section-overlay .section-title {
             color: var(--white); /* Pastikan judul terlihat di background gelap */
-            /* margin-top: 2rem; dihapus karena sudah diatur di padding-top container */
             margin-bottom: 2rem; /* Tetap ada margin bawah untuk judul */
         }
         .section-overlay .section-title::after {
@@ -808,6 +805,12 @@
             if (targetSection) {
                 targetSection.classList.add('active');
                 body.style.overflow = 'hidden'; // Nonaktifkan scroll body
+
+                // Pastikan canvas services diatur ulang jika layanan aktif
+                if (sectionId === 'layanan' && servicesCanvas) {
+                    setCanvasDimensions(); // Setel ulang dimensi canvas
+                    // initGridLines(); // Animate sudah berjalan terus, tidak perlu init ulang grid
+                }
             }
         }
 
@@ -842,6 +845,7 @@
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
             if (servicesCanvas) {
+                // Hanya servicesCanvas yang memerlukan dimensi penuh viewport karena hanya services yang memiliki canvas bg
                 servicesCanvas.width = window.innerWidth;
                 servicesCanvas.height = window.innerHeight;
             }
