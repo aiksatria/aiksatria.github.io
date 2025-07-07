@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="type/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
 
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -90,9 +90,9 @@
         
         .hero .container {
             z-index: 2; /* Konten hero di atas neon-grid */
-            /* Tambahan untuk Parallax */
-            transform: translateY(0); /* Default position */
-            will-change: transform; /* Hint to browser for animation optimization */
+            /* Tambahan untuk Parallax (opsional, jika ingin elemen kontainer hero bergerak sedikit berbeda) */
+            /* transform: translateY(0); */
+            /* will-change: transform; */
         }
 
         .hero h1.main-logo {
@@ -656,15 +656,15 @@
             <i class="fas fa-times"></i>
         </button>
         <div class="container">
-            <h2 class="section-title">Tentang IDM Group</h2>
+            <h2 class="section-title" data-aos="fade-up">Tentang IDM Group</h2>
             <div class="about-content">
-                <div class="about-text">
+                <div class="about-text" data-aos="fade-right">
                     <h3>Visi Kami</h3>
                     <p>Menjadi penyedia solusi bisnis terdepan, menggerakkan inovasi dan efisiensi di berbagai industri.</p>
                     <h3>Misi Kami</h3>
                     <p>Menyediakan layanan teknologi tinggi seperti laser marking & cutting, produk pangan berkualitas, dan solusi keuangan serta logistik yang andal di Lumbangrejo dan sekitarnya.</p>
                 </div>
-                <div class="about-image">
+                <div class="about-image" data-aos="fade-left">
                     <img src="./logo.png" alt="Logo IDM Group - Solusi Bisnis Teknologi Tinggi" width="200" height="200">
                 </div>
             </div>
@@ -676,19 +676,19 @@
             <i class="fas fa-times"></i>
         </button>
         <div class="container">
-            <h2 class="section-title">Keunggulan Kami</h2>
+            <h2 class="section-title" data-aos="fade-up">Keunggulan Kami</h2>
             <div class="advantages-grid">
-                <div class="advantage-item">
+                <div class="advantage-item" data-aos="zoom-in" data-aos-delay="100">
                     <i class="fas fa-bolt"></i>
                     <h3>Teknologi Presisi</h3>
                     <p>Layanan kami didukung teknologi mutakhir untuk hasil optimal.</p>
                 </div>
-                <div class="advantage-item">
+                <div class="advantage-item" data-aos="zoom-in" data-aos-delay="200">
                     <i class="fas fa-shield-alt"></i>
                     <h3>Keandalan Terjamin</h3>
                     <p>Komitmen kami adalah memberikan layanan yang konsisten dan terpercaya.</p>
                 </div>
-                <div class="advantage-item">
+                <div class="advantage-item" data-aos="zoom-in" data-aos-delay="300">
                     <i class="fas fa-rocket"></i>
                     <h3>Inovasi Progresif</h3>
                     <p>Kami terus berinovasi untuk memenuhi kebutuhan pasar modern.</p>
@@ -702,9 +702,9 @@
             <i class="fas fa-times"></i>
         </button>
         <div class="container">
-            <h2 class="section-title">Layanan Kami</h2>
+            <h2 class="section-title" data-aos="fade-up">Layanan Kami</h2>
             <div class="services-grid">
-                <div class="service-card">
+                <div class="service-card" data-aos="fade-up" data-aos-delay="100">
                     <div class="service-icon">
                         <i class="fas fa-cut"></i>
                     </div>
@@ -718,7 +718,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="service-card">
+                <div class="service-card" data-aos="fade-up" data-aos-delay="200">
                     <div class="service-icon">
                         <i class="fas fa-drumstick-bite"></i>
                     </div>
@@ -732,7 +732,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="service-card">
+                <div class="service-card" data-aos="fade-up" data-aos-delay="300">
                     <div class="service-icon">
                         <i class="fas fa-fish"></i>
                     </div>
@@ -746,7 +746,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="service-card">
+                <div class="service-card" data-aos="fade-up" data-aos-delay="400">
                     <div class="service-icon">
                         <i class="fas fa-money-bill-wave"></i>
                     </div>
@@ -760,7 +760,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="service-card">
+                <div class="service-card" data-aos="fade-up" data-aos-delay="500">
                     <div class="service-icon">
                         <i class="fas fa-shipping-fast"></i>
                     </div>
@@ -774,7 +774,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="service-card">
+                <div class="service-card" data-aos="fade-up" data-aos-delay="600">
                     <div class="service-icon">
                         <i class="fas fa-store"></i>
                     </div>
@@ -798,25 +798,25 @@
             <i class="fas fa-times"></i>
         </button>
         <div class="container">
-            <h2 class="section-title">Hubungi Kami</h2>
+            <h2 class="section-title" data-aos="fade-up">Hubungi Kami</h2>
             <div class="contact-info">
-                <div class="contact-item">
+                <div class="contact-item" data-aos="fade-right" data-aos-delay="100">
                     <i class="fas fa-globe"></i>
                     <span>idm.web.id</span>
                 </div>
-                <div class="contact-item">
+                <div class="contact-item" data-aos="fade-right" data-aos-delay="200">
                     <i class="fas fa-envelope"></i>
                     <span>cs@idm.web.id</span>
                 </div>
-                <div class="contact-item">
+                <div class="contact-item" data-aos="fade-right" data-aos-delay="300">
                     <i class="fas fa-phone"></i>
                     <span>+62 851 7512 7954</span>
                 </div>
             </div>
-            <a href="https://wa.me/6285175127954" target="_blank" rel="noopener noreferrer" class="cta-button" aria-label="Hubungi IDM Group via WhatsApp">
+            <a href="https://wa.me/6285175127954" target="_blank" rel="noopener noreferrer" class="cta-button" aria-label="Hubungi IDM Group via WhatsApp" data-aos="zoom-in" data-aos-delay="400">
                 <i class="fab fa-whatsapp"></i> Hubungi via WhatsApp
             </a>
-            <div class="map-container">
+            <div class="map-container" data-aos="fade-up" data-aos-delay="500">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3953.513702115147!2d112.5694770147775!3d-7.734898194411139!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd71b4a1b0b0b0b%3A0x7d0b0b0b0b0b0b0b!2sLumbangrejo%2C%20Kec.%20Prigen%2C%20Pasuruan%2C%20Jawa%20Timur!5e0!3m2!1sen!2sid!4v1678912345678!5m2!1sen!2sid"
                     width="600" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Lokasi Kantor IDM Group di Lumbangrejo"></iframe>
             </div>
@@ -829,6 +829,7 @@
         </div>
     </footer>
 
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         const menuToggle = document.getElementById('menu-toggle');
         const navbar = document.getElementById('navbar');
@@ -924,15 +925,14 @@
                 if (overlayCanvas) {
                     overlayCanvas.style.display = 'block';
                     setCanvasDimensions(); 
-                    // Initial draw for the overlay canvas
-                    if (overlayCtx) { // Ensure overlayCtx exists before drawing
+                    if (overlayCtx) {
                         overlayCtx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
                         for (let i = 0; i < gridLines.length; i++) {
-                            // No update() here, as animate() will handle continuous updates
                             gridLines[i].draw(overlayCtx, overlayCanvas.width, overlayCanvas.height);
                         }
                     }
                 }
+                AOS.refreshHard(); // Memastikan AOS menghitung ulang posisi elemen setelah overlay tampil
             }
         }
 
@@ -956,6 +956,7 @@
                 if (!anyOverlayActive) {
                     heroSection.classList.remove('hidden'); // Tampilkan kembali hero section
                 }
+                AOS.refreshHard(); // Memastikan AOS menghitung ulang posisi elemen setelah overlay ditutup
             }
         }
 
@@ -973,8 +974,8 @@
             if (overlayCanvas && overlayCanvas.style.display === 'block') {
                 overlayCtx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
                 for (let i = 0; i < gridLines.length; i++) {
-                    gridLines[i].update(); // FIX UTAMA: Update posisi garis untuk overlay canvas
-                    gridLines[i].draw(overlayCtx, overlayCanvas.width, overlayCanvas.height);
+                    gridLines[i].update(); 
+                    gridLines[i].draw(overlayCtx, overlayCanvas.width, overlayCtx.height); // Perbaikan: Gunakan overlayCtx.height
                 }
             }
             requestAnimationFrame(animate);
@@ -1001,12 +1002,14 @@
             setCanvasDimensions();
             initGridLines();
             setHeroSectionLayout();
+            AOS.init(); // Inisialisasi AOS saat semua elemen dimuat
         });
         
         window.addEventListener('resize', () => {
             setCanvasDimensions();
             initGridLines();
             setHeroSectionLayout();
+            AOS.refresh(); // Refresh AOS saat ukuran jendela berubah
         });
 
         menuToggle.addEventListener('click', () => {
@@ -1025,9 +1028,9 @@
             }
         }
 
-        // --- Fungsi untuk me-refresh halaman dan membersihkan cache ---
+        // Fungsi untuk me-refresh halaman dan membersihkan cache
         function refreshPageOnLoad() {
-            window.location.reload(true); // 'true' memaksa reload dari server, bukan dari cache browser.
+            window.location.reload(true); 
         }
     </script>
 </body>
