@@ -75,7 +75,8 @@
             /* Padding untuk mengakomodasi fixed header/footer agar konten tidak tersembunyi */
             padding-top: calc(var(--header-height) + 2rem);
             padding-bottom: calc(var(--footer-height) + 2rem);
-            z-index: 50; /* Z-index hero, di bawah overlay (90) */
+            /* FIX: Z-index hero diturunkan agar overlay dan header/footer selalu di atasnya */
+            z-index: 10; 
             opacity: 1; /* Default visible */
             visibility: visible;
             transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
@@ -98,7 +99,8 @@
         }
         
         .hero .container {
-            z-index: 2; /* Konten hero di atas neon-grid */
+            /* FIX: Tambahkan z-index pada container hero agar kontennya di atas neon-grid */
+            z-index: 20; 
         }
 
         .hero h1.main-logo {
@@ -130,6 +132,9 @@
             transition: all 0.3s ease;
             box-shadow: 0 0 10px var(--secondary);
             white-space: nowrap;
+            /* FIX: Pastikan tombol juga punya z-index agar bisa diklik */
+            position: relative;
+            z-index: 30; /* Di atas konten hero, di bawah hero container */
         }
 
         .cta-button:hover {
@@ -151,7 +156,8 @@
             backdrop-filter: blur(var(--blur-amount-lg)); /* Efek blur */
             -webkit-backdrop-filter: blur(var(--blur-amount-lg)); /* Dukungan browser lama */
             border: 1px solid var(--glass-border); /* Border tipis efek kaca */
-            z-index: 90; /* Di bawah header (1000) dan footer (100), di atas hero (50) */
+            /* FIX: Z-index overlay, harus di atas hero tapi di bawah header/footer utama */
+            z-index: 100; 
             overflow-y: auto; /* Memungkinkan scroll di dalam overlay jika konten panjang */
             display: none; /* Sembunyikan secara default */
             opacity: 0; /* Untuk transisi fade */
@@ -176,8 +182,9 @@
             justify-content: flex-start;
             align-items: center;
             text-align: center;
+            /* FIX: Z-index konten overlay, harus di atas canvas overlay */
             position: relative; 
-            z-index: 95; /* Konten overlay di atas canvas overlay (80) */
+            z-index: 105; 
         }
 
         .section-overlay .section-title {
@@ -203,7 +210,8 @@
             font-size: 2rem;
             color: var(--secondary);
             cursor: pointer;
-            z-index: 101; /* Pastikan di atas header, footer, dan konten overlay */
+            /* FIX: Z-index tombol tutup, harus paling tinggi */
+            z-index: 10002; 
             transition: color 0.3s ease;
         }
 
@@ -243,7 +251,8 @@
             left: 0;
             width: 100%;
             height: var(--header-height);
-            z-index: 1000; /* FIX: Z-index sangat tinggi agar selalu di atas */
+            /* FIX: Z-index header, harus sangat tinggi agar selalu di atas */
+            z-index: 10000; 
             box-shadow: 0 2px 8px rgba(0,0,0,0.3);
             display: flex; 
             align-items: center; 
@@ -262,6 +271,9 @@
             color: var(--secondary);
             text-decoration: none;
             flex-shrink: 0; 
+            /* FIX: z-index untuk logo */
+            position: relative;
+            z-index: 10001; 
         }
 
         .navbar ul {
@@ -278,7 +290,7 @@
             transition: color 0.3s ease;
             cursor: pointer;
             position: relative; /* Penting untuk z-index di desktop */
-            z-index: 1001; /* Pastikan di atas elemen apapun di header container */
+            z-index: 10001; /* FIX: Sangat tinggi agar di atas semua */
         }
 
 
@@ -293,7 +305,8 @@
             font-size: 1.8rem;
             color: var(--secondary);
             cursor: pointer;
-            z-index: 1001; 
+            /* FIX: Z-index hamburger, harus sangat tinggi */
+            z-index: 10001; 
             position: relative; 
         }
 
@@ -314,7 +327,8 @@
             padding: 4rem 1rem 1rem;
             box-shadow: -2px 0 8px rgba(0,0,0,0.3);
             transition: right 0.3s ease-in-out;
-            z-index: 999;
+            /* FIX: Z-index navbar, harus tinggi agar menutupi halaman tapi di bawah header utama */
+            z-index: 1000; 
         }
 
         .navbar.active {
@@ -373,7 +387,7 @@
         /* FIX: Gaya item card di dalam overlay (efek kaca) */
         #mengapa-kami .advantage-item,
         #layanan .service-card,
-        #kontak .contact-item { /* FIX: Tambahkan #kontak .contact-item di sini */
+        #kontak .contact-item { 
             background: var(--glass-background-card); /* Pakai variabel baru */
             backdrop-filter: blur(var(--blur-amount-sm)); /* Sedikit blur untuk item */
             -webkit-backdrop-filter: blur(var(--blur-amount-sm));
@@ -392,7 +406,7 @@
 
         #mengapa-kami .advantage-item:hover,
         #layanan .service-card:hover,
-        #kontak .contact-item:hover { /* FIX: Tambahkan #kontak .contact-item di sini */
+        #kontak .contact-item:hover { 
             transform: translateY(-10px);
             box-shadow: 0 0 20px var(--secondary), 0 10px 20px rgba(0,0,0,0.3);
         }
@@ -496,7 +510,8 @@
             left: 0; 
             width: 100%; 
             height: var(--footer-height); 
-            z-index: 100; 
+            /* FIX: Z-index footer, harus sangat tinggi agar selalu di atas */
+            z-index: 10000; 
             box-shadow: 0 -2px 8px rgba(0,0,0,0.3); 
             display: flex; 
             align-items: center; 
@@ -510,7 +525,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 80; /* Z-index di bawah section-overlay (90), di atas hero (50) */
+            /* FIX: Z-index overlay canvas, harus di bawah overlay section tapi di atas hero */
+            z-index: 90; 
             display: none; 
         }
 
@@ -561,7 +577,8 @@
                 padding: 4rem 1rem 1rem;
                 box-shadow: -2px 0 8px rgba(0,0,0,0.3);
                 transition: right 0.3s ease-in-out;
-                z-index: 999;
+                /* FIX: Z-index navbar, harus tinggi agar menutupi halaman tapi di bawah header utama */
+                z-index: 1000; 
             }
 
             .navbar.active {
@@ -906,8 +923,8 @@
                     currentCtx.moveTo(0, this.y);
                     currentCtx.lineTo(canvasWidth, this.y);
                 } else {
-                    currentCtx.moveTo(this.x, 0);
-                    currentCtx.lineTo(this.x, canvasHeight);
+                    currentCtx.moveTo(this.x, 0); 
+                    currentCtx.lineTo(this.x, canvasHeight); 
                 }
                 currentCtx.strokeStyle = `rgba(0, 212, 255, ${this.opacity})`;
                 currentCtx.lineWidth = 1;
