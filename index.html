@@ -893,7 +893,6 @@
 
         // Fungsi untuk mengatur dimensi canvas
         function setCanvasDimensions() {
-            // FIX: Meningkatkan buffer untuk memastikan cakupan penuh
             const buffer = 5; // Meningkatkan buffer menjadi 5px
             heroCanvas.width = window.innerWidth + buffer;
             heroCanvas.height = window.innerHeight + buffer;
@@ -916,6 +915,9 @@
             if (targetSection) {
                 targetSection.classList.add('active');
                 body.style.overflow = 'hidden'; // Nonaktifkan scroll body
+
+                // FIX: Sembunyikan heroCanvas saat overlay aktif
+                heroCanvas.style.display = 'none';
 
                 // Tampilkan overlay canvas background dan setel dimensinya
                 if (overlayCanvas) {
@@ -942,17 +944,33 @@
                 if (overlayCanvas) {
                     overlayCanvas.style.display = 'none';
                 }
+
+                // FIX: Tampilkan kembali heroCanvas saat tidak ada overlay yang aktif
+                // Periksa apakah tidak ada overlay lain yang aktif sebelum menampilkan heroCanvas
+                let anyOverlayActive = false;
+                for (let i = 0; i < allOverlaySections.length; i++) {
+                    if (allOverlaySections[i].classList.contains('active')) {
+                        anyOverlayActive = true;
+                        break;
+                    }
+                }
+                if (!anyOverlayActive) {
+                    heroCanvas.style.display = 'block';
+                }
             }
         }
 
         // --- Fungsi Animasi Canvas ---
         function animate() {
-            // Gambar di heroCanvas (selalu aktif di background utama)
-            heroCtx.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
-            for (let i = 0; i < gridLines.length; i++) {
-                gridLines[i].update(); // Update posisi garis
-                gridLines[i].draw(heroCtx, heroCanvas.width, heroCanvas.height); // Gambar di heroCanvas
+            // Gambar di heroCanvas HANYA jika heroCanvas sedang ditampilkan
+            if (heroCanvas.style.display !== 'none') { // FIX: Periksa display style
+                heroCtx.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
+                for (let i = 0; i < gridLines.length; i++) {
+                    gridLines[i].update(); // Update posisi garis
+                    gridLines[i].draw(heroCtx, heroCanvas.width, heroCanvas.height); // Gambar di heroCanvas
+                }
             }
+            
 
             // Gambar di overlayCanvas HANYA jika overlay canvas sedang ditampilkan
             if (overlayCanvas && overlayCanvas.style.display === 'block') {
@@ -972,25 +990,15 @@
             const headerHeight = document.querySelector('.header').offsetHeight || 0;
             const footerHeight = document.querySelector('footer').offsetHeight || 0;
             
-            // Hitung tinggi viewport yang "aman"
             let viewportHeight = window.innerHeight;
-            // Gunakan `dvh` jika didukung, jika tidak, pakai `vh`
             if (CSS.supports('height', '100dvh')) {
-                viewportHeight = window.document.documentElement.clientHeight; // Atau bisa coba document.documentElement.clientHeight untuk lebih akurat di iOS/Chrome
+                viewportHeight = window.document.documentElement.clientHeight;
             }
 
-            // Tinggi efektif untuk konten hero (viewport - header - footer)
             const availableHeight = viewportHeight - headerHeight - footerHeight;
-
-            // Berikan margin ekstra di atas dan bawah hero agar tidak terlalu mepet
-            // Padding sudah ada di CSS hero, jadi kita hanya memastikan min-heightnya cukup
             hero.style.minHeight = `${availableHeight}px`;
-
-            // Jika masih ada masalah scroll, kita bisa sesuaikan padding pada body
-            // body.style.paddingBottom = `${footerHeight}px`;
         }
 
-        // Jalankan saat awal dan setiap kali ukuran jendela berubah
         setHeroHeight(); // Panggil saat load
         window.addEventListener('resize', () => {
             setCanvasDimensions(); // Sesuaikan ukuran canvas
@@ -998,8 +1006,6 @@
             setHeroHeight(); // Sesuaikan tinggi hero
         });
 
-        // Pastikan `setHeroHeight` dipanggil juga setelah konten dimuat,
-        // jika ada gambar atau elemen yang bisa mengubah tinggi header/footer
         window.addEventListener('load', setHeroHeight); 
 
         // FIX: Event listener untuk menu toggle
