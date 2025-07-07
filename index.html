@@ -192,8 +192,12 @@
         /* Hero Section */
         .hero {
             position: relative;
+            /* Menggunakan min-height yang lebih aman untuk mobile */
+            min-height: 100dvh; /* Ini adalah unit viewport height yang lebih baru dan aman di mobile */
+            /* Fallback jika 100dvh tidak didukung */
             min-height: 100vh;
             display: flex;
+            flex-direction: column; /* Konten di tengah vertikal */
             align-items: center;
             justify-content: center;
             background: linear-gradient(135deg, var(--primary), var(--dark));
@@ -201,6 +205,9 @@
             text-align: center;
             overflow: hidden;
             padding: 2rem 1rem;
+            /* Tambahkan padding-top dan padding-bottom untuk mengakomodasi fixed header/footer */
+            padding-top: calc(var(--header-height) + 2rem); /* Ruang untuk header + sedikit margin */
+            padding-bottom: calc(var(--footer-height) + 2rem); /* Ruang untuk footer + sedikit margin */
         }
 
         #neon-grid {
@@ -208,7 +215,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
+            height: 100%; /* Pastikan canvas memenuhi hero */
             z-index: 0;
         }
 
@@ -451,6 +458,17 @@
             display: flex; /* Untuk pusatkan konten vertikal */
             align-items: center; /* Pusatkan konten vertikal */
             justify-content: center; /* Pusatkan konten horizontal */
+        }
+
+        /* Canvas Services (dipindahkan langsung ke body) */
+        #services-bg {
+            position: fixed; /* Kunci perbaikan! */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 80; /* Z-index baru, di bawah section-overlay (90) */
+            display: none; /* Sembunyikan secara default, dikontrol oleh JS */
         }
 
         /* Animasi */
@@ -860,7 +878,8 @@
 
         function setCanvasDimensions() {
             canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            // --- MODIFIKASI: Menggunakan innerHeight sebagai default, atau bisa coba dVH jika browser mendukung ---
+            canvas.height = window.innerHeight; 
             if (servicesCanvas) {
                 servicesCanvas.width = window.innerWidth;
                 servicesCanvas.height = window.innerHeight;
@@ -935,6 +954,8 @@
 
             // Gambar di canvas services HANYA jika services overlay sedang aktif
             if (servicesCtx && servicesSection.classList.contains('active')) {
+                // Clear and draw for services canvas is already done in showSection for first appearance.
+                // Here, it just ensures the animation continues if it was already showing.
                 servicesCtx.clearRect(0, 0, servicesCanvas.width, servicesCanvas.height);
                 for (let i = 0; i < gridLines.length; i++) {
                     gridLines[i].draw(servicesCtx, servicesCanvas.width, servicesCanvas.height);
@@ -946,11 +967,25 @@
         // Jalankan animasi setelah semua fungsi didefinisikan
         animate();
 
+        // --- MODIFIKASI: Menambahkan fungsi untuk menangani 100vh di mobile ---
+        // Ini adalah cara untuk mengatasi masalah 100vh di mobile browsers
+        function setHeroHeight() {
+            const hero = document.querySelector('.hero');
+            if (hero) {
+                // Calculate visible height, accounting for fixed header and footer
+                const availableHeight = window.innerHeight - (document.querySelector('.header').offsetHeight || 0) - (document.querySelector('footer').offsetHeight || 0);
+                hero.style.minHeight = `${availableHeight}px`;
+            }
+        }
+
+        // Jalankan saat awal dan setiap kali ukuran jendela berubah
+        setHeroHeight();
         window.addEventListener('resize', () => {
             setCanvasDimensions();
             initGridLines(); // Reset grid lines on resize
+            setHeroHeight(); // Sesuaikan tinggi hero saat resize
         });
+        // --- AKHIR MODIFIKASI ---
     </script>
 </body>
 </html>
-
