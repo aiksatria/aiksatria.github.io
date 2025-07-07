@@ -2,8 +2,9 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ismaya Dewa Mitra IDM Group UMKM Lokal Pasuruan Jawa Timur</title> <meta name="description" content="IDM Group menyediakan solusi bisnis canggih di Lumbangrejo: laser marking & cutting presisi, ceker ayam higienis, budidaya ikan mujair berkualitas, Agen Brilink, dan SPX Express. Belanja produk unggulan di Shopee. Inovasi untuk masa depan Anda.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ismaya Dewa Mitra IDM Group UMKM Lokal Pasuruan Jawa Timur</title>
+    <meta name="description" content="IDM Group menyediakan solusi bisnis canggih di Lumbangrejo: laser marking & cutting presisi, ceker ayam higienis, budidaya ikan mujair berkualitas, Agen Brilink, dan SPX Express. Belanja produk unggulan di Shopee. Inovasi untuk masa depan Anda.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -11,83 +12,67 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
     <style>
-        /* Variabel CSS */
         :root {
-            --primary: #1e2a3c; /* Abu-abu metalik */
-            --secondary: #00d4ff; /* Biru neon */
-            --accent: #e0f7ff; /* Putih neon */
-            --dark: #0f141a; /* Hitam gelap */
-            --light: #f0f4f8; /* Abu-abu terang */
-            --text: #d1d5db; /* Abu-abu muda */
-            --text-dark: #1f2937; /* Abu-abu gelap */
-            --white: #ffffff;
-            --footer-height: 80px; /* Tambahkan variabel untuk tinggi footer */
-            --header-height: 60px; /* Tambahkan variabel untuk tinggi header */
+            --primary: #1e2a3c;
+            --secondary: #00d4ff;
+            --accent: #e0f7ff;
+            --dark: #0f141a;
+            --light: #f0f4f8;
+            --text: #d1d5db;
+            --text-dark: #1f2937;
+            --white: #fff;
+            --footer-height: 80px;
+            --header-height: 60px;
         }
-
-        /* Reset dan Gaya Dasar */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Roboto', sans-serif;
+            font-family: Roboto, sans-serif;
         }
-
         body {
             color: var(--text-dark);
             line-height: 1.6;
-            background-color: var(--dark); /* Menggunakan warna gelap yang sama dengan canvas */
-            overflow-x: hidden; /* Mencegah scroll horizontal yang tidak diinginkan */
+            background-color: var(--dark);
+            overflow-x: hidden;
         }
-
-        /* Utilitas Umum */
         .container {
             width: 90%;
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 1rem;
         }
-
-        /* Section Hero (Sekarang juga diatur untuk disembunyikan/ditampilkan) */
         .hero {
-            position: fixed; /* Ubah ke fixed */
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%; /* Hero sekarang full viewport height */
+            height: 100%;
             color: var(--white);
             text-align: center;
             overflow: hidden;
-            padding: 2rem 1rem;
-            /* Padding untuk mengakomodasi fixed header/footer agar konten tidak tersembunyi */
-            padding-top: calc(var(--header-height) + 2rem);
-            padding-bottom: calc(var(--footer-height) + 2rem);
-            z-index: 50; /* Z-index hero, di bawah overlay (90) */
-            opacity: 1; /* Default visible */
+            padding: calc(var(--header-height) + 2rem) 1rem calc(var(--footer-height) + 2rem);
+            z-index: 50;
+            opacity: 1;
             visibility: visible;
-            transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+            transition: opacity .5s ease-in-out, visibility .5s ease-in-out;
         }
-
-        .hero.hidden { /* Kelas baru untuk menyembunyikan hero */
+        .hero.hidden {
             opacity: 0;
             visibility: hidden;
-            pointer-events: none; /* Mencegah interaksi saat tersembunyi */
+            pointer-events: none;
         }
-
-        /* Canvas untuk Hero Section */
         #neon-grid {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 0; /* Tetap di bawah konten hero */
+            z-index: 10;
         }
-        
         .hero .container {
-            z-index: 2; /* Konten hero di atas neon-grid */
+            z-index: 60;
         }
-
         .hero h1.main-logo {
             font-size: 3.5rem;
             font-weight: 700;
@@ -95,16 +80,13 @@
             animation: fadeIn 2s ease-in;
             word-wrap: break-word;
         }
-
         .tagline {
             font-size: 1.3rem;
             max-width: 700px;
             margin: 1rem auto 2rem;
             opacity: 0;
-            animation: fadeIn 3s ease-in forwards;
-            animation-delay: 0.5s;
+            animation: fadeIn 3s ease-in forwards .5s;
         }
-
         .cta-button {
             display: inline-block;
             padding: 1rem 2.5rem;
@@ -114,54 +96,49 @@
             border-radius: 50px;
             font-weight: 600;
             border: 2px solid var(--secondary);
-            transition: all 0.3s ease;
+            transition: all .3s ease;
             box-shadow: 0 0 10px var(--secondary);
             white-space: nowrap;
+            cursor: pointer;
         }
-
         .cta-button:hover {
             background: var(--secondary);
             color: var(--dark);
             box-shadow: 0 0 20px var(--secondary);
             transform: translateY(-5px);
         }
-
-        /* Section Umum (untuk semua overlay) */
         .section-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 90; /* Di bawah header (1000) dan footer (100), di atas hero (50) */
-            overflow-y: auto; /* Memungkinkan scroll di dalam overlay jika konten panjang */
-            display: none; /* Sembunyikan secara default */
-            opacity: 0; /* Untuk transisi fade */
-            visibility: hidden; /* Untuk transisi fade */
-            transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
-            color: var(--white); /* Teks putih di dalam overlay gelap */
+            z-index: 90;
+            overflow-y: auto;
+            display: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity .5s ease-in-out, visibility .5s ease-in-out;
+            color: var(--white);
+            background: rgba(15, 20, 26, .2);
+            backdrop-filter: blur(5px);
         }
-
         .section-overlay.active {
-            display: block; /* Tampilkan saat aktif */
-            opacity: 1; /* Transisi fade in */
-            visibility: visible; /* Transisi fade in */
+            display: block;
+            opacity: 1;
+            visibility: visible;
         }
-
-        /* Kontainer di dalam overlay agar ada padding atas dan bawah */
         .section-overlay .container {
-            padding-top: calc(1rem + var(--header-height));
-            padding-bottom: var(--footer-height);
+            padding: calc(1rem + var(--header-height)) 1rem var(--footer-height);
             min-height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
             align-items: center;
             text-align: center;
-            position: relative; 
-            z-index: 95; /* Konten overlay di atas canvas overlay (80) */
+            position: relative;
+            z-index: 95;
         }
-
         .section-overlay .section-title {
             color: var(--white);
             margin-bottom: 2rem;
@@ -169,10 +146,8 @@
         .section-overlay .section-title::after {
             background: var(--secondary);
         }
-
-        /* Tombol Tutup Overlay */
         .close-button {
-            position: fixed; 
+            position: fixed;
             top: 1.5rem;
             right: 2rem;
             background: none;
@@ -180,23 +155,20 @@
             font-size: 2rem;
             color: var(--secondary);
             cursor: pointer;
-            z-index: 101; /* Pastikan di atas header, footer, dan konten overlay */
-            transition: color 0.3s ease;
+            z-index: 101;
+            transition: color .3s ease;
         }
-
         .close-button:hover {
             color: var(--accent);
             text-shadow: 0 0 10px var(--secondary);
         }
-
         .section-title {
             text-align: center;
             font-size: 2.5rem;
-            color: var(--primary); 
+            color: var(--primary);
             margin-bottom: 2rem;
             word-wrap: break-word;
         }
-
         .section-title::after {
             content: '';
             display: block;
@@ -205,142 +177,123 @@
             background: var(--secondary);
             margin: 1rem auto;
         }
-
-        /* Header */
         .header {
-            background-color: var(--primary);
+            background: rgba(30, 42, 60, .2);
+            backdrop-filter: blur(5px);
             color: var(--white);
             padding: 1rem 0;
-            position: fixed; 
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: var(--header-height);
-            z-index: 1000; 
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-            display: flex; 
-            align-items: center; 
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .3);
+            display: flex;
+            align-items: center;
         }
-
         .header .container {
             display: flex;
             justify-content: space-between;
             align-items: center;
             width: 100%;
+            position: relative;
+            z-index: 1001;
         }
-
         .header .logo {
             font-size: 1.8rem;
             font-weight: 700;
             color: var(--secondary);
             text-decoration: none;
-            flex-shrink: 0; 
+            flex-shrink: 0;
         }
-
         .navbar ul {
             list-style: none;
             display: flex;
             gap: 1.5rem;
         }
-
         .navbar a {
             color: var(--white);
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.3s ease;
+            transition: color .3s ease;
             cursor: pointer;
-        }
-
-        .navbar a:hover {
-            color: var(--secondary);
             text-shadow: 0 0 5px var(--secondary);
         }
-
-        /* Hamburger Menu */
+        .navbar a:hover {
+            color: var(--secondary);
+            text-shadow: 0 0 10px var(--secondary);
+        }
         .menu-toggle {
-            display: none; 
+            display: none;
             font-size: 1.8rem;
             color: var(--secondary);
             cursor: pointer;
-            z-index: 1001; 
-            position: relative; 
+            z-index: 1002;
+            position: relative;
         }
-        
-        /* About Section */
-        #tentang-kami .about-content {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-            align-items: center;
-            justify-content: center;
+        #tentang-kami .content-item {
+            background: rgba(255, 255, 255, .05);
+            padding: 2rem;
+            border-radius: 8px;
             text-align: center;
-        }
-
-        #tentang-kami .about-text {
-            flex: 2;
-            min-width: 300px;
+            transition: all .3s ease;
+            border: 1px solid var(--secondary);
+            color: var(--white);
+            backdrop-filter: blur(5px);
+            margin-bottom: 2rem;
             max-width: 600px;
+            width: 100%;
         }
-
-        #tentang-kami .about-text h3 {
+        #tentang-kami .content-item h3 {
             color: var(--secondary);
             font-size: 1.8rem;
             margin-bottom: 1rem;
         }
-
-        #tentang-kami .about-text p {
+        #tentang-kami .content-item p {
             color: var(--text);
             font-size: 1.05rem;
             margin-bottom: 1rem;
         }
-
         #tentang-kami .about-image {
             max-width: 400px;
             width: 100%;
-            margin: 0 auto;
+            margin: 2rem auto;
         }
-
         #tentang-kami .about-image img {
             width: 100%;
             height: auto;
             border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, .1);
         }
-
-        /* Why Choose Us Section */
         #mengapa-kami .advantages-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
         }
-
         #mengapa-kami .advantage-item {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, .05);
             padding: 2rem;
             border-radius: 8px;
             text-align: center;
-            transition: all 0.3s ease;
+            transition: all .3s ease;
             border: 1px solid var(--secondary);
             color: var(--white);
+            backdrop-filter: blur(5px);
         }
-
         #mengapa-kami .advantage-item:hover {
             transform: translateY(-10px);
             box-shadow: 0 0 15px var(--secondary);
         }
-
         #mengapa-kami .advantage-item i {
             font-size: 2.5rem;
             color: var(--secondary);
             margin-bottom: 1rem;
         }
-
         #mengapa-kami .advantage-item h3 {
             font-size: 1.5rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: .5rem;
         }
-
-        /* Services Section */
         #layanan .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -348,321 +301,246 @@
             margin-top: 2rem;
             justify-content: center;
         }
-
         #layanan .service-card {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, .05);
             border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, .2);
+            transition: all .3s ease;
             display: flex;
             flex-direction: column;
             backdrop-filter: blur(5px);
             max-width: 100%;
             margin: 0 auto;
+            border: 1px solid var(--secondary);
         }
-
         #layanan .service-card:hover {
             transform: translateY(-10px) rotateX(5deg);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3), 0 0 20px var(--secondary);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, .3), 0 0 20px var(--secondary);
         }
-
         #layanan .service-icon {
-            background: var(--secondary);
+            background: rgba(0, 212, 255, .2);
             color: var(--white);
             font-size: 2.5rem;
             padding: 1.5rem;
             text-align: center;
             border-top-left-radius: 8px;
             border-top-right-radius: 8px;
+            backdrop-filter: blur(5px);
         }
-
         #layanan .service-content {
             padding: 1.5rem;
             flex-grow: 1;
         }
-
         #layanan .service-title {
             color: var(--accent);
             font-size: 1.6rem;
             margin-bottom: 1rem;
         }
-
         #layanan .service-desc {
             color: var(--text);
             margin-bottom: 1rem;
         }
-
         #layanan .service-content ul {
             list-style: disc;
             padding-left: 1.5rem;
             color: var(--text);
         }
-
         #layanan .service-content a {
             color: var(--secondary);
             text-decoration: none;
             font-weight: 500;
         }
-
         #layanan .service-content a:hover {
             color: var(--accent);
             text-shadow: 0 0 5px var(--accent);
         }
-
-        /* Contact Section */
-        #kontak .contact-info {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
         #kontak .contact-item {
-            display: flex;
-            align-items: center;
-            font-size: 1.1rem;
-            flex-direction: column;
+            background: rgba(255, 255, 255, .05);
+            padding: 1.5rem;
+            border-radius: 8px;
             text-align: center;
+            transition: all .3s ease;
+            border: 1px solid var(--secondary);
+            color: var(--white);
+            backdrop-filter: blur(5px);
+            margin-bottom: 1.5rem;
+            max-width: 300px;
+            width: 100%;
         }
-
         #kontak .contact-item i {
-            margin-right: 0;
-            margin-bottom: 0.5rem;
+            margin-bottom: .5rem;
             color: var(--secondary);
             font-size: 1.5rem;
         }
-
         #kontak .map-container {
             height: 300px;
             margin-top: 2rem;
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, .3);
         }
-
         #kontak .map-container iframe {
             width: 100%;
             height: 100%;
         }
-
-        /* Footer */
         footer {
-            background: var(--dark);
+            background: rgba(15, 20, 26, .2);
+            backdrop-filter: blur(5px);
             color: var(--white);
             text-align: center;
             padding: 2rem 0;
-            font-size: 0.95rem;
-            position: fixed; 
-            bottom: 0; 
-            left: 0; 
-            width: 100%; 
-            height: var(--footer-height); 
-            z-index: 100; 
-            box-shadow: 0 -2px 8px rgba(0,0,0,0.3); 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
+            font-size: .95rem;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: var(--footer-height);
+            z-index: 100;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, .3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-
-        /* Canvas Background untuk semua overlay */
-        .overlay-bg-canvas { 
-            position: fixed; 
+        .overlay-bg-canvas {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 80; /* Z-index di bawah section-overlay (90), di atas hero (50) */
-            display: none; 
+            z-index: 80;
+            display: none;
         }
-
-
-        /* Animasi */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
         @keyframes neonPulse {
-            0% { stroke: var(--secondary); stroke-opacity: 0.3; }
-            50% { stroke: var(--secondary); stroke-opacity: 0.9; }
-            100% { stroke: var(--secondary); stroke-opacity: 0.3; }
+            0% { stroke: var(--secondary); stroke-opacity: .3; }
+            50% { stroke: var(--secondary); stroke-opacity: .9; }
+            100% { stroke: var(--secondary); stroke-opacity: .3; }
         }
-
-        /* Desain Responsif */
         @media (max-width: 992px) {
-            .hero h1.main-logo {
-                font-size: 3rem;
-            }
-            .tagline {
-                font-size: 1.2rem;
-            }
-            .section-title {
-                font-size: 2rem;
-            }
-            .section-overlay .container {
-                padding-top: calc(1rem + 50px); 
-            }
+            .hero h1.main-logo { font-size: 3rem; }
+            .tagline { font-size: 1.2rem; }
+            .section-title { font-size: 2rem; }
+            .section-overlay .container { padding-top: calc(1rem + 50px); }
         }
-
         @media (max-width: 768px) {
-            .header .container {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-            }
-
-            .navbar {
-                display: none;
-                flex-direction: column;
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 70%;
-                height: 100%;
-                background-color: var(--primary);
-                padding: 4rem 1rem 1rem;
-                box-shadow: -2px 0 8px rgba(0,0,0,0.3);
-                transition: right 0.3s ease-in-out;
-                z-index: 999;
-            }
-
-            .navbar.active {
-                display: flex;
-                right: 0;
-            }
-
-            .navbar ul {
-                flex-direction: column;
-                gap: 1.5rem;
-                width: 100%;
-            }
-
-            .navbar ul li {
-                width: 100%;
-                text-align: center;
-            }
-
-            .navbar a {
-                display: block;
-                padding: 0.8rem 0;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            }
-
-            .menu-toggle {
-                display: block;
-            }
-
-            .hero {
-                min-height: 80vh;
-                padding: 4rem 1rem;
-            }
-            .hero h1.main-logo {
-                font-size: 2.2rem;
-            }
-            .tagline {
-                font-size: 1.1rem;
-            }
-            .section-overlay .container {
-                padding-top: calc(1rem + 40px); 
-            }
-            .services-grid {
-                grid-template-columns: 1fr;
-            }
-            .close-button {
-                top: 1rem;
-                right: 1rem;
-                font-size: 1.5rem;
-            }
-        }
-
+    .header .container {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .navbar {
+        display: none;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100%;
+        background: rgba(30, 42, 60, 0.8); /* Opasitas ditingkatkan dari 0.6 ke 0.8 */
+        backdrop-filter: blur(10px); /* Blur ditingkatkan dari 8px ke 10px */
+        padding: 4rem 1rem 1rem;
+        box-shadow: -2px 0 8px rgba(0, 0, 0, .3);
+        transition: right .3s ease-in-out;
+        z-index: 999;
+    }
+    .navbar.active {
+        display: flex;
+        right: 0;
+    }
+    .navbar ul {
+        flex-direction: column;
+        gap: 1.5rem;
+        width: 100%;
+    }
+    .navbar ul li {
+        width: 100%;
+        text-align: center;
+        background: rgba(0, 212, 255, 0.1); /* Latar belakang ringan untuk setiap item menu */
+        border-radius: 4px; /* Sudut membulat untuk estetika */
+    }
+    .navbar a {
+        display: block;
+        padding: .8rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, .1);
+        text-shadow: 0 0 5px var(--secondary); /* Dipertahankan untuk keterbacaan */
+    }
+    .menu-toggle {
+        display: block;
+    }
+    .hero {
+        min-height: 80vh;
+        padding: 4rem 1rem;
+    }
+    .hero h1.main-logo { font-size: 2.2rem; }
+    .tagline { font-size: 1.1rem; }
+    .section-overlay .container { padding-top: calc(1rem + 40px); }
+    .services-grid { grid-template-columns: 1fr; }
+    .close-button {
+        top: 1rem;
+        right: 1rem;
+        font-size: 1.5rem;
+    }
+}
         @media (max-width: 480px) {
-            .hero h1.main-logo {
-                font-size: 1.8rem;
-            }
-            .tagline {
-                font-size: 0.95rem;
-            }
-            .section-title {
-                font-size: 1.6rem;
-            }
-            .service-title {
-                font-size: 1.3rem;
-            }
-            .container {
-                padding: 0 0.8rem;
-            }
-            .cta-button {
-                padding: 0.8rem 2rem;
-                font-size: 0.9rem;
-            }
-            .contact-item {
-                font-size: 1rem;
-            }
-            .contact-item i {
-                font-size: 1.3rem;
-            }
-            .map-container {
-                height: 250px;
-            }
+            .hero h1.main-logo { font-size: 1.8rem; }
+            .tagline { font-size: .95rem; }
+            .section-title { font-size: 1.6rem; }
+            .service-title { font-size: 1.3rem; }
+            .container { padding: 0 .8rem; }
+            .cta-button { padding: .8rem 2rem; font-size: .9rem; }
+            .contact-item { font-size: 1rem; }
+            .contact-item i { font-size: 1.3rem; }
+            .map-container { height: 250px; }
         }
     </style>
 </head>
 <body>
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TH4V3GWK"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TH4V3GWK" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <header class="header">
         <div class="container">
-            <a href="#" class="logo" onclick="refreshPageOnLoad()">www.idm.web.id</a>
-            <div class="menu-toggle" id="menu-toggle">
-                <i class="fas fa-bars"></i>
-            </div>
+            <a href="https://www.idm.web.id" class="logo" onclick="refreshPageOnLoad()">www.idm.web.id</a>
+            <div class="menu-toggle" id="menu-toggle"><i class="fas fa-bars"></i></div>
             <nav class="navbar" id="navbar">
                 <ul>
-                    <li><a href="#" onclick="showSection('tentang-kami'); closeNavbar();">Tentang Kami</a></li>
-                    <li><a href="#" onclick="showSection('layanan'); closeNavbar();">Layanan</a></li>
-                    <li><a href="#" onclick="showSection('mengapa-kami'); closeNavbar();">Keunggulan Kami</a></li>
-                    <li><a href="#" onclick="showSection('kontak'); closeNavbar();">Kontak</a></li>
+                    <li><a href="#" onclick="showSection('tentang-kami');closeNavbar();">Tentang Kami</a></li>
+                    <li><a href="#" onclick="showSection('layanan');closeNavbar();">Layanan</a></li>
+                    <li><a href="#" onclick="showSection('mengapa-kami');closeNavbar();">Keunggulan Kami</a></li>
+                    <li><a href="#" onclick="showSection('kontak');closeNavbar();">Kontak</a></li>
                 </ul>
             </nav>
         </div>
     </header>
-
     <section class="hero" id="hero-section">
         <canvas id="neon-grid"></canvas>
         <div class="container">
             <h1 class="main-logo">Ismaya Dewa Mitra</h1>
             <p class="tagline">Solusi bisnis canggih untuk masa depan, dirancang dengan presisi dan efisiensi.</p>
-            <a href="#" class="cta-button" aria-label="Lihat layanan IDM Group" onclick="showSection('layanan')">Jelajahi Layanan</a>
+            <a href="#" class="cta-button" aria-label="Lihat layanan IDM Group" onclick="showSection('layanan')"> <img src="./logo.svg" alt="Ismaya Dewa Mitra" width="200" height="200"></a>
         </div>
     </section>
-
     <canvas id="overlay-background-canvas" class="overlay-bg-canvas"></canvas>
-
     <section id="tentang-kami" class="section-overlay">
-        <button class="close-button" onclick="hideSection('tentang-kami')" aria-label="Tutup Tentang Kami">
-            <i class="fas fa-times"></i>
-        </button>
+        <button class="close-button" onclick="hideSection('tentang-kami')" aria-label="Tutup Tentang Kami"><i class="fas fa-times"></i></button>
         <div class="container">
             <h2 class="section-title">Tentang IDM Group</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <h3>Visi Kami</h3>
-                    <p>Menjadi penyedia solusi bisnis terdepan, menggerakkan inovasi dan efisiensi di berbagai industri.</p>
-                    <h3>Misi Kami</h3>
-                    <p>Menyediakan layanan teknologi tinggi seperti laser marking & cutting, produk pangan berkualitas, dan solusi keuangan serta logistik yang andal di Lumbangrejo dan sekitarnya.</p>
-                </div>
-                <div class="about-image">
-                    <img src="./logo.png" alt="Logo IDM Group - Solusi Bisnis Teknologi Tinggi" width="200" height="200">
-                </div>
+            <div class="content-item">
+                <h3>Visi Kami</h3>
+                <p>Menjadi penyedia solusi bisnis terdepan, menggerakkan inovasi dan efisiensi di berbagai industri.</p>
+            </div>
+            <div class="content-item">
+                <h3>Misi Kami</h3>
+                <p>Menyediakan layanan teknologi tinggi seperti laser marking & cutting, produk pangan berkualitas, dan solusi keuangan serta logistik yang andal di Lumbangrejo dan sekitarnya.</p>
+            </div>
+            <div class="about-image">
+               
             </div>
         </div>
     </section>
-
     <section id="mengapa-kami" class="section-overlay">
-        <button class="close-button" onclick="hideSection('mengapa-kami')" aria-label="Tutup Keunggulan Kami">
-            <i class="fas fa-times"></i>
-        </button>
+        <button class="close-button" onclick="hideSection('mengapa-kami')" aria-label="Tutup Keunggulan Kami"><i class="fas fa-times"></i></button>
         <div class="container">
             <h2 class="section-title">Keunggulan Kami</h2>
             <div class="advantages-grid">
@@ -684,18 +562,13 @@
             </div>
         </div>
     </section>
-
     <section id="layanan" class="section-overlay">
-        <button class="close-button" onclick="hideSection('layanan')" aria-label="Tutup Layanan">
-            <i class="fas fa-times"></i>
-        </button>
+        <button class="close-button" onclick="hideSection('layanan')" aria-label="Tutup Layanan"><i class="fas fa-times"></i></button>
         <div class="container">
             <h2 class="section-title">Layanan Kami</h2>
             <div class="services-grid">
                 <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-cut"></i>
-                    </div>
+                    <div class="service-icon"><i class="fas fa-cut"></i></div>
                     <div class="service-content">
                         <h3 class="service-title">Laser Marking & Cutting</h3>
                         <p class="service-desc">Teknologi presisi untuk memahat dan memotong material dengan akurasi tinggi.</p>
@@ -707,9 +580,7 @@
                     </div>
                 </div>
                 <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-drumstick-bite"></i>
-                    </div>
+                    <div class="service-icon"><i class="fas fa-drumstick-bite"></i></div>
                     <div class="service-content">
                         <h3 class="service-title">Ceker Ayam Tanpa Tulang</h3>
                         <p class="service-desc">Produk higienis berkualitas tinggi untuk kebutuhan kuliner modern.</p>
@@ -721,9 +592,7 @@
                     </div>
                 </div>
                 <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-fish"></i>
-                    </div>
+                    <div class="service-icon"><i class="fas fa-fish"></i></div>
                     <div class="service-content">
                         <h3 class="service-title">Budidaya Ikan Mujair</h3>
                         <p class="service-desc">Ikan segar dari sistem budidaya modern, kualitas terjamin.</p>
@@ -735,9 +604,7 @@
                     </div>
                 </div>
                 <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-money-bill-wave"></i>
-                    </div>
+                    <div class="service-icon"><i class="fas fa-money-bill-wave"></i></div>
                     <div class="service-content">
                         <h3 class="service-title">Agen Brilink Lumbangrejo</h3>
                         <p class="service-desc">Layanan keuangan cepat untuk transaksi harian yang efisien.</p>
@@ -749,9 +616,7 @@
                     </div>
                 </div>
                 <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-shipping-fast"></i>
-                    </div>
+                    <div class="service-icon"><i class="fas fa-shipping-fast"></i></div>
                     <div class="service-content">
                         <h3 class="service-title">Agen SPX Express</h3>
                         <p class="service-desc">Pengiriman paket cepat dengan pelacakan real-time.</p>
@@ -763,9 +628,7 @@
                     </div>
                 </div>
                 <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-store"></i>
-                    </div>
+                    <div class="service-icon"><i class="fas fa-store"></i></div>
                     <div class="service-content">
                         <h3 class="service-title">IDM di Shopee</h3>
                         <p class="service-desc">Produk unggulan tersedia di Shopee dengan akses mudah.</p>
@@ -780,57 +643,34 @@
             </div>
         </div>
     </section>
-
     <section id="kontak" class="section-overlay">
-        <button class="close-button" onclick="hideSection('kontak')" aria-label="Tutup Kontak Kami">
-            <i class="fas fa-times"></i>
-        </button>
+        <button class="close-button" onclick="hideSection('kontak')" aria-label="Tutup Kontak Kami"><i class="fas fa-times"></i></button>
         <div class="container">
             <h2 class="section-title">Hubungi Kami</h2>
-            <div class="contact-info">
-                <div class="contact-item">
-                    <i class="fas fa-globe"></i>
-                    <span>idm.web.id</span>
-                </div>
-                <div class="contact-item">
-                    <i class="fas fa-envelope"></i>
-                    <span>cs@idm.web.id</span>
-                </div>
-                <div class="contact-item">
-                    <i class="fas fa-phone"></i>
-                    <span>+62 851 7512 7954</span>
-                </div>
-            </div>
-            <a href="https://wa.me/6285175127954" target="_blank" rel="noopener noreferrer" class="cta-button" aria-label="Hubungi IDM Group via WhatsApp">
-                <i class="fab fa-whatsapp"></i> Hubungi via WhatsApp
-            </a>
+            <div class="contact-item"><i class="fas fa-globe"></i><span>idm.web.id</span></div>
+            <div class="contact-item"><i class="fas fa-envelope"></i><span>cs@idm.web.id</span></div>
+            <div class="contact-item"><i class="fas fa-phone"></i><span>+62 851 7512 7954</span></div>
+            <a href="https://wa.me/6285175127954" target="_blank" rel="noopener noreferrer" class="cta-button" aria-label="Hubungi IDM Group via WhatsApp"><i class="fab fa-whatsapp"></i> Hubungi via WhatsApp</a>
             <div class="map-container">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3953.513702115147!2d112.5694770147775!3d-7.734898194411139!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd71b4a1b0b0b0b%3A0x7d0b0b0b0b0b0b0b!2sLumbangrejo%2C%20Kec.%20Prigen%2C%20Pasuruan%2C%20Jawa%20Timur!5e0!3m2!1sen!2sid!4v1678912345678!5m2!1sen!2sid"
-                    width="600" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Lokasi Kantor IDM Group di Lumbangrejo"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3953.513702115147!2d112.5694770147775!3d-7.734898194411139!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd71b4a1b0b0b0b%3A0x7d0b0b0b0b0b0b0b!2sLumbangrejo%2C%20Kec.%20Prigen%2C%20Pasuruan%2C%20Jawa%20Timur!5e0!3m2!1sen!2sid!4v1678912345678!5m2!1sen!2sid" width="600" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Lokasi Kantor IDM Group di Lumbangrejo"></iframe>
             </div>
         </div>
     </section>
-
     <footer>
         <div class="container">
-            <p>© 2025 IDM Group. Solusi Bisnis Masa Depan.</p>
+            <p>© 2025 Ismaya Dewa Mitra</p>
         </div>
     </footer>
-
     <script>
-        const menuToggle = document.getElementById('menu-toggle');
-        const navbar = document.getElementById('navbar');
+        const menuToggle = document.getElementById("menu-toggle");
+        const navbar = document.getElementById("navbar");
         const body = document.body;
-
-        const heroSection = document.getElementById('hero-section'); 
-        const heroCanvas = document.getElementById('neon-grid');
-        const heroCtx = heroCanvas.getContext('2d');
-
-        const overlayCanvas = document.getElementById('overlay-background-canvas');
-        const overlayCtx = overlayCanvas ? overlayCanvas.getContext('2d') : null;
-
-        const allOverlaySections = document.querySelectorAll('.section-overlay');
-
+        const heroSection = document.getElementById("hero-section");
+        const heroCanvas = document.getElementById("neon-grid");
+        const heroCtx = heroCanvas.getContext("2d");
+        const overlayCanvas = document.getElementById("overlay-background-canvas");
+        const overlayCtx = overlayCanvas ? overlayCanvas.getContext("2d") : null;
+        const allOverlaySections = document.querySelectorAll(".section-overlay");
         const gridLines = [];
         const numberOfLines = 30;
 
@@ -849,18 +689,12 @@
             update() {
                 if (this.isHorizontal) {
                     this.y += this.speed;
-                    if (this.y < 0) {
-                        this.y = window.innerHeight;
-                    } else if (this.y > window.innerHeight) {
-                        this.y = 0;
-                    }
+                    if (this.y < 0) this.y = window.innerHeight;
+                    else if (this.y > window.innerHeight) this.y = 0;
                 } else {
                     this.x += this.speed;
-                    if (this.x < 0) {
-                        this.x = window.innerWidth;
-                    } else if (this.x > window.innerWidth) {
-                        this.x = 0;
-                    }
+                    if (this.x < 0) this.x = window.innerWidth;
+                    else if (this.x > window.innerWidth) this.x = 0;
                 }
             }
             draw(currentCtx, canvasWidth, canvasHeight) {
@@ -884,139 +718,131 @@
                 gridLines.push(new GridLine());
             }
         }
-        initGridLines();
 
         function setCanvasDimensions() {
-            const buffer = 5; 
+            const buffer = 5;
             heroCanvas.width = window.innerWidth + buffer;
             heroCanvas.height = window.innerHeight + buffer;
-
             if (overlayCanvas) {
                 overlayCanvas.width = window.innerWidth + buffer;
                 overlayCanvas.height = window.innerHeight + buffer;
             }
         }
-        setCanvasDimensions();
 
         function showSection(sectionId) {
+            console.log("showSection called with:", sectionId);
             allOverlaySections.forEach(section => {
-                section.classList.remove('active');
+                section.classList.remove("active");
             });
-            heroSection.classList.add('hidden'); // Sembunyikan hero section sepenuhnya
-
+            heroSection.classList.add("hidden");
             const targetSection = document.getElementById(sectionId);
             if (targetSection) {
-                targetSection.classList.add('active');
-                body.style.overflow = 'hidden';
-
+                targetSection.classList.add("active");
+                body.style.overflow = "hidden";
                 if (overlayCanvas) {
-                    overlayCanvas.style.display = 'block';
-                    setCanvasDimensions(); 
-                    // FIX: Tidak perlu clear/draw manual di sini, animate() akan menanganinya
-                    // Pastikan overlayCtx diinisialisasi ulang saat ditampilkan
+                    overlayCanvas.style.display = "block";
+                    setCanvasDimensions();
                     if (overlayCtx) {
                         overlayCtx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
-                        // Initial draw for the overlay canvas
-                        for (let i = 0; i < gridLines.length; i++) {
-                            gridLines[i].draw(overlayCtx, overlayCanvas.width, overlayCanvas.height);
-                        }
+                        gridLines.forEach(line => line.draw(overlayCtx, overlayCanvas.width, overlayCanvas.height));
                     }
                 }
+            } else {
+                console.error("Section not found:", sectionId);
             }
         }
 
         function hideSection(sectionId) {
+            console.log("hideSection called with:", sectionId);
             const targetSection = document.getElementById(sectionId);
             if (targetSection) {
-                targetSection.classList.remove('active');
-                body.style.overflow = '';
-                
-                if (overlayCanvas) {
-                    overlayCanvas.style.display = 'none';
-                }
-
+                targetSection.classList.remove("active");
+                body.style.overflow = "";
+                if (overlayCanvas) overlayCanvas.style.display = "none";
                 let anyOverlayActive = false;
-                for (let i = 0; i < allOverlaySections.length; i++) {
-                    if (allOverlaySections[i].classList.contains('active')) {
-                        anyOverlayActive = true;
-                        break;
-                    }
-                }
-                if (!anyOverlayActive) {
-                    heroSection.classList.remove('hidden'); // Tampilkan kembali hero section
-                }
+                allOverlaySections.forEach(section => {
+                    if (section.classList.contains("active")) anyOverlayActive = true;
+                });
+                if (!anyOverlayActive) heroSection.classList.remove("hidden");
+            } else {
+                console.error("Section not found:", sectionId);
             }
         }
 
         function animate() {
-            // Gambar di heroCanvas HANYA jika heroSection TIDAK hidden
-            if (!heroSection.classList.contains('hidden')) {
+            if (!heroSection.classList.contains("hidden")) {
                 heroCtx.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
-                for (let i = 0; i < gridLines.length; i++) {
-                    gridLines[i].update();
-                    gridLines[i].draw(heroCtx, heroCanvas.width, heroCanvas.height);
-                }
+                gridLines.forEach(line => {
+                    line.update();
+                    line.draw(heroCtx, heroCanvas.width, heroCanvas.height);
+                });
             }
-            
-            // Gambar di overlayCanvas HANYA jika overlay canvas sedang ditampilkan
-            if (overlayCanvas && overlayCanvas.style.display === 'block') {
+            if (overlayCanvas && overlayCanvas.style.display === "block") {
                 overlayCtx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
-                for (let i = 0; i < gridLines.length; i++) {
-                    gridLines[i].update(); // FIX: Update posisi garis untuk overlay canvas
-                    gridLines[i].draw(overlayCtx, overlayCanvas.width, overlayCanvas.height);
-                }
+                gridLines.forEach(line => {
+                    line.update();
+                    line.draw(overlayCtx, overlayCanvas.width, overlayCanvas.height);
+                });
             }
             requestAnimationFrame(animate);
         }
 
-        animate();
-
         function setHeroSectionLayout() {
-            const headerHeight = document.querySelector('.header').offsetHeight || 0;
-            const footerHeight = document.querySelector('footer').offsetHeight || 0;
-            
-            let viewportHeight = window.innerHeight;
-            if (CSS.supports('height', '100dvh')) {
-                viewportHeight = window.document.documentElement.clientHeight;
-            }
-
+            const headerHeight = document.querySelector(".header").offsetHeight || 0;
+            const footerHeight = document.querySelector("footer").offsetHeight || 0;
+            let viewportHeight = CSS.supports("height", "100dvh") ? document.documentElement.clientHeight : window.innerHeight;
             heroSection.style.minHeight = `${viewportHeight}px`;
-
-            heroSection.style.paddingTop = `${headerHeight + 2*16}px`; 
-            heroSection.style.paddingBottom = `${footerHeight + 2*16}px`;
+            heroSection.style.paddingTop = `${headerHeight + 32}px`;
+            heroSection.style.paddingBottom = `${footerHeight + 32}px`;
         }
 
-        window.addEventListener('load', () => {
-            setCanvasDimensions();
-            initGridLines();
-            setHeroSectionLayout();
-        });
-        
-        window.addEventListener('resize', () => {
+        initGridLines();
+        setCanvasDimensions();
+        animate();
+
+        window.addEventListener("load", () => {
             setCanvasDimensions();
             initGridLines();
             setHeroSectionLayout();
         });
 
-        menuToggle.addEventListener('click', () => {
-            navbar.classList.toggle('active');
-            if (navbar.classList.contains('active')) {
-                body.style.overflow = 'hidden';
+        window.addEventListener("resize", () => {
+            setCanvasDimensions();
+            initGridLines();
+            setHeroSectionLayout();
+        });
+
+        menuToggle.addEventListener("click", () => {
+            console.log("Menu toggle clicked");
+            navbar.classList.toggle("active");
+            if (navbar.classList.contains("active")) {
+                body.style.overflow = "hidden";
             } else {
-                body.style.overflow = '';
+                body.style.overflow = "";
             }
+        });
+
+        const navLinks = document.querySelectorAll(".navbar a");
+        navLinks.forEach(link => {
+            link.addEventListener("click", e => {
+                e.preventDefault();
+                const sectionId = e.target.getAttribute("onclick").match(/'([^']+)'/)[1];
+                console.log("Nav link clicked, section:", sectionId);
+                showSection(sectionId);
+                closeNavbar();
+            });
         });
 
         function closeNavbar() {
-            if (navbar.classList.contains('active')) {
-                navbar.classList.remove('active');
-                body.style.overflow = ''; 
+            if (navbar.classList.contains("active")) {
+                console.log("Closing navbar");
+                navbar.classList.remove("active");
+                body.style.overflow = "";
             }
         }
 
-        // --- Fungsi untuk me-refresh halaman dan membersihkan cache ---
         function refreshPageOnLoad() {
-            window.location.reload(true); // 'true' memaksa reload dari server, bukan dari cache browser.
+            window.location.reload(true);
         }
     </script>
 </body>
