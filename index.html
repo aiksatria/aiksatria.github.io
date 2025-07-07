@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -47,14 +47,62 @@
             padding: 0 1rem;
         }
 
-        .section {
-            padding: 5rem 0;
+        /* Section Umum (untuk semua overlay) */
+        .section-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--dark)); /* Latar belakang gelap untuk overlay */
+            z-index: 99; /* Di bawah header (1000) dan navbar (999) */
+            overflow-y: auto; /* Memungkinkan scroll di dalam overlay jika konten panjang */
+            padding-top: 5rem; /* Beri ruang di atas untuk header */
+            display: none; /* Sembunyikan secara default */
+            opacity: 0; /* Untuk transisi fade */
+            visibility: hidden; /* Untuk transisi fade */
+            transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+            color: var(--white); /* Teks putih di dalam overlay gelap */
         }
+
+        .section-overlay.active {
+            display: block; /* Tampilkan saat aktif */
+            opacity: 1; /* Transisi fade in */
+            visibility: visible; /* Transisi fade in */
+        }
+
+        .section-overlay .section-title {
+            color: var(--white); /* Pastikan judul terlihat di background gelap */
+            margin-top: 2rem;
+        }
+        .section-overlay .section-title::after {
+            background: var(--secondary);
+        }
+
+        /* Tombol Tutup Overlay */
+        .close-button {
+            position: absolute;
+            top: 1.5rem;
+            right: 2rem;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: var(--secondary);
+            cursor: pointer;
+            z-index: 100; /* Pastikan di atas konten overlay */
+            transition: color 0.3s ease;
+        }
+
+        .close-button:hover {
+            color: var(--accent);
+            text-shadow: 0 0 10px var(--secondary);
+        }
+
 
         .section-title {
             text-align: center;
             font-size: 2.5rem;
-            color: var(--primary);
+            color: var(--primary); /* Default untuk section non-overlay */
             margin-bottom: 2rem;
             word-wrap: break-word;
         }
@@ -132,7 +180,7 @@
             color: var(--white);
             text-align: center;
             overflow: hidden;
-            padding: 2rem 1rem; /* Tambahkan padding agar tidak terlalu mepet */
+            padding: 2rem 1rem;
         }
 
         #neon-grid {
@@ -153,7 +201,7 @@
             font-weight: 700;
             text-shadow: 0 0 10px var(--secondary);
             animation: fadeIn 2s ease-in;
-            word-wrap: break-word; /* Memastikan teks panjang tidak meluber */
+            word-wrap: break-word;
         }
 
         .tagline {
@@ -176,7 +224,7 @@
             border: 2px solid var(--secondary);
             transition: all 0.3s ease;
             box-shadow: 0 0 10px var(--secondary);
-            white-space: nowrap; /* Mencegah teks tombol pecah */
+            white-space: nowrap;
         }
 
         .cta-button:hover {
@@ -186,148 +234,93 @@
             transform: translateY(-5px);
         }
 
-        /* About Section */
-        .about-content {
+        /* About Section (di dalam overlay) */
+        #tentang-kami .about-content {
             display: flex;
             flex-wrap: wrap;
             gap: 2rem;
             align-items: center;
             justify-content: center;
-            text-align: center; /* Pusat teks saat di mobile */
+            text-align: center;
         }
 
-        .about-text {
+        #tentang-kami .about-text {
             flex: 2;
             min-width: 300px;
             max-width: 600px;
         }
 
-        .about-text h3 {
-            color: var(--secondary);
+        #tentang-kami .about-text h3 {
+            color: var(--secondary); /* Ubah warna h3 di dalam overlay */
             font-size: 1.8rem;
             margin-bottom: 1rem;
         }
 
-        .about-text p {
-            color: var(--text-dark);
+        #tentang-kami .about-text p {
+            color: var(--text); /* Ubah warna p di dalam overlay */
             font-size: 1.05rem;
             margin-bottom: 1rem;
         }
 
-        .about-image {
+        #tentang-kami .about-image {
             max-width: 400px;
-            width: 100%; /* Pastikan gambar responsif */
-            margin: 0 auto; /* Tengah gambar */
+            width: 100%;
+            margin: 0 auto;
         }
 
-        .about-image img {
+        #tentang-kami .about-image img {
             width: 100%;
             height: auto;
-            border-radius: 8px; /* Tambahkan sedikit border-radius */
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Tambahkan shadow */
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        /* Why Choose Us Section */
-        .why-choose-us {
-            background: var(--dark);
-            color: var(--white);
-            padding: 5rem 0;
+        /* Why Choose Us Section (di dalam overlay) */
+        #mengapa-kami {
+            /* Warna dan padding sudah diatur di .section-overlay */
         }
-
-        .why-choose-us .section-title {
-            color: var(--white);
-        }
-
-        .why-choose-us .section-title::after {
-            background: var(--secondary);
-        }
-
-        .advantages-grid {
+        #mengapa-kami .advantages-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
         }
 
-        .advantage-item {
+        #mengapa-kami .advantage-item {
             background: rgba(255, 255, 255, 0.05);
             padding: 2rem;
             border-radius: 8px;
             text-align: center;
             transition: all 0.3s ease;
             border: 1px solid var(--secondary);
+            color: var(--white);
         }
 
-        .advantage-item:hover {
+        #mengapa-kami .advantage-item:hover {
             transform: translateY(-10px);
             box-shadow: 0 0 15px var(--secondary);
         }
 
-        .advantage-item i {
+        #mengapa-kami .advantage-item i {
             font-size: 2.5rem;
             color: var(--secondary);
             margin-bottom: 1rem;
         }
 
-        .advantage-item h3 {
+        #mengapa-kami .advantage-item h3 {
             font-size: 1.5rem;
             margin-bottom: 0.5rem;
         }
 
-        /* Services Section (Modifikasi Penting!) */
-        #layanan {
-            position: fixed; /* Menutupi seluruh halaman */
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--primary), var(--dark));
-            z-index: 100; /* Pastikan di atas semua elemen lain kecuali header/navbar */
-            overflow-y: auto; /* Memungkinkan scroll di dalam overlay jika konten panjang */
-            padding-top: 5rem; /* Beri ruang di atas untuk header */
-            display: none; /* Sembunyikan secara default */
-            opacity: 0; /* Untuk transisi fade */
-            visibility: hidden; /* Untuk transisi fade */
-            transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
-        }
-
-        #layanan.active {
-            display: block; /* Tampilkan saat aktif */
-            opacity: 1; /* Transisi fade in */
-            visibility: visible; /* Transisi fade in */
-        }
-
-        #services-bg {
-            position: absolute; /* Menggunakan absolute agar relatif terhadap #layanan */
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1; /* Pastikan di belakang konten layanan */
-        }
-
-        #layanan .container {
-            position: relative; /* Agar konten di dalamnya tetap di atas canvas */
-            z-index: 10;
-        }
-
-        #layanan .section-title {
-            color: var(--white); /* Pastikan judul layanan terlihat di background gelap */
-            margin-top: 2rem; /* Tambahkan sedikit margin atas untuk estetika */
-        }
-
-        #layanan .section-title::after {
-            background: var(--secondary);
-        }
-
-        .services-grid {
+        /* Services Section (di dalam overlay) */
+        #layanan .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
             margin-top: 2rem;
-            justify-content: center; /* Pusatkan item grid */
+            justify-content: center;
         }
 
-        .service-card {
+        #layanan .service-card {
             background: rgba(255, 255, 255, 0.1);
             border-radius: 8px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
@@ -335,16 +328,16 @@
             display: flex;
             flex-direction: column;
             backdrop-filter: blur(5px);
-            max-width: 100%; /* Pastikan card tidak meluber */
-            margin: 0 auto; /* Pusatkan card */
+            max-width: 100%;
+            margin: 0 auto;
         }
 
-        .service-card:hover {
-            transform: translateY(-10px) rotateX(5deg); /* Sedikit putaran untuk efek 3D */
+        #layanan .service-card:hover {
+            transform: translateY(-10px) rotateX(5deg);
             box-shadow: 0 10px 20px rgba(0,0,0,0.3), 0 0 20px var(--secondary);
         }
 
-        .service-icon {
+        #layanan .service-icon {
             background: var(--secondary);
             color: var(--white);
             font-size: 2.5rem;
@@ -354,79 +347,75 @@
             border-top-right-radius: 8px;
         }
 
-        .service-content {
+        #layanan .service-content {
             padding: 1.5rem;
-            flex-grow: 1; /* Memastikan konten mengisi ruang yang tersedia */
+            flex-grow: 1;
         }
 
-        .service-title {
+        #layanan .service-title {
             color: var(--accent);
             font-size: 1.6rem;
             margin-bottom: 1rem;
         }
 
-        .service-desc {
+        #layanan .service-desc {
             color: var(--text);
             margin-bottom: 1rem;
         }
 
-        .service-content ul {
+        #layanan .service-content ul {
             list-style: disc;
             padding-left: 1.5rem;
             color: var(--text);
         }
 
-        .service-content a {
+        #layanan .service-content a {
             color: var(--secondary);
             text-decoration: none;
             font-weight: 500;
         }
 
-        .service-content a:hover {
+        #layanan .service-content a:hover {
             color: var(--accent);
             text-shadow: 0 0 5px var(--accent);
         }
 
-        /* Contact Section */
-        .contact-section {
-            background: linear-gradient(135deg, var(--primary), var(--dark));
-            color: var(--white);
-            text-align: center;
-            padding: 5rem 0;
+        /* Contact Section (di dalam overlay) */
+        #kontak {
+            /* Warna dan padding sudah diatur di .section-overlay */
         }
-
-        .contact-info {
+        #kontak .contact-info {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 1.5rem; /* Kurangi sedikit gap */
+            gap: 1.5rem;
             margin-bottom: 2rem;
         }
 
-        .contact-item {
+        #kontak .contact-item {
             display: flex;
             align-items: center;
-            font-size: 1.1rem; /* Sedikit perkecil font */
-            flex-direction: column; /* Teks di bawah ikon di mobile */
+            font-size: 1.1rem;
+            flex-direction: column;
             text-align: center;
         }
 
-        .contact-item i {
-            margin-right: 0; /* Hilangkan margin kanan */
-            margin-bottom: 0.5rem; /* Beri margin bawah */
+        #kontak .contact-item i {
+            margin-right: 0;
+            margin-bottom: 0.5rem;
             color: var(--secondary);
             font-size: 1.5rem;
         }
 
-        .map-container {
-            height: 300px; /* Kurangi tinggi di mobile */
+        #kontak .map-container {
+            height: 300px;
             margin-top: 2rem;
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
-        .map-container iframe {
+        #kontak .map-container iframe {
             width: 100%;
             height: 100%;
         }
@@ -438,6 +427,8 @@
             text-align: center;
             padding: 2rem 0;
             font-size: 0.95rem;
+            position: relative; /* Agar z-index bekerja */
+            z-index: 10; /* Pastikan footer di atas canvas hero */
         }
 
         /* Animasi */
@@ -467,20 +458,20 @@
 
         @media (max-width: 768px) {
             .header .container {
-                flex-direction: row; /* Kembali ke row untuk logo dan hamburger */
+                flex-direction: row;
                 justify-content: space-between;
                 align-items: center;
             }
 
             .navbar {
-                display: none; /* Sembunyikan navbar secara default */
+                display: none;
                 flex-direction: column;
                 position: fixed;
                 top: 0;
-                right: -100%; /* Sembunyikan di luar layar */
-                width: 70%; /* Lebar menu overlay */
+                right: -100%;
+                width: 70%;
                 height: 100%;
-                background-color: var(--primary); /* Latar belakang menu */
+                background-color: var(--primary);
                 padding: 4rem 1rem 1rem;
                 box-shadow: -2px 0 8px rgba(0,0,0,0.3);
                 transition: right 0.3s ease-in-out;
@@ -488,8 +479,8 @@
             }
 
             .navbar.active {
-                display: flex; /* Tampilkan saat aktif */
-                right: 0; /* Geser ke dalam layar */
+                display: flex;
+                right: 0;
             }
 
             .navbar ul {
@@ -510,30 +501,35 @@
             }
 
             .menu-toggle {
-                display: block; /* Tampilkan hamburger menu */
+                display: block;
             }
 
             .hero {
                 min-height: 80vh;
-                padding: 4rem 1rem; /* Sesuaikan padding */
+                padding: 4rem 1rem;
             }
             .hero h1.main-logo {
-                font-size: 2.2rem; /* Sedikit perkecil di tablet */
+                font-size: 2.2rem;
             }
             .tagline {
                 font-size: 1.1rem;
             }
-            #layanan {
+            .section-overlay {
                 padding-top: 3rem; /* Sesuaikan padding untuk overlay */
             }
             .services-grid {
-                grid-template-columns: 1fr; /* Satu kolom di tablet */
+                grid-template-columns: 1fr;
+            }
+            .close-button {
+                top: 1rem;
+                right: 1rem;
+                font-size: 1.5rem;
             }
         }
 
         @media (max-width: 480px) {
             .hero h1.main-logo {
-                font-size: 1.8rem; /* Lebih kecil lagi di ponsel */
+                font-size: 1.8rem;
             }
             .tagline {
                 font-size: 0.95rem;
@@ -545,10 +541,10 @@
                 font-size: 1.3rem;
             }
             .container {
-                padding: 0 0.8rem; /* Padding yang lebih kecil di ponsel */
+                padding: 0 0.8rem;
             }
             .cta-button {
-                padding: 0.8rem 2rem; /* Ukuran tombol lebih kecil */
+                padding: 0.8rem 2rem;
                 font-size: 0.9rem;
             }
             .contact-item {
@@ -558,7 +554,7 @@
                 font-size: 1.3rem;
             }
             .map-container {
-                height: 250px; /* Lebih pendek di ponsel */
+                height: 250px;
             }
         }
     </style>
@@ -574,10 +570,10 @@
             </div>
             <nav class="navbar" id="navbar">
                 <ul>
-                    <li><a href="#tentang-kami" onclick="closeNavbar(); hideServices();">Tentang Kami</a></li>
-                    <li><a href="#layanan" onclick="toggleServices(); closeNavbar();">Layanan</a></li>
-                    <li><a href="#mengapa-kami" onclick="closeNavbar(); hideServices();">Keunggulan Kami</a></li>
-                    <li><a href="#kontak" onclick="closeNavbar(); hideServices();">Kontak</a></li>
+                    <li><a href="#" onclick="showSection('tentang-kami'); closeNavbar();">Tentang Kami</a></li>
+                    <li><a href="#" onclick="showSection('layanan'); closeNavbar();">Layanan</a></li>
+                    <li><a href="#" onclick="showSection('mengapa-kami'); closeNavbar();">Keunggulan Kami</a></li>
+                    <li><a href="#" onclick="showSection('kontak'); closeNavbar();">Kontak</a></li>
                 </ul>
             </nav>
         </div>
@@ -588,11 +584,14 @@
         <div class="container">
             <h1 class="main-logo">Ismaya Dewa Mitra</h1>
             <p class="tagline">Solusi bisnis canggih untuk masa depan, dirancang dengan presisi dan efisiensi.</p>
-            <a href="#layanan" class="cta-button" aria-label="Lihat layanan IDM Group" onclick="toggleServices()">Jelajahi Layanan</a>
+            <a href="#" class="cta-button" aria-label="Lihat layanan IDM Group" onclick="showSection('layanan')">Jelajahi Layanan</a>
         </div>
     </section>
 
-    <section id="tentang-kami" class="section">
+    <section id="tentang-kami" class="section-overlay">
+        <button class="close-button" onclick="hideSection('tentang-kami')" aria-label="Tutup Tentang Kami">
+            <i class="fas fa-times"></i>
+        </button>
         <div class="container">
             <h2 class="section-title">Tentang IDM Group</h2>
             <div class="about-content">
@@ -609,7 +608,10 @@
         </div>
     </section>
 
-    <section id="mengapa-kami" class="why-choose-us">
+    <section id="mengapa-kami" class="section-overlay">
+        <button class="close-button" onclick="hideSection('mengapa-kami')" aria-label="Tutup Keunggulan Kami">
+            <i class="fas fa-times"></i>
+        </button>
         <div class="container">
             <h2 class="section-title">Keunggulan Kami</h2>
             <div class="advantages-grid">
@@ -632,12 +634,12 @@
         </div>
     </section>
 
-    <section id="layanan" class="section">
+    <section id="layanan" class="section-overlay">
         <canvas id="services-bg"></canvas>
+        <button class="close-button" onclick="hideSection('layanan')" aria-label="Tutup Layanan">
+            <i class="fas fa-times"></i>
+        </button>
         <div class="container">
-            <button class="close-services" onclick="hideServices()" aria-label="Tutup Layanan">
-                <i class="fas fa-times"></i>
-            </button>
             <h2 class="section-title">Layanan Kami</h2>
             <div class="services-grid">
                 <div class="service-card">
@@ -729,7 +731,10 @@
         </div>
     </section>
 
-    <section id="kontak" class="contact-section">
+    <section id="kontak" class="section-overlay">
+        <button class="close-button" onclick="hideSection('kontak')" aria-label="Tutup Kontak Kami">
+            <i class="fas fa-times"></i>
+        </button>
         <div class="container">
             <h2 class="section-title">Hubungi Kami</h2>
             <div class="contact-info">
@@ -765,33 +770,40 @@
     <script>
         const menuToggle = document.getElementById('menu-toggle');
         const navbar = document.getElementById('navbar');
-        const servicesSection = document.getElementById('layanan');
-        const body = document.body; // Dapatkan elemen body
+        const body = document.body;
 
-        // Fungsi untuk menampilkan layanan
-        function toggleServices() {
-            servicesSection.classList.toggle('active');
-            // Mencegah body scroll saat overlay aktif
-            if (servicesSection.classList.contains('active')) {
-                body.style.overflow = 'hidden';
-            } else {
-                body.style.overflow = '';
+        const allOverlaySections = document.querySelectorAll('.section-overlay'); // Kumpulan semua overlay
+
+        // Fungsi untuk menampilkan overlay section tertentu
+        function showSection(sectionId) {
+            // Sembunyikan semua overlay terlebih dahulu
+            allOverlaySections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Tampilkan overlay yang diminta
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+                body.style.overflow = 'hidden'; // Nonaktifkan scroll body
             }
         }
 
-        // Fungsi untuk menyembunyikan layanan
-        function hideServices() {
-            servicesSection.classList.remove('active');
-            body.style.overflow = ''; // Mengembalikan scroll body
+        // Fungsi untuk menyembunyikan overlay section tertentu
+        function hideSection(sectionId) {
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.remove('active');
+                body.style.overflow = ''; // Aktifkan kembali scroll body
+            }
         }
-
 
         // Toggle Navbar (Hamburger Menu)
         menuToggle.addEventListener('click', () => {
             navbar.classList.toggle('active');
         });
 
-        // Close Navbar when a link is clicked (for smooth scroll)
+        // Close Navbar when a link is clicked
         function closeNavbar() {
             if (navbar.classList.contains('active')) {
                 navbar.classList.remove('active');
@@ -800,7 +812,7 @@
 
         // Neon grid animation for hero and services background
         const canvas = document.getElementById('neon-grid');
-        const servicesCanvas = document.getElementById('services-bg');
+        const servicesCanvas = document.getElementById('services-bg'); // Canvas khusus untuk services overlay
         const ctx = canvas.getContext('2d');
         const servicesCtx = servicesCanvas ? servicesCanvas.getContext('2d') : null;
 
@@ -808,12 +820,12 @@
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
             if (servicesCanvas) {
-                // Pastikan servicesCanvas juga mengisi seluruh viewport
+                // Hanya servicesCanvas yang memerlukan dimensi penuh viewport karena hanya services yang memiliki canvas bg
                 servicesCanvas.width = window.innerWidth;
                 servicesCanvas.height = window.innerHeight;
             }
         }
-        setCanvasDimensions(); // Set dimensions initially
+        setCanvasDimensions();
 
         const gridLines = [];
         const numberOfLines = 30;
@@ -825,12 +837,12 @@
                     this.y = Math.random() * canvas.height;
                     this.x1 = 0;
                     this.x2 = canvas.width;
-                    this.speed = (Math.random() * 2 - 1) * 0.5; // Kurangi kecepatan
+                    this.speed = (Math.random() * 2 - 1) * 0.5;
                 } else {
                     this.x = Math.random() * canvas.width;
                     this.y1 = 0;
                     this.y2 = canvas.height;
-                    this.speed = (Math.random() * 2 - 1) * 0.5; // Kurangi kecepatan
+                    this.speed = (Math.random() * 2 - 1) * 0.5;
                 }
                 this.opacity = Math.random() * 0.3 + 0.1;
             }
@@ -838,16 +850,16 @@
                 if (this.isHorizontal) {
                     this.y += this.speed;
                     if (this.y < 0) {
-                        this.y = canvas.height; // Muncul kembali dari bawah
+                        this.y = canvas.height;
                     } else if (this.y > canvas.height) {
-                        this.y = 0; // Muncul kembali dari atas
+                        this.y = 0;
                     }
                 } else {
                     this.x += this.speed;
                     if (this.x < 0) {
-                        this.x = canvas.width; // Muncul kembali dari kanan
+                        this.x = canvas.width;
                     } else if (this.x > canvas.width) {
-                        this.x = 0; // Muncul kembali dari kiri
+                        this.x = 0;
                     }
                 }
             }
@@ -867,7 +879,7 @@
         }
 
         function initGridLines() {
-            gridLines.length = 0; // Bersihkan array jika ada
+            gridLines.length = 0;
             for (let i = 0; i < numberOfLines; i++) {
                 gridLines.push(new GridLine());
             }
@@ -876,7 +888,9 @@
 
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height); // Bersihkan canvas hero
-            if (servicesCtx) { // Bersihkan canvas layanan jika ada
+
+            // Hanya bersihkan canvas services jika overlay layanan sedang aktif
+            if (servicesCtx && document.getElementById('layanan').classList.contains('active')) {
                 servicesCtx.clearRect(0, 0, servicesCanvas.width, servicesCanvas.height);
             }
 
@@ -884,8 +898,8 @@
                 gridLines[i].update();
                 gridLines[i].draw(ctx, canvas.width, canvas.height); // Gambar di canvas hero
 
-                // Gambar di canvas layanan HANYA jika layanan aktif
-                if (servicesCtx && servicesSection.classList.contains('active')) {
+                // Gambar di canvas services HANYA jika services overlay sedang aktif
+                if (servicesCtx && document.getElementById('layanan').classList.contains('active')) {
                     gridLines[i].draw(servicesCtx, servicesCanvas.width, servicesCanvas.height);
                 }
             }
@@ -896,7 +910,7 @@
 
         window.addEventListener('resize', () => {
             setCanvasDimensions();
-            initGridLines(); // Inisialisasi ulang grid lines saat ukuran berubah
+            initGridLines();
         });
     </script>
 </body>
