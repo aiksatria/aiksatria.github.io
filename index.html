@@ -56,12 +56,6 @@
             left: 0;
             width: 100%;
             height: 100%; /* Hero sekarang full viewport height */
-            /* min-height: 100dvh; min-height: 100vh; tidak lagi diperlukan di sini */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            /* background: linear-gradient(135deg, var(--primary), var(--dark)); Ini juga tidak perlu karena canvas */
             color: var(--white);
             text-align: center;
             overflow: hidden;
@@ -140,7 +134,6 @@
             left: 0;
             width: 100%;
             height: 100%;
-            /* background: linear-gradient(135deg, var(--primary), var(--dark)); Ini juga tidak perlu karena canvas */
             z-index: 90; /* Di bawah header (1000) dan footer (100), di atas hero (50) */
             overflow-y: auto; /* Memungkinkan scroll di dalam overlay jika konten panjang */
             display: none; /* Sembunyikan secara default */
@@ -480,7 +473,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 80; 
+            z-index: 80; /* FIX: Z-index di bawah section-overlay (90), di atas hero (50) */
             display: none; 
         }
 
@@ -621,7 +614,7 @@
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <header class="header">
         <div class="container">
-            <a href="#" class="logo">IDM Group</a>
+            <a href="#" class="logo" onclick="refreshPageOnLoad()">www.idm.web.id</a>
             <div class="menu-toggle" id="menu-toggle">
                 <i class="fas fa-bars"></i>
             </div>
@@ -636,7 +629,8 @@
         </div>
     </header>
 
-    <section class="hero" id="hero-section"> <canvas id="neon-grid"></canvas>
+    <section class="hero" id="hero-section">
+        <canvas id="neon-grid"></canvas>
         <div class="container">
             <h1 class="main-logo">Ismaya Dewa Mitra</h1>
             <p class="tagline">Solusi bisnis canggih untuk masa depan, dirancang dengan presisi dan efisiensi.</p>
@@ -829,19 +823,17 @@
         const navbar = document.getElementById('navbar');
         const body = document.body;
 
-        // Referensi hero section
         const heroSection = document.getElementById('hero-section'); 
         const heroCanvas = document.getElementById('neon-grid');
         const heroCtx = heroCanvas.getContext('2d');
 
-        // Referensi overlay canvas
         const overlayCanvas = document.getElementById('overlay-background-canvas');
         const overlayCtx = overlayCanvas ? overlayCanvas.getContext('2d') : null;
 
         const allOverlaySections = document.querySelectorAll('.section-overlay');
 
         const gridLines = [];
-        const numberOfLines = 30; // Jumlah garis grid
+        const numberOfLines = 30;
 
         class GridLine {
             constructor() {
@@ -897,11 +889,9 @@
 
         function setCanvasDimensions() {
             const buffer = 5;
-            // Set Hero Canvas dimensions
             heroCanvas.width = window.innerWidth + buffer;
             heroCanvas.height = window.innerHeight + buffer;
 
-            // Set Overlay Canvas dimensions
             if (overlayCanvas) {
                 overlayCanvas.width = window.innerWidth + buffer;
                 overlayCanvas.height = window.innerHeight + buffer;
@@ -910,11 +900,10 @@
         setCanvasDimensions();
 
         function showSection(sectionId) {
-            // Sembunyikan semua overlay dan juga hero section
             allOverlaySections.forEach(section => {
                 section.classList.remove('active');
             });
-            heroSection.classList.add('hidden'); // Sembunyikan hero section
+            heroSection.classList.add('hidden'); // Sembunyikan hero section sepenuhnya
 
             const targetSection = document.getElementById(sectionId);
             if (targetSection) {
@@ -924,12 +913,9 @@
                 // Tampilkan overlay canvas background dan setel dimensinya
                 if (overlayCanvas) {
                     overlayCanvas.style.display = 'block';
-                    setCanvasDimensions(); // Pastikan dimensinya sudah benar saat tampil
+                    setCanvasDimensions(); 
                     if (overlayCtx) {
-                        overlayCtx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
-                        for (let i = 0; i < gridLines.length; i++) {
-                            gridLines[i].draw(overlayCtx, overlayCanvas.width, overlayCanvas.height);
-                        }
+                        // Tidak perlu clear/draw manual di sini, animate() akan menanganinya
                     }
                 }
             }
@@ -961,7 +947,7 @@
         }
 
         function animate() {
-            // Gambar di heroCanvas HANYA jika heroSection tidak hidden
+            // Gambar di heroCanvas HANYA jika heroSection TIDAK hidden
             if (!heroSection.classList.contains('hidden')) {
                 heroCtx.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
                 for (let i = 0; i < gridLines.length; i++) {
@@ -991,27 +977,26 @@
                 viewportHeight = window.document.documentElement.clientHeight;
             }
 
-            // Tinggi efektif untuk konten hero (viewport - header - footer)
-            // Padding sudah diatur di CSS hero, jadi kita tidak perlu menguranginya lagi di sini
-            heroSection.style.paddingTop = `${headerHeight + 2*16}px`; // headerHeight + 2rem
-            heroSection.style.paddingBottom = `${footerHeight + 2*16}px`; // footerHeight + 2rem
-            heroSection.style.minHeight = `${viewportHeight}px`; // Hero section memenuhi tinggi viewport
+            // Pastikan hero section memenuhi tinggi viewport
+            heroSection.style.minHeight = `${viewportHeight}px`;
+
+            // Atur padding internal hero section agar konten tidak terpotong
+            heroSection.style.paddingTop = `${headerHeight + 2*16}px`; 
+            heroSection.style.paddingBottom = `${footerHeight + 2*16}px`;
         }
 
-        // Jalankan saat awal dan setiap kali ukuran jendela berubah
         window.addEventListener('load', () => {
             setCanvasDimensions();
             initGridLines();
-            setHeroSectionLayout(); // Sesuaikan layout hero saat load
+            setHeroSectionLayout();
         });
         
         window.addEventListener('resize', () => {
             setCanvasDimensions();
             initGridLines();
-            setHeroSectionLayout(); // Sesuaikan layout hero saat resize
+            setHeroSectionLayout();
         });
 
-        // Event listener untuk menu toggle
         menuToggle.addEventListener('click', () => {
             navbar.classList.toggle('active');
             if (navbar.classList.contains('active')) {
@@ -1026,6 +1011,14 @@
                 navbar.classList.remove('active');
                 body.style.overflow = ''; 
             }
+        }
+
+        // --- FIX: Fungsi untuk me-refresh halaman dan membersihkan cache ---
+        function refreshPageOnLoad() {
+            // Ini akan me-refresh halaman dan browser biasanya akan mengambil versi terbaru.
+            // Untuk memastikan cache terbersih di GitHub Pages, bisa tambahkan parameter acak.
+            // Contoh: window.location.href = window.location.pathname + '?v=' + new Date().getTime();
+            window.location.reload(true); // 'true' memaksa reload dari server, bukan dari cache browser.
         }
     </script>
 </body>
