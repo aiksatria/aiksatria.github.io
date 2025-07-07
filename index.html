@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -22,6 +23,7 @@
             --text: #d1d5db; /* Abu-abu muda */
             --text-dark: #1f2937; /* Abu-abu gelap */
             --white: #ffffff;
+            --footer-height: 80px; /* Tambahkan variabel untuk tinggi footer */
         }
 
         /* Reset dan Gaya Dasar */
@@ -57,7 +59,7 @@
             background: linear-gradient(135deg, var(--primary), var(--dark)); /* Latar belakang gelap untuk overlay */
             z-index: 90; /* Di bawah header (1000) dan footer (100) */
             overflow-y: auto; /* Memungkinkan scroll di dalam overlay jika konten panjang */
-            padding-top: 5rem; /* Beri ruang di atas untuk header */
+            /* padding-top tidak lagi di sini, akan ada di .section-overlay .container */
             display: none; /* Sembunyikan secara default */
             opacity: 0; /* Untuk transisi fade */
             visibility: hidden; /* Untuk transisi fade */
@@ -71,9 +73,22 @@
             visibility: visible; /* Transisi fade in */
         }
 
+        /* Kontainer di dalam overlay agar ada padding atas dan bawah */
+        .section-overlay .container {
+            padding-top: calc(1rem + 60px); /* Padding atas, sesuaikan dengan tinggi header + sedikit margin */
+            padding-bottom: var(--footer-height); /* Padding bawah setinggi footer */
+            min-height: 100%; /* Pastikan kontainer setidaknya setinggi viewport overlay */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* Konten dimulai dari atas */
+            align-items: center; /* Pusatkan secara horizontal */
+            text-align: center;
+        }
+
         .section-overlay .section-title {
             color: var(--white); /* Pastikan judul terlihat di background gelap */
-            margin-top: 2rem;
+            /* margin-top: 2rem; dihapus karena sudah diatur di padding-top container */
+            margin-bottom: 2rem; /* Tetap ada margin bawah untuk judul */
         }
         .section-overlay .section-title::after {
             background: var(--secondary);
@@ -81,7 +96,7 @@
 
         /* Tombol Tutup Overlay */
         .close-button {
-            position: absolute;
+            position: fixed; /* Ubah menjadi fixed agar tidak ikut scroll */
             top: 1.5rem;
             right: 2rem;
             background: none;
@@ -89,7 +104,7 @@
             font-size: 2rem;
             color: var(--secondary);
             cursor: pointer;
-            z-index: 100; /* Pastikan di atas konten overlay */
+            z-index: 101; /* Pastikan di atas header, footer, dan konten overlay */
             transition: color 0.3s ease;
         }
 
@@ -121,8 +136,10 @@
             background-color: var(--primary);
             color: var(--white);
             padding: 1rem 0;
-            position: sticky;
-            top: 0;
+            position: fixed; /* Ubah ke fixed */
+            top: 0; /* Tetap di atas */
+            left: 0; /* Penuh lebar */
+            width: 100%; /* Penuh lebar */
             z-index: 1000; /* Z-index tinggi agar selalu di atas */
             box-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
@@ -423,10 +440,14 @@
             font-size: 0.95rem;
             position: fixed; /* Diubah dari relative ke fixed */
             bottom: 0; /* Posisikan di bagian bawah */
-            left: 0; /* Posisikan dari kiri */
-            width: 100%; /* Lebar penuh */
+            left: 0; /* Penuh lebar */
+            width: 100%; /* Penuh lebar */
+            height: var(--footer-height); /* Tetapkan tinggi footer */
             z-index: 100; /* Z-index tinggi agar di atas overlay */
             box-shadow: 0 -2px 8px rgba(0,0,0,0.3); /* Tambahkan shadow */
+            display: flex; /* Untuk pusatkan konten vertikal */
+            align-items: center; /* Pusatkan konten vertikal */
+            justify-content: center; /* Pusatkan konten horizontal */
         }
 
         /* Animasi */
@@ -451,6 +472,9 @@
             }
             .section-title {
                 font-size: 2rem;
+            }
+            .section-overlay .container {
+                padding-top: calc(1rem + 50px); /* Sesuaikan padding atas untuk mobile */
             }
         }
 
@@ -512,8 +536,8 @@
             .tagline {
                 font-size: 1.1rem;
             }
-            .section-overlay {
-                padding-top: 3rem; /* Sesuaikan padding untuk overlay */
+            .section-overlay .container {
+                padding-top: calc(1rem + 40px); /* Sesuaikan padding atas untuk mobile */
             }
             .services-grid {
                 grid-template-columns: 1fr;
@@ -818,7 +842,6 @@
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
             if (servicesCanvas) {
-                // Hanya servicesCanvas yang memerlukan dimensi penuh viewport karena hanya services yang memiliki canvas bg
                 servicesCanvas.width = window.innerWidth;
                 servicesCanvas.height = window.innerHeight;
             }
