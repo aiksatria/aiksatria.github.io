@@ -68,7 +68,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 10;
+            z-index: 5;
         }
         .hero .container {
             z-index: 60;
@@ -100,6 +100,9 @@
             box-shadow: 0 0 10px var(--secondary);
             white-space: nowrap;
             cursor: pointer;
+        }
+        .cta-button img {
+            vertical-align: middle;
         }
         .cta-button:hover {
             background: var(--secondary);
@@ -318,7 +321,7 @@
             box-shadow: 0 10px 20px rgba(0, 0, 0, .3), 0 0 20px var(--secondary);
         }
         #layanan .service-icon {
-            background: rgba(0, 212, 255, .2);
+            background: rgba(0, 212, 255, .2) !important;
             color: var(--white);
             font-size: 2.5rem;
             padding: 1.5rem;
@@ -426,64 +429,64 @@
             .section-overlay .container { padding-top: calc(1rem + 50px); }
         }
         @media (max-width: 768px) {
-    .header .container {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .navbar {
-        display: none;
-        flex-direction: column;
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 70%;
-        height: 100%;
-        background: rgba(30, 42, 60, 0.8); /* Opasitas ditingkatkan dari 0.6 ke 0.8 */
-        backdrop-filter: blur(10px); /* Blur ditingkatkan dari 8px ke 10px */
-        padding: 4rem 1rem 1rem;
-        box-shadow: -2px 0 8px rgba(0, 0, 0, .3);
-        transition: right .3s ease-in-out;
-        z-index: 999;
-    }
-    .navbar.active {
-        display: flex;
-        right: 0;
-    }
-    .navbar ul {
-        flex-direction: column;
-        gap: 1.5rem;
-        width: 100%;
-    }
-    .navbar ul li {
-        width: 100%;
-        text-align: center;
-        background: rgba(0, 212, 255, 0.1); /* Latar belakang ringan untuk setiap item menu */
-        border-radius: 4px; /* Sudut membulat untuk estetika */
-    }
-    .navbar a {
-        display: block;
-        padding: .8rem 0;
-        border-bottom: 1px solid rgba(255, 255, 255, .1);
-        text-shadow: 0 0 5px var(--secondary); /* Dipertahankan untuk keterbacaan */
-    }
-    .menu-toggle {
-        display: block;
-    }
-    .hero {
-        min-height: 80vh;
-        padding: 4rem 1rem;
-    }
-    .hero h1.main-logo { font-size: 2.2rem; }
-    .tagline { font-size: 1.1rem; }
-    .section-overlay .container { padding-top: calc(1rem + 40px); }
-    .services-grid { grid-template-columns: 1fr; }
-    .close-button {
-        top: 1rem;
-        right: 1rem;
-        font-size: 1.5rem;
-    }
-}
+            .header .container {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .navbar {
+                display: none;
+                flex-direction: column;
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100%;
+                background: rgba(30, 42, 60, 0.8) !important;
+                backdrop-filter: blur(10px);
+                padding: 4rem 1rem 1rem;
+                box-shadow: -2px 0 8px rgba(0, 0, 0, .3);
+                transition: right .3s ease-in-out;
+                z-index: 999;
+            }
+            .navbar.active {
+                display: flex;
+                right: 0;
+            }
+            .navbar ul {
+                flex-direction: column;
+                gap: 1.5rem;
+                width: 100%;
+            }
+            .navbar ul li {
+                width: 100%;
+                text-align: center;
+                background: rgba(0, 212, 255, 0.1);
+                border-radius: 4px;
+            }
+            .navbar a {
+                display: block;
+                padding: .8rem 0;
+                border-bottom: 1px solid rgba(255, 255, 255, .1);
+                text-shadow: 0 0 5px var(--secondary);
+            }
+            .menu-toggle {
+                display: block;
+            }
+            .hero {
+                min-height: 80vh;
+                padding: 4rem 1rem;
+            }
+            .hero h1.main-logo { font-size: 2.2rem; }
+            .tagline { font-size: 1.1rem; }
+            .section-overlay .container { padding-top: calc(1rem + 40px); }
+            .services-grid { grid-template-columns: 1fr; }
+            .close-button {
+                top: 1rem;
+                right: 1rem;
+                font-size: 1.5rem;
+            }
+        }
         @media (max-width: 480px) {
             .hero h1.main-logo { font-size: 1.8rem; }
             .tagline { font-size: .95rem; }
@@ -518,7 +521,7 @@
         <div class="container">
             <h1 class="main-logo">Ismaya Dewa Mitra</h1>
             <p class="tagline">Solusi bisnis canggih untuk masa depan, dirancang dengan presisi dan efisiensi.</p>
-            <a href="#" class="cta-button" aria-label="Lihat layanan IDM Group" onclick="showSection('layanan')"> <img src="./logo.svg" alt="Ismaya Dewa Mitra" width="200" height="200"></a>
+            <a href="#" class="cta-button" aria-label="Lihat layanan IDM Group" onclick="showSection('layanan')"><img src="./logo.svg" alt="Ismaya Dewa Mitra" width="200" height="200"></a>
         </div>
     </section>
     <canvas id="overlay-background-canvas" class="overlay-bg-canvas"></canvas>
@@ -535,7 +538,6 @@
                 <p>Menyediakan layanan teknologi tinggi seperti laser marking & cutting, produk pangan berkualitas, dan solusi keuangan serta logistik yang andal di Lumbangrejo dan sekitarnya.</p>
             </div>
             <div class="about-image">
-               
             </div>
         </div>
     </section>
@@ -656,6 +658,7 @@
             </div>
         </div>
     </section>
+    <canvas id="smoke-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2;"></canvas>
     <footer>
         <div class="container">
             <p>© 2025 Ismaya Dewa Mitra</p>
@@ -670,9 +673,13 @@
         const heroCtx = heroCanvas.getContext("2d");
         const overlayCanvas = document.getElementById("overlay-background-canvas");
         const overlayCtx = overlayCanvas ? overlayCanvas.getContext("2d") : null;
+        const smokeCanvas = document.getElementById("smoke-canvas");
+        const smokeCtx = smokeCanvas ? smokeCanvas.getContext("2d") : null;
         const allOverlaySections = document.querySelectorAll(".section-overlay");
         const gridLines = [];
+        const smokeParticles = [];
         const numberOfLines = 30;
+        const numberOfSmokeParticles = 50;
 
         class GridLine {
             constructor() {
@@ -712,10 +719,50 @@
             }
         }
 
+        class SmokeParticle {
+            constructor() {
+                this.x = Math.random() * window.innerWidth;
+                this.y = window.innerHeight;
+                this.size = Math.random() * 20 + 10;
+                this.speedX = (Math.random() * 0.4 - 0.2);
+                this.speedY = -(Math.random() * 0.5 + 0.3);
+                this.opacity = Math.random() * 0.2 + 0.1;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.y < 0 || this.x < 0 || this.x > window.innerWidth) {
+                    this.x = Math.random() * window.innerWidth;
+                    this.y = window.innerHeight;
+                    this.opacity = Math.random() * 0.2 + 0.1;
+                }
+                this.opacity = Math.max(0.05, this.opacity + (Math.random() * 0.02 - 0.01));
+            }
+            draw(currentCtx) {
+                currentCtx.beginPath();
+                const gradient = currentCtx.createRadialGradient(
+                    this.x, this.y, 0,
+                    this.x, this.y, this.size
+                );
+                gradient.addColorStop(0, `rgba(0, 212, 255, ${this.opacity})`);
+                gradient.addColorStop(1, `rgba(0, 212, 255, 0)`);
+                currentCtx.fillStyle = gradient;
+                currentCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                currentCtx.fill();
+            }
+        }
+
         function initGridLines() {
             gridLines.length = 0;
             for (let i = 0; i < numberOfLines; i++) {
                 gridLines.push(new GridLine());
+            }
+        }
+
+        function initSmokeParticles() {
+            smokeParticles.length = 0;
+            for (let i = 0; i < numberOfSmokeParticles; i++) {
+                smokeParticles.push(new SmokeParticle());
             }
         }
 
@@ -726,6 +773,10 @@
             if (overlayCanvas) {
                 overlayCanvas.width = window.innerWidth + buffer;
                 overlayCanvas.height = window.innerHeight + buffer;
+            }
+            if (smokeCanvas) {
+                smokeCanvas.width = window.innerWidth + buffer;
+                smokeCanvas.height = window.innerHeight + buffer;
             }
         }
 
@@ -784,6 +835,13 @@
                     line.draw(overlayCtx, overlayCanvas.width, overlayCanvas.height);
                 });
             }
+            if (smokeCanvas && smokeCtx) {
+                smokeCtx.clearRect(0, 0, smokeCanvas.width, smokeCanvas.height);
+                smokeParticles.forEach(particle => {
+                    particle.update();
+                    particle.draw(smokeCtx);
+                });
+            }
             requestAnimationFrame(animate);
         }
 
@@ -797,18 +855,21 @@
         }
 
         initGridLines();
+        initSmokeParticles();
         setCanvasDimensions();
         animate();
 
         window.addEventListener("load", () => {
             setCanvasDimensions();
             initGridLines();
+            initSmokeParticles();
             setHeroSectionLayout();
         });
 
         window.addEventListener("resize", () => {
             setCanvasDimensions();
             initGridLines();
+            initSmokeParticles();
             setHeroSectionLayout();
         });
 
