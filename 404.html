@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>404 - Halaman Tidak Ditemukan | Ismaya Dewa Mitra</title>
     <meta name="description" content="Halaman yang Anda cari tidak ditemukan. Kembali ke beranda Ismaya Dewa Mitra untuk solusi bisnis canggih dari Lumbangrejo.">
+    <meta http-equiv="refresh" content="15; URL=https://www.idm.web.id">
+    <link rel="canonical" href="https://www.idm.web.id">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -92,7 +94,7 @@
             visibility: visible;
             transition: opacity .5s ease-in-out, visibility .5s ease-in-out;
         }
-        #neon-grid, #smoke-canvas, #laser-canvas, #firework-canvas {
+        #neon-grid, #smoke-canvas, #laser-canvas, #firework-canvas, #timer-canvas {
             position: fixed;
             top: 0;
             left: 0;
@@ -129,6 +131,39 @@
             color: var(--text);
             animation: fadeIn 2s ease-in 1s forwards;
             opacity: 0;
+        }
+        .timer-canvas-container {
+            width: 160px; /* Sekitar 4cm */
+            height: 160px;
+            margin: 1rem 0;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .timer-canvas-container canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        .timer-text {
+            font-size: 1.2rem;
+            color: var(--secondary);
+            text-shadow: 0 0 5px var(--secondary);
+            margin: 1rem 0;
+            overflow: hidden;
+            white-space: nowrap;
+            display: inline-block;
+        }
+        .timer-text span {
+            display: inline-block;
+            opacity: 0;
+            animation: laserType 0.05s forwards;
+        }
+        @keyframes laserType {
+            0% { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
         .cta-button {
             display: inline-block;
@@ -190,12 +225,16 @@
             .error-section h1 { font-size: 3rem; }
             .error-section i { font-size: 4rem; }
             .error-section p { font-size: 1.1rem; }
+            .timer-text { font-size: 1rem; }
+            .timer-canvas-container { width: 120px; height: 120px; }
             .error-section { padding: 4rem 1rem; }
         }
         @media (max-width: 480px) {
             .error-section h1 { font-size: 2rem; }
             .error-section i { font-size: 3rem; }
             .error-section p { font-size: .95rem; }
+            .timer-text { font-size: .9rem; }
+            .timer-canvas-container { width: 80px; height: 80px; }
             .cta-button { padding: .8rem 2rem; font-size: .9rem; }
             .container { padding: 0 .8rem; }
         }
@@ -212,10 +251,15 @@
         <canvas id="smoke-canvas"></canvas>
         <canvas id="laser-canvas"></canvas>
         <canvas id="firework-canvas"></canvas>
+        <canvas id="timer-canvas"></canvas>
         <div class="container">
             <i class="fas fa-exclamation-triangle"></i>
             <h1>404 - Halaman Tidak Ditemukan</h1>
-            <p>Maaf, halaman yang Anda cari tidak tersedia. Anda akan dialihkan ke beranda dalam 3 detik, atau klik tombol di bawah untuk kembali sekarang.</p>
+            <p>Maaf, halaman yang Anda cari tidak tersedia.</p>
+            <div class="timer-canvas-container">
+                <canvas id="timer-canvas"></canvas>
+            </div>
+            <div class="timer-text" id="timer-text"></div>
             <a href="https://www.idm.web.id" class="cta-button" onclick="refreshPageOnLoad()">Kembali ke Beranda</a>
         </div>
     </section>
@@ -234,6 +278,8 @@
         const laserCtx = laserCanvas ? laserCanvas.getContext("2d") : null;
         const fireworkCanvas = document.getElementById("firework-canvas");
         const fireworkCtx = fireworkCanvas ? fireworkCanvas.getContext("2d") : null;
+        const timerCanvas = document.getElementById("timer-canvas");
+        const timerCtx = timerCanvas.getContext("2d");
         const gridLines = [];
         const smokeParticles = [];
         const laserBeams = [];
@@ -243,6 +289,7 @@
         const maxLaserBeams = 5;
         const maxFireworkParticles = 30;
 
+        // Neon Grid
         class GridLine {
             constructor() {
                 this.isHorizontal = Math.random() > 0.5;
@@ -281,6 +328,7 @@
             }
         }
 
+        // Smoke
         class SmokeParticle {
             constructor() {
                 this.x = Math.random() * window.innerWidth;
@@ -314,6 +362,7 @@
             }
         }
 
+        // Laser Beams
         class LaserBeam {
             constructor() {
                 this.x = Math.random() * window.innerWidth;
@@ -362,6 +411,7 @@
             }
         }
 
+        // Firework Particles
         class FireworkParticle {
             constructor(x, y, color) {
                 this.x = x;
@@ -387,6 +437,83 @@
                 currentCtx.fillStyle = `rgba(${this.color === "#ff0000" ? "255,0,0" : this.color === "#ff6600" ? "255,102,0" : "255,255,0"}, ${this.opacity})`;
                 currentCtx.fill();
             }
+        }
+
+        // Timer Animation
+        let timeLeft = 15;
+        const totalTime = 15;
+        const timerText = document.getElementById("timer-text");
+        const message = "Mengalihkan dalam 15 detik...";
+
+        function setTimerCanvasDimensions() {
+            const container = document.querySelector(".timer-canvas-container");
+            timerCanvas.width = container.offsetWidth * window.devicePixelRatio;
+            timerCanvas.height = container.offsetHeight * window.devicePixelRatio;
+            timerCanvas.style.width = `${container.offsetWidth}px`;
+            timerCanvas.style.height = `${container.offsetHeight}px`;
+            drawTimer();
+        }
+
+        function initTimerText() {
+            timerText.innerHTML = message.split("").map(char => `<span>${char}</span>`).join("");
+            const spans = timerText.querySelectorAll("span");
+            spans.forEach((span, index) => {
+                span.style.animationDelay = `${index * 0.05}s`;
+            });
+        }
+
+        function updateTimerText() {
+            timerText.innerHTML = `Mengalihkan dalam ${timeLeft} detik...`.split("").map(char => `<span>${char}</span>`).join("");
+            const spans = timerText.querySelectorAll("span");
+            spans.forEach((span, index) => {
+                span.style.animationDelay = `${index * 0.05}s`;
+            });
+        }
+
+        function drawTimer() {
+            timerCtx.clearRect(0, 0, timerCanvas.width, timerCanvas.height);
+            const radius = (timerCanvas.width / window.devicePixelRatio / 2) - 10;
+            const centerX = timerCanvas.width / 2;
+            const centerY = timerCanvas.height / 2;
+            const progress = (totalTime - timeLeft) / totalTime;
+            const endAngle = (Math.PI * 2 * progress) - Math.PI / 2;
+
+            // Background Circle
+            timerCtx.beginPath();
+            timerCtx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+            timerCtx.strokeStyle = `rgba(0, 212, 255, 0.2)`;
+            timerCtx.lineWidth = 6;
+            timerCtx.stroke();
+
+            // Progress Circle
+            timerCtx.beginPath();
+            timerCtx.arc(centerX, centerY, radius, -Math.PI / 2, endAngle);
+            timerCtx.strokeStyle = `rgba(0, 212, 255, 0.8)`;
+            timerCtx.lineWidth = 6;
+            timerCtx.shadowBlur = 10;
+            timerCtx.shadowColor = `rgba(0, 212, 255, 0.5)`;
+            timerCtx.stroke();
+            timerCtx.shadowBlur = 0;
+
+            // Center Text
+            timerCtx.font = `bold ${radius / 2}px Roboto`;
+            timerCtx.fillStyle = `rgba(0, 212, 255, 0.8)`;
+            timerCtx.textAlign = "center";
+            timerCtx.textBaseline = "middle";
+            timerCtx.fillText(timeLeft, centerX, centerY);
+        }
+
+        function startTimer() {
+            const interval = setInterval(() => {
+                timeLeft--;
+                if (timeLeft <= 0) {
+                    clearInterval(interval);
+                    window.location.href = "https://www.idm.web.id";
+                } else {
+                    updateTimerText();
+                    drawTimer();
+                }
+            }, 1000);
         }
 
         function initGridLines() {
@@ -497,27 +624,30 @@
             heroSection.style.paddingBottom = `${footerHeight + 32}px`;
         }
 
+        setTimerCanvasDimensions();
         initGridLines();
         initSmokeParticles();
         initLaserBeams();
         initFireworkParticles();
         setCanvasDimensions();
+        initTimerText();
+        drawTimer();
         animate();
+        startTimer();
 
         window.addEventListener("load", () => {
             setCanvasDimensions();
+            setTimerCanvasDimensions();
             initGridLines();
             initSmokeParticles();
             initLaserBeams();
             initFireworkParticles();
             setErrorSectionLayout();
-            setTimeout(() => {
-                window.location.href = "https://www.idm.web.id";
-            }, 15000);
         });
 
         window.addEventListener("resize", () => {
             setCanvasDimensions();
+            setTimerCanvasDimensions();
             initGridLines();
             initSmokeParticles();
             initLaserBeams();
