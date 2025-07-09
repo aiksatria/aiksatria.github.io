@@ -1,0 +1,1202 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ismaya Dewa Mitra IDM Group UMKM Lokal Pasuruan Jawa Timur</title>
+    <meta name="description" content="IDM Group menyediakan solusi bisnis canggih di Lumbangrejo: laser marking & cutting presisi, ceker ayam higienis, budidaya ikan mujair berkualitas, Agen Brilink, dan SPX Express. Belanja produk unggulan di Shopee. Inovasi untuk masa depan Anda.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <style>
+        :root {
+            --primary: #1e2a3c;
+            --secondary: #00d4ff;
+            --accent: #e0f7ff;
+            --dark: #0f141a;
+            --light: #f0f4f8;
+            --text: #d1d5db;
+            --text-dark: #1f2937;
+            --white: #fff;
+            --footer-height: 80px;
+            --header-height: 60px;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Roboto, sans-serif;
+        }
+        body {
+            color: var(--text-dark);
+            line-height: 1.6;
+            background-color: var(--dark);
+            overflow-x: hidden;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        .hero {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            color: var(--white);
+            text-align: center;
+            overflow: hidden;
+            padding: calc(var(--header-height) + 2rem) 1rem calc(var(--footer-height) + 2rem);
+            z-index: 50;
+            opacity: 1;
+            visibility: visible;
+            transition: opacity .5s ease-in-out, visibility .5s ease-in-out;
+        }
+        .hero.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        #neon-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+        }
+        #smoke-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+        #laser-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+        }
+        #firework-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 4;
+        }
+        .hero .container {
+            z-index: 60;
+        }
+        .hero h1.main-logo {
+            font-size: 3.5rem;
+            font-weight: 700;
+            text-shadow: 0 0 10px var(--secondary);
+            animation: fadeIn 2s ease-in;
+            word-wrap: break-word;
+        }
+        .tagline {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 1rem auto 2rem;
+            opacity: 0;
+            animation: fadeIn 3s ease-in forwards .5s;
+        }
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: transparent;
+            color: var(--secondary);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            border: 2px solid var(--secondary);
+            transition: all .3s ease;
+            box-shadow: 0 0 10px var(--secondary);
+            white-space: nowrap;
+            cursor: pointer;
+        }
+        .cta-button img {
+            vertical-align: middle;
+        }
+        .cta-button:hover {
+            background: var(--secondary);
+            color: var(--dark);
+            box-shadow: 0 0 20px var(--secondary);
+            transform: translateY(-5px);
+        }
+        .section-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 90;
+            overflow-y: auto;
+            display: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity .5s ease-in-out, visibility .5s ease-in-out;
+            color: var(--white);
+            background: rgba(15, 20, 26, .2);
+            backdrop-filter: blur(5px);
+        }
+        .section-overlay.active {
+            display: block;
+            opacity: 1;
+            visibility: visible;
+        }
+        .section-overlay .container {
+            padding: calc(1rem + var(--header-height)) 1rem var(--footer-height);
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            z-index: 95;
+        }
+        .section-overlay .section-title {
+            color: var(--white);
+            margin-bottom: 2rem;
+        }
+        .section-overlay .section-title::after {
+            background: var(--secondary);
+        }
+        .close-button {
+            position: fixed;
+            top: 1.5rem;
+            right: 2rem;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: var(--secondary);
+            cursor: pointer;
+            z-index: 101;
+            transition: color .3s ease;
+        }
+        .close-button:hover {
+            color: var(--accent);
+            text-shadow: 0 0 10px var(--secondary);
+        }
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            word-wrap: break-word;
+        }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--secondary);
+            margin: 1rem auto;
+        }
+        .header {
+            background: rgba(30, 42, 60, .2);
+            backdrop-filter: blur(5px);
+            color: var(--white);
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .3);
+            display: flex;
+            align-items: center;
+        }
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            position: relative;
+            z-index: 1001;
+        }
+        .header .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--secondary);
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+        }
+        .navbar a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color .3s ease;
+            cursor: pointer;
+            text-shadow: 0 0 5px var(--secondary);
+        }
+        .navbar a:hover {
+            color: var(--secondary);
+            text-shadow: 0 0 10px var(--secondary);
+        }
+        .menu-toggle {
+            display: none;
+            font-size: 1.8rem;
+            color: var(--secondary);
+            cursor: pointer;
+            z-index: 1002;
+            position: relative;
+        }
+        #tentang-kami .content-item {
+            background: rgba(255, 255, 255, .05);
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            transition: all .3s ease;
+            border: 1px solid var(--secondary);
+            color: var(--white);
+            backdrop-filter: blur(5px);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            width: 100%;
+        }
+        #tentang-kami .content-item h3 {
+            color: var(--secondary);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        #tentang-kami .content-item p {
+            color: var(--text);
+            font-size: 1.05rem;
+            margin-bottom: 1rem;
+        }
+        #tentang-kami .about-image {
+            max-width: 400px;
+            width: 100%;
+            margin: 2rem auto;
+        }
+        #tentang-kami .about-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, .1);
+        }
+        #mengapa-kami .advantages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        #mengapa-kami .advantage-item {
+            background: rgba(255, 255, 255, .05);
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            transition: all .3s ease;
+            border: 1px solid var(--secondary);
+            color: var(--white);
+            backdrop-filter: blur(5px);
+        }
+        #mengapa-kami .advantage-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 15px var(--secondary);
+        }
+        #mengapa-kami .advantage-item i {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+        #mengapa-kami .advantage-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: .5rem;
+        }
+        #layanan .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+            justify-content: center;
+        }
+        #layanan .service-card {
+            background: rgba(255, 255, 255, .05);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, .2);
+            transition: all .3s ease;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(5px);
+            max-width: 100%;
+            margin: 0 auto;
+            border: 1px solid var(--secondary);
+        }
+        #layanan .service-card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, .3), 0 0 20px var(--secondary);
+        }
+        #layanan .service-icon {
+            background: rgba(0, 212, 255, .2) !important;
+            color: var(--white);
+            font-size: 2.5rem;
+            padding: 1.5rem;
+            text-align: center;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            backdrop-filter: blur(5px);
+        }
+        #layanan .service-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+        }
+        #layanan .service-title {
+            color: var(--accent);
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+        }
+        #layanan .service-desc {
+            color: var(--text);
+            margin-bottom: 1rem;
+        }
+        #layanan .service-content ul {
+            list-style: disc;
+            padding-left: 1.5rem;
+            color: var(--text);
+        }
+        #layanan .service-content a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        #layanan .service-content a:hover {
+            color: var(--accent);
+            text-shadow: 0 0 5px var(--accent);
+        }
+        #galeri .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        #galeri .gallery-item {
+            background: rgba(255, 255, 255, .05);
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--secondary);
+            text-align: center;
+        }
+        #galeri .gallery-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        #kontak .contact-item {
+            background: rgba(255, 255, 255, .05);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            transition: all .3s ease;
+            border: 1px solid var(--secondary);
+            color: var(--white);
+            backdrop-filter: blur(5px);
+            margin-bottom: 1.5rem;
+            max-width: 300px;
+            width: 100%;
+        }
+        #kontak .contact-item i {
+            margin-bottom: .5rem;
+            color: var(--secondary);
+            font-size: 1.5rem;
+        }
+        #kontak .map-container {
+            height: 300px;
+            margin-top: 2rem;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, .3);
+        }
+        #kontak .map-container iframe {
+            width: 100%;
+            height: 100%;
+        }
+        #kontak .contact-desc {
+            color: var(--text);
+            margin: 1rem 0;
+            font-size: 1.05rem;
+        }
+        footer {
+            background: rgba(15, 20, 26, .2);
+            backdrop-filter: blur(5px);
+            color: var(--white);
+            text-align: center;
+            padding: 2rem 0;
+            font-size: .95rem;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: var(--footer-height);
+            z-index: 100;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, .3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .overlay-bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 80;
+            display: none;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes neonPulse {
+            0% { stroke: var(--secondary); stroke-opacity: .3; }
+            50% { stroke: var(--secondary); stroke-opacity: .9; }
+            100% { stroke: var(--secondary); stroke-opacity: .3; }
+        }
+        @media (max-width: 992px) {
+            .hero h1.main-logo { font-size: 3rem; }
+            .tagline { font-size: 1.2rem; }
+            .section-title { font-size: 2rem; }
+            .section-overlay .container { padding-top: calc(1rem + 50px); }
+        }
+        @media (max-width: 768px) {
+            .header .container {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .navbar {
+                display: none;
+                flex-direction: column;
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100%;
+                background: rgba(30, 42, 60, 0.8) !important;
+                backdrop-filter: blur(10px);
+                padding: 4rem 1rem 1rem;
+                box-shadow: -2px 0 8px rgba(0, 0, 0, .3);
+                transition: right .3s ease-in-out;
+                z-index: 999;
+            }
+            .navbar.active {
+                display: flex;
+                right: 0;
+            }
+            .navbar ul {
+                flex-direction: column;
+                gap: 1.5rem;
+                width: 100%;
+            }
+            .navbar ul li {
+                width: 100%;
+                text-align: center;
+                background: rgba(0, 212, 255, 0.1);
+                border-radius: 4px;
+            }
+            .navbar a {
+                display: block;
+                padding: .8rem 0;
+                border-bottom: 1px solid rgba(255, 255, 255, .1);
+                text-shadow: 0 0 5px var(--secondary);
+            }
+            .menu-toggle {
+                display: block;
+            }
+            .hero {
+                min-height: 80vh;
+                padding: 4rem 1rem;
+            }
+            .hero h1.main-logo { font-size: 2.2rem; }
+            .tagline { font-size: 1.1rem; }
+            .section-overlay .container { padding-top: calc(1rem + 40px); }
+            .services-grid { grid-template-columns: 1fr; }
+            .gallery-grid { grid-template-columns: 1fr; }
+            .close-button {
+                top: 1rem;
+                right: 1rem;
+                font-size: 1.5rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .hero h1.main-logo { font-size: 1.8rem; }
+            .tagline { font-size: .95rem; }
+            .section-title { font-size: 1.6rem; }
+            .service-title { font-size: 1.3rem; }
+            .container { padding: 0 .8rem; }
+            .cta-button { padding: .8rem 2rem; font-size: .9rem; }
+            .contact-item { font-size: 1rem; }
+            .contact-item i { font-size: 1.3rem; }
+            .map-container { height: 250px; }
+        }
+    </style>
+</head>
+<body>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TH4V3GWK" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <header class="header">
+        <div class="container">
+            <a href="https://www.idm.web.id" class="logo" onclick="refreshPageOnLoad()">www.idm.web.id</a>
+            <div class="menu-toggle" id="menu-toggle"><i class="fas fa-bars"></i></div>
+            <nav class="navbar" id="navbar">
+                <ul>
+                    <li><a href="#" onclick="showSection('tentang-kami');closeNavbar();">Tentang Kami</a></li>
+                    <li><a href="#" onclick="showSection('layanan');closeNavbar();">Layanan</a></li>
+                    <li><a href="#" onclick="showSection('mengapa-kami');closeNavbar();">Keunggulan Kami</a></li>
+                    <li><a href="#" onclick="showSection('galeri');closeNavbar();">Galeri</a></li>
+                    <li><a href="#" onclick="showSection('kontak');closeNavbar();">Kontak</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <section class="hero" id="hero-section">
+        <canvas id="neon-grid"></canvas>
+        <div class="container">
+            <h1 class="main-logo">Ismaya Dewa Mitra</h1>
+            <p class="tagline">Solusi bisnis canggih untuk masa depan, dirancang dengan presisi dan efisiensi.</p>
+            <a href="#" class="cta-button" aria-label="Lihat layanan IDM Group" onclick="showSection('layanan')"><img src="./logo.svg" alt="Ismaya Dewa Mitra" width="200" height="200"></a>
+        </div>
+    </section>
+    <canvas id="overlay-background-canvas" class="overlay-bg-canvas"></canvas>
+    <section id="tentang-kami" class="section-overlay">
+        <button class="close-button" onclick="hideSection('tentang-kami')" aria-label="Tutup Tentang Kami"><i class="fas fa-times"></i></button>
+        <div class="container">
+            <h2 class="section-title">Tentang IDM Group</h2>
+            <div class="content-item">
+                <h3>Sekilas tentang Kami</h3>
+                <p>Kami adalah sekelompok pemuda yang memulai usaha secara mandiri dengan semangat produktif di usia muda. Meski dalam skala kecil, kami terus berkembang melalui berbagai lini bisnis di beberapa lokasi.</p>
+            </div>
+            <div class="content-item">
+                <h3>Lokasi dan Unit Usaha</h3>
+                <p><strong>Desa Lumbangrejo:</strong> Kantor pusat dan Master Agen (Brilink, pulsa, ekspedisi, produk digital & perbankan), juga sebagai lokasi penyimpanan produk untuk Shopee.</p>
+                <p><strong>Desa Candi Wates:</strong> Terdapat dua lokasi dalam satu dusun:</p>
+                <ul>
+                    <li>Jasa Laser Marking & Cutting</li>
+                    <li>Unit Produksi Ceker Ayam Tanpa Tulang – dikerjakan oleh warga lokal dengan sistem kerja fleksibel dan sistem borongan berdasarkan hasil kupas per kilogram.</li>
+                </ul>
+                <p>Kami juga membuka peluang kerja tanpa syarat jam kerja formal. Jika tertarik dengan limbah tulang hasil produksi, silakan hubungi kami. Produk ceker ayam tanpa tulang tersedia untuk pembelian langsung maupun lewat Shopee, dengan harga khusus dan bonus untuk pembelian dalam jumlah besar.</p>
+            </div>
+            <div class="content-item">
+                <h3>Makna Nama "Ismaya Dewa Mitra"</h3>
+                <p>Ismaya (juga dikenal sebagai Ismoyo atau Ismaia) adalah tokoh legendaris dari budaya Jawa, seorang dewa abadi dan salah satu dari Trimurti dalam versi lokal. Di bumi, beliau menjelma sebagai Semar, abdi bijak yang menjadi pengasuh para kesatria seperti Pandawa.</p>
+                <p>Kami mengangkat nama ini sebagai simbol pelayanan, kebijaksanaan, dan kemitraan sejati. Seperti Semar, kami ingin:</p>
+                <ul>
+                    <li>Menjadi pelayan kebaikan</li>
+                    <li>Menebar kemaslahatan</li>
+                    <li>Membangun lapangan kerja dan kolaborasi lintas golongan, suku, dan agama</li>
+                </ul>
+                <p>Kami percaya bahwa dengan niat yang tulus dan kerja yang ikhlas, kami bisa menjadi "Mitra Ismaya"—menghadirkan manfaat nyata bagi masyarakat.</p>
+            </div>
+            <div class="about-image"></div>
+        </div>
+    </section>
+    <section id="mengapa-kami" class="section-overlay">
+        <button class="close-button" onclick="hideSection('mengapa-kami')" aria-label="Tutup Keunggulan Kami"><i class="fas fa-times"></i></button>
+        <div class="container">
+            <h2 class="section-title">Keunggulan Kami</h2>
+            <div class="advantages-grid">
+                <div class="advantage-item">
+                    <i class="fas fa-bolt"></i>
+                    <h3>Teknologi Presisi</h3>
+                    <p>Layanan kami didukung teknologi mutakhir untuk hasil optimal.</p>
+                </div>
+                <div class="advantage-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Keandalan Terjamin</h3>
+                    <p>Komitmen kami adalah memberikan layanan yang konsisten dan terpercaya.</p>
+                </div>
+                <div class="advantage-item">
+                    <i class="fas fa-rocket"></i>
+                    <h3>Inovasi Progresif</h3>
+                    <p>Kami terus berinovasi untuk memenuhi kebutuhan pasar modern.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="layanan" class="section-overlay">
+        <button class="close-button" onclick="hideSection('layanan')" aria-label="Tutup Layanan"><i class="fas fa-times"></i></button>
+        <div class="container">
+            <h2 class="section-title">Layanan Kami</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-cut"></i></div>
+                    <div class="service-content">
+                        <h3 class="service-title">Jasa Laser Marking</h3>
+                        <p class="service-desc">Proses arsir atau penandaan pada media seperti spons EVA, akrilik, kayu, oskar, kulit, kertas, plastik, dan karet. Belum melayani logam keras (aluminium, besi).</p>
+                        <ul>
+                            <li>Harga fleksibel, ditentukan melalui negosiasi berdasarkan waktu pengerjaan, jenis bahan, dan tingkat kesulitan proses.</li>
+                            <li>Umumnya melayani pemesanan dari industri sepatu dan sandal, terutama untuk insole berlogo atau berornamen.</li>
+                            <li>Peluang terbuka untuk produk lain: dompet, tas, sabuk, dan aksesoris.</li>
+                            <li>Alur layanan: Desain → Aplikasi bahan → Penetapan harga → Produksi</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-cut"></i></div>
+                    <div class="service-content">
+                        <h3 class="service-title">Jasa Laser Cutting</h3>
+                        <p class="service-desc">Saat ini sedang dalam perawatan. Hubungi kami untuk info lebih lanjut mengenai ketersediaan layanan.</p>
+                        <ul>
+                            <li><a href="https://wa.me/6285175127954" target="_blank" rel="noopener noreferrer">Hubungi via WhatsApp</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-fish"></i></div>
+                    <div class="service-content">
+                        <h3 class="service-title">Budidaya Ikan Mujair</h3>
+                        <p class="service-desc">Menyediakan ikan segar untuk kolam pancing dengan skala menengah.</p>
+                        <ul>
+                            <li>Pembelian eceran bisa dilakukan dengan konfirmasi terlebih dahulu.</li>
+                            <li>Rencana ke depan: Kolam pancing umum dengan kafetaria dan biliar, serta produksi pakan ikan dan ayam (saat ini ditunda).</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-money-bill-wave"></i></div>
+                    <div class="service-content">
+                        <h3 class="service-title">Layanan Master Agen</h3>
+                        <p class="service-desc">Layanan keuangan dan transaksi cepat, tersedia dari pukul 06.00 – 21.00 WIB (di luar jam tersebut bersifat opsional).</p>
+                        <ul>
+                            <li>Pulsa & Data: Semua operator, kuota internet, paket telepon & SMS, paket haji/umroh.</li>
+                            <li>Token & Tagihan: PLN prabayar/pascabayar, BPJS, pendidikan, pajak, PPN.</li>
+                            <li>Top-up e-Wallet: DANA, GoPay, OVO, ShopeePay.</li>
+                            <li>Saldo e-Toll: Brizzi, Flazz, eMoney.</li>
+                            <li>Marketplace & Finansial: Belanja online, cicilan, pinjaman, paylater, kartu kredit.</li>
+                            <li>Voucher Game: Diamond & gold untuk MLBB, Free Fire, dan lainnya.</li>
+                            <li>Transfer & Tarik Tunai: Bank dalam/luar negeri, e-wallet, QRIS, gesek kartu via EDC Brilink.</li>
+                            <li>Catatan: Semua transaksi bersifat tunai, tidak menerima hutang. Proses disaksikan langsung oleh agen. Kesalahan saldo akibat kelalaian pengguna di luar tanggung jawab kami.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-shipping-fast"></i></div>
+                    <div class="service-content">
+                        <h3 class="service-title">Agen SPX Express</h3>
+                        <p class="service-desc">Pengiriman paket cepat dengan pelacakan real-time.</p>
+                        <ul>
+                            <li>Kirim dan terima paket</li>
+                            <li>Jangkauan nasional</li>
+                            <li>Proses efisien</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-store"></i></div>
+                    <div class="service-content">
+                        <h3 class="service-title">IDM di Shopee</h3>
+                        <p class="service-desc">Produk unggulan tersedia di Shopee dengan akses mudah.</p>
+                        <ul>
+                            <li><a href="https://shopee.co.id/pt.ismayadewamitra#product_list" target="_blank" rel="noopener noreferrer">Kunjungi Toko</a></li>
+                            <li><a href="https://shopee.co.id/Ceker-Ayam-Tanpa-Tulang-Termurah-i.237163709.22685283866" target="_blank" rel="noopener noreferrer">Ceker Ayam</a></li>
+                            <li><a href="https://shopee.co.id/%E2%9C%85-Kopi-Tubruk-Hitam-Plus-Gula-500g-%E2%80%93-Harum-Berkualitas-Termurah!-Kemasan-Polos-Bisa-Rebrand!-i.237163709.27513141272" target="_blank" rel="noopener noreferrer">Kopi Tubruk</a></li>
+                            <li><a href="https://shopee.co.id/Kopi-susu-caramel-Termurah-kemasan-500-gram-i.237163709.25828546683" target="_blank" rel="noopener noreferrer">Kopi Susu Caramel</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="galeri" class="section-overlay">
+        <button class="close-button" onclick="hideSection('galeri')" aria-label="Tutup Galeri"><i class="fas fa-times"></i></button>
+        <div class="container">
+            <h2 class="section-title">Galeri Kami</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="images/ceker-ayam.jpg" alt="Ceker Ayam Tanpa Tulang" />
+                    <p>Ceker ayam tanpa tulang siap dikemas untuk pengiriman.</p>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/laser-marking.jpg" alt="Jasa Laser Marking" />
+                    <p>Hasil laser marking presisi pada insole sepatu.</p>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/ikan-mujair.jpg" alt="Budidaya Ikan Mujair" />
+                    <p>Ikan mujair segar dari kolam budidaya kami.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="kontak" class="section-overlay">
+        <button class="close-button" onclick="hideSection('kontak')" aria-label="Tutup Kontak Kami"><i class="fas fa-times"></i></button>
+        <div class="container">
+            <h2 class="section-title">Hubungi Kami</h2>
+            <div class="contact-item"><i class="fas fa-globe"></i><span>idm.web.id</span></div>
+            <div class="contact-item"><i class="fas fa-envelope"></i><span>cs@idm.web.id</span></div>
+            <div class="contact-item"><i class="fas fa-phone"></i><span>+62 851 7512 7954</span></div>
+            <a href="https://wa.me/6285175127954" target="_blank" rel="noopener noreferrer" class="cta-button" aria-label="Hubungi IDM Group via WhatsApp"><i class="fab fa-whatsapp"></i> Hubungi via WhatsApp</a>
+            <p class="contact-desc">Kirim pesan atau pertanyaan Anda melalui WhatsApp atau email, kami akan merespons secepatnya!</p>
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3953.513702115147!2d112.5694770147775!3d-7.734898194411139!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd71b4a1b0b0b0b%3A0x7d0b0b0b0b0b0b0b!2sLumbangrejo%2C%20Kec.%20Prigen%2C%20Pasuruan%2C%20Jawa%20Timur!5e0!3m2!1sen!2sid!4v1678912345678!5m2!1sen!2sid" width="600" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Lokasi Kantor IDM Group di Lumbangrejo"></iframe>
+            </div>
+        </div>
+    </section>
+    <canvas id="smoke-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2;"></canvas>
+    <canvas id="laser-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 3;"></canvas>
+    <canvas id="firework-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 4;"></canvas>
+    <footer>
+        <div class="container">
+            <p>© 2025 Ismaya Dewa Mitra</p>
+        </div>
+    </footer>
+    <script>
+        const menuToggle = document.getElementById("menu-toggle");
+        const navbar = document.getElementById("navbar");
+        const body = document.body;
+        const heroSection = document.getElementById("hero-section");
+        const heroCanvas = document.getElementById("neon-grid");
+        const heroCtx = heroCanvas.getContext("2d");
+        const overlayCanvas = document.getElementById("overlay-background-canvas");
+        const overlayCtx = overlayCanvas ? overlayCanvas.getContext("2d") : null;
+        const smokeCanvas = document.getElementById("smoke-canvas");
+        const smokeCtx = smokeCanvas ? smokeCanvas.getContext("2d") : null;
+        const laserCanvas = document.getElementById("laser-canvas");
+        const laserCtx = laserCanvas ? laserCanvas.getContext("2d") : null;
+        const fireworkCanvas = document.getElementById("firework-canvas");
+        const fireworkCtx = fireworkCanvas ? fireworkCanvas.getContext("2d") : null;
+        const allOverlaySections = document.querySelectorAll(".section-overlay");
+        const gridLines = [];
+        const smokeParticles = [];
+        const laserBeams = [];
+        const fireworkParticles = [];
+        const numberOfLines = 30;
+        const numberOfSmokeParticles = 50;
+        const maxLaserBeams = 5;
+        const maxFireworkParticles = 30;
+
+        class GridLine {
+            constructor() {
+                this.isHorizontal = Math.random() > 0.5;
+                if (this.isHorizontal) {
+                    this.y = Math.random() * window.innerHeight;
+                    this.speed = (Math.random() * 2 - 1) * 0.5;
+                } else {
+                    this.x = Math.random() * window.innerWidth;
+                    this.speed = (Math.random() * 2 - 1) * 0.5;
+                }
+                this.opacity = Math.random() * 0.3 + 0.1;
+            }
+            update() {
+                if (this.isHorizontal) {
+                    this.y += this.speed;
+                    if (this.y < 0) this.y = window.innerHeight;
+                    else if (this.y > window.innerHeight) this.y = 0;
+                } else {
+                    this.x += this.speed;
+                    if (this.x < 0) this.x = window.innerWidth;
+                    else if (this.x > window.innerWidth) this.x = 0;
+                }
+            }
+            draw(currentCtx, canvasWidth, canvasHeight) {
+                currentCtx.beginPath();
+                if (this.isHorizontal) {
+                    currentCtx.moveTo(0, this.y);
+                    currentCtx.lineTo(canvasWidth, this.y);
+                } else {
+                    currentCtx.moveTo(this.x, 0);
+                    currentCtx.lineTo(this.x, canvasHeight);
+                }
+                currentCtx.strokeStyle = `rgba(0, 212, 255, ${this.opacity})`;
+                currentCtx.lineWidth = 1;
+                currentCtx.stroke();
+            }
+        }
+
+        class SmokeParticle {
+            constructor() {
+                this.x = Math.random() * window.innerWidth;
+                this.y = window.innerHeight;
+                this.size = Math.random() * 20 + 10;
+                this.speedX = (Math.random() * 0.4 - 0.2);
+                this.speedY = -(Math.random() * 0.5 + 0.3);
+                this.opacity = Math.random() * 0.2 + 0.1;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.y < 0 || this.x < 0 || this.x > window.innerWidth) {
+                    this.x = Math.random() * window.innerWidth;
+                    this.y = window.innerHeight;
+                    this.opacity = Math.random() * 0.2 + 0.1;
+                }
+                this.opacity = Math.max(0.05, this.opacity + (Math.random() * 0.02 - 0.01));
+            }
+            draw(currentCtx) {
+                currentCtx.beginPath();
+                const gradient = currentCtx.createRadialGradient(
+                    this.x, this.y, 0,
+                    this.x, this.y, this.size
+                );
+                gradient.addColorStop(0, `rgba(0, 212, 255, ${this.opacity})`);
+                gradient.addColorStop(1, `rgba(0, 212, 255, 0)`);
+                currentCtx.fillStyle = gradient;
+                currentCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                currentCtx.fill();
+            }
+        }
+
+        class LaserBeam {
+            constructor() {
+                this.x = Math.random() * window.innerWidth;
+                this.y = 0;
+                this.speedY = Math.random() * 5 + 5;
+                this.opacity = 0.6;
+                this.length = Math.random() * 100 + 50;
+                this.color = ["#ff0000", "#ff6600", "#ffff00"][Math.floor(Math.random() * 3)];
+                this.lifetime = 60;
+                this.age = 0;
+            }
+            update() {
+                this.y += this.speedY;
+                this.age++;
+                this.opacity = 0.6 * (1 - this.age / this.lifetime);
+                if (this.y + this.length >= window.innerHeight - 80 && Math.random() < 0.5) {
+                    for (let i = 0; i < 10; i++) {
+                        if (fireworkParticles.length < maxFireworkParticles) {
+                            fireworkParticles.push(new FireworkParticle(this.x, this.y + this.length, this.color));
+                        }
+                    }
+                }
+                if (this.age >= this.lifetime || this.y > window.innerHeight) {
+                    this.reset();
+                }
+            }
+            reset() {
+                this.x = Math.random() * window.innerWidth;
+                this.y = 0;
+                this.speedY = Math.random() * 5 + 5;
+                this.opacity = 0.6;
+                this.length = Math.random() * 100 + 50;
+                this.color = ["#ff0000", "#ff6600", "#ffff00"][Math.floor(Math.random() * 3)];
+                this.age = 0;
+            }
+            draw(currentCtx) {
+                currentCtx.beginPath();
+                currentCtx.moveTo(this.x, this.y);
+                currentCtx.lineTo(this.x, this.y + this.length);
+                const gradient = currentCtx.createLinearGradient(this.x, this.y, this.x, this.y + this.length);
+                gradient.addColorStop(0, `rgba(${this.color === "#ff0000" ? "255,0,0" : this.color === "#ff6600" ? "255,102,0" : "255,255,0"}, ${this.opacity})`);
+                gradient.addColorStop(1, `rgba(${this.color === "#ff0000" ? "255,0,0" : this.color === "#ff6600" ? "255,102,0" : "255,255,0"}, 0)`);
+                currentCtx.strokeStyle = gradient;
+                currentCtx.lineWidth = 2;
+                currentCtx.stroke();
+            }
+        }
+
+        class FireworkParticle {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.size = Math.random() * 3 + 2;
+                this.speedX = (Math.random() - 0.5) * 6;
+                this.speedY = (Math.random() - 0.5) * 6;
+                this.opacity = 0.8;
+                this.lifetime = 42;
+                this.age = 0;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.age++;
+                this.opacity = 0.8 * (1 - this.age / this.lifetime);
+                this.size *= 0.95;
+            }
+            draw(currentCtx) {
+                currentCtx.beginPath();
+                currentCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                currentCtx.fillStyle = `rgba(${this.color === "#ff0000" ? "255,0,0" : this.color === "#ff6600" ? "255,102,0" : "255,255,0"}, ${this.opacity})`;
+                currentCtx.fill();
+            }
+        }
+
+        function initGridLines() {
+            gridLines.length = 0;
+            for (let i = 0; i < numberOfLines; i++) {
+                gridLines.push(new GridLine());
+            }
+        }
+
+        function initSmokeParticles() {
+            smokeParticles.length = 0;
+            for (let i = 0; i < numberOfSmokeParticles; i++) {
+                smokeParticles.push(new SmokeParticle());
+            }
+        }
+
+        function initLaserBeams() {
+            laserBeams.length = 0;
+            for (let i = 0; i < 2; i++) {
+                laserBeams.push(new LaserBeam());
+            }
+        }
+
+        function initFireworkParticles() {
+            fireworkParticles.length = 0;
+        }
+
+        function spawnLaserBeam() {
+            if (laserBeams.length < maxLaserBeams && Math.random() < 0.02) {
+                laserBeams.push(new LaserBeam());
+            }
+        }
+
+        function spawnFirework(x, y) {
+            if (fireworkParticles.length < maxFireworkParticles) {
+                const color = ["#ff0000", "#ff6600", "#ffff00"][Math.floor(Math.random() * 3)];
+                for (let i = 0; i < 10; i++) {
+                    fireworkParticles.push(new FireworkParticle(x, y, color));
+                }
+            }
+        }
+
+        function setCanvasDimensions() {
+            const buffer = 5;
+            heroCanvas.width = window.innerWidth + buffer;
+            heroCanvas.height = window.innerHeight + buffer;
+            if (overlayCanvas) {
+                overlayCanvas.width = window.innerWidth + buffer;
+                overlayCanvas.height = window.innerHeight + buffer;
+            }
+            if (smokeCanvas) {
+                smokeCanvas.width = window.innerWidth + buffer;
+                smokeCanvas.height = window.innerHeight + buffer;
+            }
+            if (laserCanvas) {
+                laserCanvas.width = window.innerWidth + buffer;
+                laserCanvas.height = window.innerHeight + buffer;
+            }
+            if (fireworkCanvas) {
+                fireworkCanvas.width = window.innerWidth + buffer;
+                fireworkCanvas.height = window.innerHeight + buffer;
+            }
+        }
+
+        function showSection(sectionId) {
+            console.log("showSection called with:", sectionId);
+            allOverlaySections.forEach(section => {
+                section.classList.remove("active");
+            });
+            heroSection.classList.add("hidden");
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add("active");
+                body.style.overflow = "hidden";
+                if (overlayCanvas) {
+                    overlayCanvas.style.display = "block";
+                    setCanvasDimensions();
+                    if (overlayCtx) {
+                        overlayCtx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
+                        gridLines.forEach(line => line.draw(overlayCtx, overlayCanvas.width, overlayCanvas.height));
+                    }
+                }
+            } else {
+                console.error("Section not found:", sectionId);
+            }
+        }
+
+        function hideSection(sectionId) {
+            console.log("hideSection called with:", sectionId);
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.remove("active");
+                body.style.overflow = "";
+                if (overlayCanvas) overlayCanvas.style.display = "none";
+                let anyOverlayActive = false;
+                allOverlaySections.forEach(section => {
+                    if (section.classList.contains("active")) anyOverlayActive = true;
+                });
+                if (!anyOverlayActive) heroSection.classList.remove("hidden");
+            } else {
+                console.error("Section not found:", sectionId);
+            }
+        }
+
+        function animate() {
+            if (!heroSection.classList.contains("hidden")) {
+                heroCtx.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
+                gridLines.forEach(line => {
+                    line.update();
+                    line.draw(heroCtx, heroCanvas.width, heroCanvas.height);
+                });
+            }
+            if (overlayCanvas && overlayCanvas.style.display === "block") {
+                overlayCtx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
+                gridLines.forEach(line => {
+                    line.update();
+                    line.draw(overlayCtx, overlayCanvas.width, overlayCanvas.height);
+                });
+            }
+            if (smokeCanvas && smokeCtx) {
+                smokeCtx.clearRect(0, 0, smokeCanvas.width, smokeCanvas.height);
+                smokeParticles.forEach(particle => {
+                    particle.update();
+                    particle.draw(smokeCtx);
+                });
+            }
+            if (laserCanvas && laserCtx) {
+                laserCtx.clearRect(0, 0, laserCanvas.width, laserCanvas.height);
+                spawnLaserBeam();
+                laserBeams.forEach(beam => {
+                    beam.update();
+                    beam.draw(laserCtx);
+                });
+                for (let i = laserBeams.length - 1; i >= 0; i--) {
+                    if (laserBeams[i].age >= laserBeams[i].lifetime) {
+                        laserBeams.splice(i, 1);
+                    }
+                }
+            }
+            if (fireworkCanvas && fireworkCtx) {
+                fireworkCtx.clearRect(0, 0, fireworkCanvas.width, fireworkCanvas.height);
+                fireworkParticles.forEach(particle => {
+                    particle.update();
+                    particle.draw(fireworkCtx);
+                });
+                for (let i = fireworkParticles.length - 1; i >= 0; i--) {
+                    if (fireworkParticles[i].age >= fireworkParticles[i].lifetime) {
+                        fireworkParticles.splice(i, 1);
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        function setHeroSectionLayout() {
+            const headerHeight = document.querySelector(".header").offsetHeight || 0;
+            const footerHeight = document.querySelector("footer").offsetHeight || 0;
+            let viewportHeight = CSS.supports("height", "100dvh") ? document.documentElement.clientHeight : window.innerHeight;
+            heroSection.style.minHeight = `${viewportHeight}px`;
+            heroSection.style.paddingTop = `${headerHeight + 32}px`;
+            heroSection.style.paddingBottom = `${footerHeight + 32}px`;
+        }
+
+        initGridLines();
+        initSmokeParticles();
+        initLaserBeams();
+        initFireworkParticles();
+        setCanvasDimensions();
+        animate();
+
+        window.addEventListener("load", () => {
+            setCanvasDimensions();
+            initGridLines();
+            initSmokeParticles();
+            initLaserBeams();
+            initFireworkParticles();
+            setHeroSectionLayout();
+        });
+
+        window.addEventListener("resize", () => {
+            setCanvasDimensions();
+            initGridLines();
+            initSmokeParticles();
+            initLaserBeams();
+            initFireworkParticles();
+            setHeroSectionLayout();
+        });
+
+        window.addEventListener("click", (e) => {
+            if (fireworkParticles.length < maxFireworkParticles) {
+                spawnFirework(e.clientX, e.clientY);
+            }
+        });
+
+        window.addEventListener("touchstart", (e) => {
+            if (fireworkParticles.length < maxFireworkParticles) {
+                const touch = e.touches[0];
+                spawnFirework(touch.clientX, touch.clientY);
+            }
+        });
+
+        menuToggle.addEventListener("click", () => {
+            console.log("Menu toggle clicked");
+            navbar.classList.toggle("active");
+            if (navbar.classList.contains("active")) {
+                body.style.overflow = "hidden";
+            } else {
+                body.style.overflow = "";
+            }
+        });
+
+        const navLinks = document.querySelectorAll(".navbar a");
+        navLinks.forEach(link => {
+            link.addEventListener("click", e => {
+                e.preventDefault();
+                const sectionId = e.target.getAttribute("onclick").match(/'([^']+)'/)[1];
+                console.log("Nav link clicked, section:", sectionId);
+                showSection(sectionId);
+                closeNavbar();
+            });
+        });
+
+        function closeNavbar() {
+            if (navbar.classList.contains("active")) {
+                console.log("Closing navbar");
+                navbar.classList.remove("active");
+                body.style.overflow = "";
+            }
+        }
+
+        function refreshPageOnLoad() {
+            window.location.reload(true);
+        }
+    </script>
+</body>
+</html>
