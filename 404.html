@@ -1,11 +1,12 @@
-ter<!DOCTYPE html>
+
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>404 - Halaman Tidak Ditemukan | Ismaya Dewa Mitra</title>
     <meta name="description" content="Halaman yang Anda cari tidak ditemukan. Kembali ke beranda Ismaya Dewa Mitra untuk solusi bisnis canggih dari Lumbangrejo.">
-    <meta http-equiv="refresh" content="15; URL=https://www.idm.web.id">
+    <!--meta http-equiv="refresh" content="15; URL=https://www.idm.web.id"-->
     <link rel="canonical" href="https://www.idm.web.id">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
@@ -54,7 +55,7 @@ ter<!DOCTYPE html>
             left: 0;
             width: 100%;
             height: var(--header-height);
-            z-index: 1000;
+            z-index: 1000; /* Header di atas konten lain */
             box-shadow: 0 2px 8px rgba(0, 0, 0, .3);
             display: flex;
             align-items: center;
@@ -94,58 +95,65 @@ ter<!DOCTYPE html>
             visibility: visible;
             transition: opacity .5s ease-in-out, visibility .5s ease-in-out;
         }
-        #neon-grid, #smoke-canvas, #laser-canvas, #firework-canvas, #timer-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 2;
-        }
-        .error-section .container {
-            z-index: 60;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100%;
-        }
-        .error-section h1 {
-            font-size: 4rem;
-            font-weight: 700;
-            text-shadow: 0 0 10px var(--secondary);
-            animation: fadeIn 2s ease-in;
-            margin-bottom: 1rem;
-        }
-        .error-section i {
-            font-size: 5rem;
-            color: var(--secondary);
-            margin-bottom: 1rem;
-            animation: fadeIn 2s ease-in 0.5s forwards;
-            opacity: 0;
-        }
-        .error-section p {
-            font-size: 1.3rem;
-            max-width: 600px;
-            margin: 1rem auto;
-            color: var(--text);
-            animation: fadeIn 2s ease-in 1s forwards;
-            opacity: 0;
-        }
-        .timer-canvas-container {
-            width: 160px; /* Sekitar 4cm */
-            height: 160px;
-            margin: 1rem 0;
-            overflow: hidden;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+.error-section .container {
+    z-index: 60;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100%;
+    position: relative;
+    padding: 0;
+    height: 100%;
+    gap: 3rem; /* Meningkatkan jarak antar elemen menjadi 3rem */
+}
+
+.error-section i {
+    font-size: 4rem; /* Mengurangi ukuran ikon */
+    color: var(--secondary);
+    margin-bottom: 0.5rem; /* Jarak di bawah ikon */
+    animation: fadeIn 2s ease-in 0.5s forwards;
+    opacity: 0;
+}
+
+.error-section h1 {
+    font-size: 3rem; /* Mengurangi ukuran judul */
+    font-weight: 700;
+    text-shadow: 0 0 10px var(--secondary);
+    animation: fadeIn 2s ease-in;
+    margin-bottom: 0.5rem; /* Jarak di bawah judul */
+}
+
+.error-section p {
+    font-size: 1.1rem; /* Mengurangi ukuran paragraf */
+    max-width: 600px;
+    margin: 0;
+    color: var(--text);
+    animation: fadeIn 2s ease-in 1s forwards;
+    opacity: 0;
+}
+
+.timer-canvas-container {
+    width: 140px; /* Tetap 140px */
+    height: 140px;
+    margin: 0 auto; /* Posisi tengah relatif pada alur flex */
+    overflow: hidden;
+    position: relative; /* Mengubah dari absolute ke relative untuk mengikuti alur */
+    top: 0; /* Menghapus offset absolut */
+    left: 0;
+    transform: none; /* Menghapus transformasi */
+    border-radius: 50%;
+    box-shadow: 0 0 15px var(--secondary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 50; /* Menurunkan z-index agar tidak menutupi teks */
+}
         .timer-canvas-container canvas {
             width: 100%;
             height: 100%;
             display: block;
+            border-radius: 50%; /* Memastikan kanvas juga lingkaran */
         }
         .timer-text {
             font-size: 1.2rem;
@@ -155,6 +163,8 @@ ter<!DOCTYPE html>
             overflow: hidden;
             white-space: nowrap;
             display: inline-block;
+			margin-top: 1.5rem; /* Jarak di atas teks timer */
+    margin-bottom: 1.5rem; /* Jarak di bawah teks timer */
         }
         .timer-text span {
             display: inline-block;
@@ -216,28 +226,6 @@ ter<!DOCTYPE html>
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        @keyframes neonPulse {
-            0% { stroke: var(--secondary); stroke-opacity: .3; }
-            50% { stroke: var(--secondary); stroke-opacity: .9; }
-            100% { stroke: var(--secondary); stroke-opacity: .3; }
-        }
-        @media (max-width: 768px) {
-            .error-section h1 { font-size: 3rem; }
-            .error-section i { font-size: 4rem; }
-            .error-section p { font-size: 1.1rem; }
-            .timer-text { font-size: 1rem; }
-            .timer-canvas-container { width: 120px; height: 120px; }
-            .error-section { padding: 4rem 1rem; }
-        }
-        @media (max-width: 480px) {
-            .error-section h1 { font-size: 2rem; }
-            .error-section i { font-size: 3rem; }
-            .error-section p { font-size: .95rem; }
-            .timer-text { font-size: .9rem; }
-            .timer-canvas-container { width: 80px; height: 80px; }
-            .cta-button { padding: .8rem 2rem; font-size: .9rem; }
-            .container { padding: 0 .8rem; }
-        }
     </style>
 </head>
 <body>
@@ -245,25 +233,23 @@ ter<!DOCTYPE html>
         <div class="container">
             <a href="https://www.idm.web.id" class="logo" onclick="refreshPageOnLoad()">www.idm.web.id</a>
         </div>
-    </header>
-    <section class="error-section">
-        <canvas id="neon-grid"></canvas>
-        <canvas id="smoke-canvas"></canvas>
-        <canvas id="laser-canvas"></canvas>
-        <canvas id="firework-canvas"></canvas>
-        <canvas id="timer-canvas"></canvas>
-        <div class="container">
-            <i class="fas fa-exclamation-triangle"></i>
-            <h1>404 - Halaman Tidak Ditemukan</h1>
-            <p>Maaf, halaman yang Anda cari tidak tersedia.</p>
-            <center>
-            <div class="timer-canvas-container">
-                <canvas id="timer-canvas"></canvas>
-            </div>
-            <div class="timer-text" id="timer-text"></div></center>
-            <a href="https://www.idm.web.id" class="cta-button" onclick="refreshPageOnLoad()">Kembali ke Beranda</a>
+    </header> 
+	
+     
+   <section class="error-section">
+    <div class="container">
+        <i class="fas fa-exclamation-triangle"></i>
+        <h1>404 - Halaman Tidak Ditemukan</h1>
+        <p>Maaf, halaman yang Anda cari tidak tersedia.</p>
+		
+		<div class="timer-text" id="timer-text"></div>
+        <div class="timer-canvas-container">
+            <canvas id="timer-canvas"></canvas>
         </div>
-    </section>
+        
+       
+    </div>
+</section>
     <footer>
         <div class="container">
             <p>© 2025 Ismaya Dewa Mitra | <a href="https://shopee.co.id/pt.ismayadewamitra#product_list" target="_blank" rel="noopener noreferrer">Belanja di Shopee</a></p>
@@ -271,187 +257,25 @@ ter<!DOCTYPE html>
     </footer>
     <script>
         const heroSection = document.querySelector(".error-section");
-        const heroCanvas = document.getElementById("neon-grid");
-        const heroCtx = heroCanvas.getContext("2d");
-        const smokeCanvas = document.getElementById("smoke-canvas");
-        const smokeCtx = smokeCanvas ? smokeCanvas.getContext("2d") : null;
-        const laserCanvas = document.getElementById("laser-canvas");
-        const laserCtx = laserCanvas ? laserCanvas.getContext("2d") : null;
-        const fireworkCanvas = document.getElementById("firework-canvas");
-        const fireworkCtx = fireworkCanvas ? fireworkCanvas.getContext("2d") : null;
         const timerCanvas = document.getElementById("timer-canvas");
         const timerCtx = timerCanvas.getContext("2d");
-        const gridLines = [];
-        const smokeParticles = [];
-        const laserBeams = [];
-        const fireworkParticles = [];
-        const numberOfLines = 30;
-        const numberOfSmokeParticles = 50;
-        const maxLaserBeams = 5;
-        const maxFireworkParticles = 30;
-
-        // Neon Grid
-        class GridLine {
-            constructor() {
-                this.isHorizontal = Math.random() > 0.5;
-                if (this.isHorizontal) {
-                    this.y = Math.random() * window.innerHeight;
-                    this.speed = (Math.random() * 2 - 1) * 0.5;
-                } else {
-                    this.x = Math.random() * window.innerWidth;
-                    this.speed = (Math.random() * 2 - 1) * 0.5;
-                }
-                this.opacity = Math.random() * 0.3 + 0.1;
-            }
-            update() {
-                if (this.isHorizontal) {
-                    this.y += this.speed;
-                    if (this.y < 0) this.y = window.innerHeight;
-                    else if (this.y > window.innerHeight) this.y = 0;
-                } else {
-                    this.x += this.speed;
-                    if (this.x < 0) this.x = window.innerWidth;
-                    else if (this.x > window.innerWidth) this.x = 0;
-                }
-            }
-            draw(currentCtx, canvasWidth, canvasHeight) {
-                currentCtx.beginPath();
-                if (this.isHorizontal) {
-                    currentCtx.moveTo(0, this.y);
-                    currentCtx.lineTo(canvasWidth, this.y);
-                } else {
-                    currentCtx.moveTo(this.x, 0);
-                    currentCtx.lineTo(this.x, canvasHeight);
-                }
-                currentCtx.strokeStyle = `rgba(0, 212, 255, ${this.opacity})`;
-                currentCtx.lineWidth = 1;
-                currentCtx.stroke();
-            }
-        }
-
-        // Smoke
-        class SmokeParticle {
-            constructor() {
-                this.x = Math.random() * window.innerWidth;
-                this.y = window.innerHeight;
-                this.size = Math.random() * 20 + 10;
-                this.speedX = (Math.random() * 0.4 - 0.2);
-                this.speedY = -(Math.random() * 0.5 + 0.3);
-                this.opacity = Math.random() * 0.2 + 0.1;
-            }
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                if (this.y < 0 || this.x < 0 || this.x > window.innerWidth) {
-                    this.x = Math.random() * window.innerWidth;
-                    this.y = window.innerHeight;
-                    this.opacity = Math.random() * 0.2 + 0.1;
-                }
-                this.opacity = Math.max(0.05, this.opacity + (Math.random() * 0.02 - 0.01));
-            }
-            draw(currentCtx) {
-                currentCtx.beginPath();
-                const gradient = currentCtx.createRadialGradient(
-                    this.x, this.y, 0,
-                    this.x, this.y, this.size
-                );
-                gradient.addColorStop(0, `rgba(0, 212, 255, ${this.opacity})`);
-                gradient.addColorStop(1, `rgba(0, 212, 255, 0)`);
-                currentCtx.fillStyle = gradient;
-                currentCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                currentCtx.fill();
-            }
-        }
-
-        // Laser Beams
-        class LaserBeam {
-            constructor() {
-                this.x = Math.random() * window.innerWidth;
-                this.y = 0;
-                this.speedY = Math.random() * 5 + 5;
-                this.opacity = 0.6;
-                this.length = Math.random() * 100 + 50;
-                this.color = ["#ff0000", "#ff6600", "#ffff00"][Math.floor(Math.random() * 3)];
-                this.lifetime = 60;
-                this.age = 0;
-            }
-            update() {
-                this.y += this.speedY;
-                this.age++;
-                this.opacity = 0.6 * (1 - this.age / this.lifetime);
-                if (this.y + this.length >= window.innerHeight - 80 && Math.random() < 0.5) {
-                    for (let i = 0; i < 10; i++) {
-                        if (fireworkParticles.length < maxFireworkParticles) {
-                            fireworkParticles.push(new FireworkParticle(this.x, this.y + this.length, this.color));
-                        }
-                    }
-                }
-                if (this.age >= this.lifetime || this.y > window.innerHeight) {
-                    this.reset();
-                }
-            }
-            reset() {
-                this.x = Math.random() * window.innerWidth;
-                this.y = 0;
-                this.speedY = Math.random() * 5 + 5;
-                this.opacity = 0.6;
-                this.length = Math.random() * 100 + 50;
-                this.color = ["#ff0000", "#ff6600", "#ffff00"][Math.floor(Math.random() * 3)];
-                this.age = 0;
-            }
-            draw(currentCtx) {
-                currentCtx.beginPath();
-                currentCtx.moveTo(this.x, this.y);
-                currentCtx.lineTo(this.x, this.y + this.length);
-                const gradient = currentCtx.createLinearGradient(this.x, this.y, this.x, this.y + this.length);
-                gradient.addColorStop(0, `rgba(${this.color === "#ff0000" ? "255,0,0" : this.color === "#ff6600" ? "255,102,0" : "255,255,0"}, ${this.opacity})`);
-                gradient.addColorStop(1, `rgba(${this.color === "#ff0000" ? "255,0,0" : this.color === "#ff6600" ? "255,102,0" : "255,255,0"}, 0)`);
-                currentCtx.strokeStyle = gradient;
-                currentCtx.lineWidth = 2;
-                currentCtx.stroke();
-            }
-        }
-
-        // Firework Particles
-        class FireworkParticle {
-            constructor(x, y, color) {
-                this.x = x;
-                this.y = y;
-                this.color = color;
-                this.size = Math.random() * 3 + 2;
-                this.speedX = (Math.random() - 0.5) * 6;
-                this.speedY = (Math.random() - 0.5) * 6;
-                this.opacity = 0.8;
-                this.lifetime = 42;
-                this.age = 0;
-            }
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                this.age++;
-                this.opacity = 0.8 * (1 - this.age / this.lifetime);
-                this.size *= 0.95;
-            }
-            draw(currentCtx) {
-                currentCtx.beginPath();
-                currentCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                currentCtx.fillStyle = `rgba(${this.color === "#ff0000" ? "255,0,0" : this.color === "#ff6600" ? "255,102,0" : "255,255,0"}, ${this.opacity})`;
-                currentCtx.fill();
-            }
-        }
-
-        // Timer Animation
+        const timerText = document.getElementById("timer-text");
         let timeLeft = 15;
         const totalTime = 15;
-        const timerText = document.getElementById("timer-text");
         const message = "Mengalihkan dalam 15 detik...";
 
         function setTimerCanvasDimensions() {
             const container = document.querySelector(".timer-canvas-container");
+            const errorContainer = document.querySelector(".error-section .container");
             timerCanvas.width = container.offsetWidth * window.devicePixelRatio;
             timerCanvas.height = container.offsetHeight * window.devicePixelRatio;
             timerCanvas.style.width = `${container.offsetWidth}px`;
             timerCanvas.style.height = `${container.offsetHeight}px`;
+            // Posisi ulang timer relatif pada container
+            container.style.position = 'absolute';
+            container.style.top = '90%';
+            container.style.left = '50%';
+            container.style.transform = 'translate(-50%, -50%)';
             drawTimer();
         }
 
@@ -464,7 +288,7 @@ ter<!DOCTYPE html>
         }
 
         function updateTimerText() {
-            timerText.innerHTML = `Mengalihkan dalam ${timeLeft} detik...`.split("").map(char => `<span>${char}</span>`).join("");
+            timerText.innerHTML = `Mengalihkan dalam  ${timeLeft}  detik...`.split("").map(char => `<span> ${char}</span>`).join("");
             const spans = timerText.querySelectorAll("span");
             spans.forEach((span, index) => {
                 span.style.animationDelay = `${index * 0.05}s`;
@@ -517,156 +341,19 @@ ter<!DOCTYPE html>
             }, 1000);
         }
 
-        function initGridLines() {
-            gridLines.length = 0;
-            for (let i = 0; i < numberOfLines; i++) {
-                gridLines.push(new GridLine());
-            }
-        }
-
-        function initSmokeParticles() {
-            smokeParticles.length = 0;
-            for (let i = 0; i < numberOfSmokeParticles; i++) {
-                smokeParticles.push(new SmokeParticle());
-            }
-        }
-
-        function initLaserBeams() {
-            laserBeams.length = 0;
-            for (let i = 0; i < 2; i++) {
-                laserBeams.push(new LaserBeam());
-            }
-        }
-
-        function initFireworkParticles() {
-            fireworkParticles.length = 0;
-        }
-
-        function spawnLaserBeam() {
-            if (laserBeams.length < maxLaserBeams && Math.random() < 0.02) {
-                laserBeams.push(new LaserBeam());
-            }
-        }
-
-        function spawnFirework(x, y) {
-            if (fireworkParticles.length < maxFireworkParticles) {
-                const color = ["#ff0000", "#ff6600", "#ffff00"][Math.floor(Math.random() * 3)];
-                for (let i = 0; i < 10; i++) {
-                    fireworkParticles.push(new FireworkParticle(x, y, color));
-                }
-            }
-        }
-
-        function setCanvasDimensions() {
-            const buffer = 5;
-            heroCanvas.width = window.innerWidth + buffer;
-            heroCanvas.height = window.innerHeight + buffer;
-            if (smokeCanvas) {
-                smokeCanvas.width = window.innerWidth + buffer;
-                smokeCanvas.height = window.innerHeight + buffer;
-            }
-            if (laserCanvas) {
-                laserCanvas.width = window.innerWidth + buffer;
-                laserCanvas.height = window.innerHeight + buffer;
-            }
-            if (fireworkCanvas) {
-                fireworkCanvas.width = window.innerWidth + buffer;
-                fireworkCanvas.height = window.innerHeight + buffer;
-            }
-        }
-
-        function animate() {
-            heroCtx.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
-            gridLines.forEach(line => {
-                line.update();
-                line.draw(heroCtx, heroCanvas.width, heroCanvas.height);
-            });
-            if (smokeCanvas && smokeCtx) {
-                smokeCtx.clearRect(0, 0, smokeCanvas.width, smokeCanvas.height);
-                smokeParticles.forEach(particle => {
-                    particle.update();
-                    particle.draw(smokeCtx);
-                });
-            }
-            if (laserCanvas && laserCtx) {
-                laserCtx.clearRect(0, 0, laserCanvas.width, laserCanvas.height);
-                spawnLaserBeam();
-                laserBeams.forEach(beam => {
-                    beam.update();
-                    beam.draw(laserCtx);
-                });
-                for (let i = laserBeams.length - 1; i >= 0; i--) {
-                    if (laserBeams[i].age >= laserBeams[i].lifetime) {
-                        laserBeams.splice(i, 1);
-                    }
-                }
-            }
-            if (fireworkCanvas && fireworkCtx) {
-                fireworkCtx.clearRect(0, 0, fireworkCanvas.width, fireworkCanvas.height);
-                fireworkParticles.forEach(particle => {
-                    particle.update();
-                    particle.draw(fireworkCtx);
-                });
-                for (let i = fireworkParticles.length - 1; i >= 0; i--) {
-                    if (fireworkParticles[i].age >= fireworkParticles[i].lifetime) {
-                        fireworkParticles.splice(i, 1);
-                    }
-                }
-            }
-            requestAnimationFrame(animate);
-        }
-
-        function setErrorSectionLayout() {
-            const headerHeight = document.querySelector(".header").offsetHeight || 0;
-            const footerHeight = document.querySelector("footer").offsetHeight || 0;
-            let viewportHeight = CSS.supports("height", "100dvh") ? document.documentElement.clientHeight : window.innerHeight;
-            heroSection.style.minHeight = `${viewportHeight}px`;
-            heroSection.style.paddingTop = `${headerHeight + 32}px`;
-            heroSection.style.paddingBottom = `${footerHeight + 32}px`;
-        }
-
         setTimerCanvasDimensions();
-        initGridLines();
-        initSmokeParticles();
-        initLaserBeams();
-        initFireworkParticles();
-        setCanvasDimensions();
         initTimerText();
         drawTimer();
-        animate();
         startTimer();
 
-        window.addEventListener("load", () => {
-            setCanvasDimensions();
-            setTimerCanvasDimensions();
-            initGridLines();
-            initSmokeParticles();
-            initLaserBeams();
-            initFireworkParticles();
-            setErrorSectionLayout();
-        });
-
         window.addEventListener("resize", () => {
-            setCanvasDimensions();
             setTimerCanvasDimensions();
-            initGridLines();
-            initSmokeParticles();
-            initLaserBeams();
-            initFireworkParticles();
-            setErrorSectionLayout();
-        });
-
-        window.addEventListener("click", (e) => {
-            if (fireworkParticles.length < maxFireworkParticles) {
-                spawnFirework(e.clientX, e.clientY);
-            }
-        });
-
-        window.addEventListener("touchstart", (e) => {
-            if (fireworkParticles.length < maxFireworkParticles) {
-                const touch = e.touches[0];
-                spawnFirework(touch.clientX, touch.clientY);
-            }
+            // Pastikan timer tetap di tengah setelah resize
+            const timerContainer = document.querySelector(".timer-canvas-container");
+            timerContainer.style.position = 'absolute';
+            timerContainer.style.top = '50%';
+            timerContainer.style.left = '50%';
+            timerContainer.style.transform = 'translate(-50%, -50%)';
         });
 
         function refreshPageOnLoad() {
