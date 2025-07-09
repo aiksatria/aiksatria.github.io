@@ -1,43 +1,4 @@
-<script type="text/javascript">
-        var gk_isXlsx = false;
-        var gk_xlsxFileLookup = {};
-        var gk_fileData = {};
-        function filledCell(cell) {
-          return cell !== '' && cell != null;
-        }
-        function loadFileData(filename) {
-        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-            try {
-                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                var firstSheetName = workbook.SheetNames[0];
-                var worksheet = workbook.Sheets[firstSheetName];
-
-                // Convert sheet to JSON to filter blank rows
-                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                // Filter out blank rows (rows where all cells are empty, null, or undefined)
-                var filteredData = jsonData.filter(row => row.some(filledCell));
-
-                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-                var headerRowIndex = filteredData.findIndex((row, index) =>
-                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                );
-                // Fallback
-                if (headerRowIndex === -1 || headerRowIndex > 25) {
-                  headerRowIndex = 0;
-                }
-
-                // Convert filtered JSON back to CSV
-                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                return csv;
-            } catch (e) {
-                console.error(e);
-                return "";
-            }
-        }
-        return gk_fileData[filename] || "";
-        }
-        </script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -87,7 +48,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            color: var(--white);
+            color: var(--white Crossroads);
             text-align: center;
             overflow: hidden;
             padding: calc(var(--header-height) + 2rem) 1rem calc(var(--footer-height) + 2rem);
@@ -109,29 +70,13 @@
             height: 100%;
             z-index: 5;
         }
-        #smoke-canvas {
+        #smoke-canvas, #laser-canvas, #firework-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: 2;
-        }
-        #laser-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 3;
-        }
-        #firework-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 4;
         }
         .hero .container {
             z-index: 60;
@@ -321,6 +266,11 @@
             font-size: 1.05rem;
             margin-bottom: 1rem;
         }
+        #tentang-kami .content-item ul {
+            list-style: disc;
+            padding-left: 1.5rem;
+            text-align: left;
+        }
         #tentang-kami .about-image {
             max-width: 400px;
             width: 100%;
@@ -380,7 +330,9 @@
             border: 1px solid var(--secondary);
         }
         #layanan .service-card:hover {
-            transform: translateY(-10px) rotateX(5deg);
+            transform
+
+: translateY(-10px) rotateX(5deg);
             box-shadow: 0 10px 20px rgba(0, 0, 0, .3), 0 0 20px var(--secondary);
         }
         #layanan .service-icon {
@@ -420,13 +372,30 @@
             color: var(--accent);
             text-shadow: 0 0 5px var(--accent);
         }
-        #galeri .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
+        #galeri .gallery-container {
             margin-top: 2rem;
         }
+        #galeri .gallery-subcategory {
+            margin-bottom: 3rem;
+        }
+        #galeri .gallery-subcategory h3 {
+            color: var(--secondary);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        #galeri .slider {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        #galeri .slider-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
         #galeri .gallery-item {
+            flex: 0 0 100%;
             background: rgba(255, 255, 255, .05);
             padding: 1rem;
             border-radius: 8px;
@@ -438,6 +407,24 @@
             height: auto;
             border-radius: 8px;
             margin-bottom: 1rem;
+        }
+        #galeri .slider-nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        #galeri .slider-nav button {
+            background: var(--secondary);
+            color: var(--dark);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        #galeri .slider-nav button:hover {
+            background: var(--accent);
         }
         #kontak .contact-item {
             background: rgba(255, 255, 255, .05);
@@ -490,6 +477,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+        footer a {
+            color: var(--secondary);
+            text-decoration: none;
+            margin-left: 0.5rem;
+        }
+        footer a:hover {
+            color: var(--accent);
         }
         .overlay-bg-canvas {
             position: fixed;
@@ -568,7 +563,7 @@
             .tagline { font-size: 1.1rem; }
             .section-overlay .container { padding-top: calc(1rem + 40px); }
             .services-grid { grid-template-columns: 1fr; }
-            .gallery-grid { grid-template-columns: 1fr; }
+            .slider { max-width: 100%; }
             .close-button {
                 top: 1rem;
                 right: 1rem;
@@ -609,7 +604,7 @@
         <canvas id="neon-grid"></canvas>
         <div class="container">
             <h1 class="main-logo">Ismaya Dewa Mitra</h1>
-            <p class="tagline">Solusi bisnis canggih untuk masa depan, dirancang dengan presisi dan efisiensi.</p>
+            <p class="tagline">Solusi Bisnis Modern dari Lumbangrejo, Dirancang untuk Masa Depan</p>
             <a href="#" class="cta-button" aria-label="Lihat layanan IDM Group" onclick="showSection('layanan')"><img src="./logo.svg" alt="Ismaya Dewa Mitra" width="200" height="200"></a>
         </div>
     </section>
@@ -620,28 +615,28 @@
             <h2 class="section-title">Tentang IDM Group</h2>
             <div class="content-item">
                 <h3>Sekilas tentang Kami</h3>
-                <p>Kami adalah sekelompok pemuda yang memulai usaha secara mandiri dengan semangat produktif di usia muda. Meski dalam skala kecil, kami terus berkembang melalui berbagai lini bisnis di beberapa lokasi.</p>
+                <p>Kami adalah sekelompok pemuda produktif dari Pasuruan yang memulai usaha dari nol dengan semangat kerja keras. Meski dalam skala kecil, kami mengelola berbagai unit usaha lokal untuk mendukung ekonomi desa dan membuka peluang kerja fleksibel.</p>
             </div>
             <div class="content-item">
                 <h3>Lokasi dan Unit Usaha</h3>
-                <p><strong>Desa Lumbangrejo:</strong> Kantor pusat dan Master Agen (Brilink, pulsa, ekspedisi, produk digital & perbankan), juga sebagai lokasi penyimpanan produk untuk Shopee.</p>
-                <p><strong>Desa Candi Wates:</strong> Terdapat dua lokasi dalam satu dusun:</p>
+                <p><strong>Desa Lumbangrejo:</strong> Pusat Master Agen kami, melayani Brilink, pulsa, ekspedisi, produk digital, dan perbankan. Juga sebagai gudang stok produk Shopee.</p>
+                <p><strong>Desa Candi Wates:</strong> Dua unit usaha dalam satu dusun:</p>
                 <ul>
-                    <li>Jasa Laser Marking & Cutting</li>
-                    <li>Unit Produksi Ceker Ayam Tanpa Tulang – dikerjakan oleh warga lokal dengan sistem kerja fleksibel dan sistem borongan berdasarkan hasil kupas per kilogram.</li>
+                    <li><strong>Jasa Laser Marking & Cutting:</strong> Teknologi presisi untuk material seperti EVA, akrilik, kayu, dan lainnya.</li>
+                    <li><strong>Produksi Ceker Ayam Tanpa Tulang:</strong> Diproses higienis oleh warga lokal dengan sistem borongan. Limbah tulang tersedia untuk peluang bisnis—hubungi <a href="https://wa.me/6285785497954" target="_blank" rel="noopener noreferrer">WhatsApp</a>.</li>
                 </ul>
-                <p>Kami juga membuka peluang kerja tanpa syarat jam kerja formal. Jika tertarik dengan limbah tulang hasil produksi, silakan hubungi kami. Produk ceker ayam tanpa tulang tersedia untuk pembelian langsung maupun lewat Shopee, dengan harga khusus dan bonus untuk pembelian dalam jumlah besar.</p>
+                <p>Kami membuka peluang kerja tanpa ikatan jam formal, dengan penghasilan berdasarkan hasil per kilogram. Ceker ayam tersedia untuk pembelian langsung (diskon untuk partai besar) atau via <a href="https://shopee.co.id/pt.ismayadewamitra#product_list" target="_blank" rel="noopener noreferrer">Shopee</a>.</p>
+                <a href="https://wa.me/6285785497954" class="cta-button" target="_blank" rel="noopener noreferrer">Bergabung sebagai Mitra Kerja</a>
             </div>
             <div class="content-item">
                 <h3>Makna Nama "Ismaya Dewa Mitra"</h3>
-                <p>Ismaya (juga dikenal sebagai Ismoyo atau Ismaia) adalah tokoh legendaris dari budaya Jawa, seorang dewa abadi dan salah satu dari Trimurti dalam versi lokal. Di bumi, beliau menjelma sebagai Semar, abdi bijak yang menjadi pengasuh para kesatria seperti Pandawa.</p>
-                <p>Kami mengangkat nama ini sebagai simbol pelayanan, kebijaksanaan, dan kemitraan sejati. Seperti Semar, kami ingin:</p>
+                <p>Ismaya, atau Ismoyo, adalah dewa legendaris Jawa, bagian dari Trimurti lokal, yang menjelma sebagai Semar—abdi bijak para kesatria Pandawa. Nama ini mencerminkan nilai kami:</p>
                 <ul>
-                    <li>Menjadi pelayan kebaikan</li>
-                    <li>Menebar kemaslahatan</li>
-                    <li>Membangun lapangan kerja dan kolaborasi lintas golongan, suku, dan agama</li>
+                    <li>Melayani dengan tulus dan kebijaksanaan.</li>
+                    <li>Menebar manfaat melalui lapangan kerja dan inovasi.</li>
+                    <li>Menjalin kemitraan lintas suku, agama, dan golongan.</li>
                 </ul>
-                <p>Kami percaya bahwa dengan niat yang tulus dan kerja yang ikhlas, kami bisa menjadi "Mitra Ismaya"—menghadirkan manfaat nyata bagi masyarakat.</p>
+                <p>Kami bercita-cita menjadi "Mitra Ismaya"—membawa kebaikan dan kolaborasi untuk masa depan.</p>
             </div>
             <div class="about-image"></div>
         </div>
@@ -666,6 +661,11 @@
                     <h3>Inovasi Progresif</h3>
                     <p>Kami terus berinovasi untuk memenuhi kebutuhan pasar modern.</p>
                 </div>
+                <div class="advantage-item">
+                    <i class="fas fa-users"></i>
+                    <h3>Memberdayakan Komunitas</h3>
+                    <p>Membuka lapangan kerja fleksibel untuk warga lokal, mendukung pertumbuhan ekonomi desa.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -678,12 +678,13 @@
                     <div class="service-icon"><i class="fas fa-cut"></i></div>
                     <div class="service-content">
                         <h3 class="service-title">Jasa Laser Marking</h3>
-                        <p class="service-desc">Proses arsir atau penandaan pada media seperti spons EVA, akrilik, kayu, oskar, kulit, kertas, plastik, dan karet. Belum melayani logam keras (aluminium, besi).</p>
+                        <p class="service-desc">Proses arsir atau penandaan pada media seperti EVA, akrilik, kayu, oskar, kulit, kertas, plastik, dan karet. Tidak melayani logam keras (aluminium, besi).</p>
                         <ul>
-                            <li>Harga fleksibel, ditentukan melalui negosiasi berdasarkan waktu pengerjaan, jenis bahan, dan tingkat kesulitan proses.</li>
-                            <li>Umumnya melayani pemesanan dari industri sepatu dan sandal, terutama untuk insole berlogo atau berornamen.</li>
-                            <li>Peluang terbuka untuk produk lain: dompet, tas, sabuk, dan aksesoris.</li>
-                            <li>Alur layanan: Desain → Aplikasi bahan → Penetapan harga → Produksi</li>
+                            <li>Harga fleksibel berdasarkan bahan, desain, dan tingkat kesulitan.</li>
+                            <li>Spesialisasi pada logo dan ornamen insole sepatu/sandal.</li>
+                            <li>Peluang untuk produk lain: dompet, tas, sabuk, aksesoris.</li>
+                            <li>Alur layanan: Desain → Aplikasi bahan → Penetapan harga → Produksi.</li>
+                            <li><a href="https://wa.me/6285175127954" target="_blank" rel="noopener noreferrer">Jadwal Konsultasi</a></li>
                         </ul>
                     </div>
                 </div>
@@ -691,9 +692,23 @@
                     <div class="service-icon"><i class="fas fa-cut"></i></div>
                     <div class="service-content">
                         <h3 class="service-title">Jasa Laser Cutting</h3>
-                        <p class="service-desc">Saat ini sedang dalam perawatan. Hubungi kami untuk info lebih lanjut mengenai ketersediaan layanan.</p>
+                        <p class="service-desc">Saat ini dalam perawatan. Hubungi kami untuk info terbaru.</p>
                         <ul>
                             <li><a href="https://wa.me/6285175127954" target="_blank" rel="noopener noreferrer">Hubungi via WhatsApp</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-drumstick-bite"></i></div>
+                    <div class="service-content">
+                        <h3 class="service-title">Ceker Ayam Tanpa Tulang</h3>
+                        <p class="service-desc">Ceker ayam higienis tanpa tulang, ideal untuk industri kuliner.</p>
+                        <ul>
+                            <li>Diproduksi warga lokal dengan standar higienis tinggi.</li>
+                            <li>Sistem borongan fleksibel: Kerja tanpa ikatan jam, penghasilan per kilogram.</li>
+                            <li>Peluang kerja terbuka—hubungi kami untuk bergabung!</li>
+                            <li>Pembelian langsung (diskon untuk partai besar) atau via <a href="https://shopee.co.id/Ceker-Ayam-Tanpa-Tulang-Termurah-i.237163709.22685283866" target="_blank" rel="noopener noreferrer">Shopee</a>.</li>
+                            <li>Limbah tulang untuk peluang bisnis—hubungi <a href="https://wa.me/6285785497954" target="_blank" rel="noopener noreferrer">WhatsApp</a>.</li>
                         </ul>
                     </div>
                 </div>
@@ -701,10 +716,11 @@
                     <div class="service-icon"><i class="fas fa-fish"></i></div>
                     <div class="service-content">
                         <h3 class="service-title">Budidaya Ikan Mujair</h3>
-                        <p class="service-desc">Menyediakan ikan segar untuk kolam pancing dengan skala menengah.</p>
+                        <p class="service-desc">Ikan segar berkualitas untuk kolam pancing (skala menengah).</p>
                         <ul>
-                            <li>Pembelian eceran bisa dilakukan dengan konfirmasi terlebih dahulu.</li>
-                            <li>Rencana ke depan: Kolam pancing umum dengan kafetaria dan biliar, serta produksi pakan ikan dan ayam (saat ini ditunda).</li>
+                            <li>Pembelian eceran dengan konfirmasi via <a href="https://wa.me/6285175127954" target="_blank" rel="noopener noreferrer">WhatsApp</a>.</li>
+                            <li>Rencana ekspansi: Kolam pancing umum, kafe, dan biliar.</li>
+                            <li>Produksi pakan ikan/ayam saat ini ditunda (update menyusul).</li>
                         </ul>
                     </div>
                 </div>
@@ -712,16 +728,15 @@
                     <div class="service-icon"><i class="fas fa-money-bill-wave"></i></div>
                     <div class="service-content">
                         <h3 class="service-title">Layanan Master Agen</h3>
-                        <p class="service-desc">Layanan keuangan dan transaksi cepat, tersedia dari pukul 06.00 – 21.00 WIB (di luar jam tersebut bersifat opsional).</p>
+                        <p class="service-desc">Layanan keuangan dan transaksi cepat, 06.00–21.00 WIB (opsional di luar jam).</p>
                         <ul>
-                            <li>Pulsa & Data: Semua operator, kuota internet, paket telepon & SMS, paket haji/umroh.</li>
-                            <li>Token & Tagihan: PLN prabayar/pascabayar, BPJS, pendidikan, pajak, PPN.</li>
-                            <li>Top-up e-Wallet: DANA, GoPay, OVO, ShopeePay.</li>
-                            <li>Saldo e-Toll: Brizzi, Flazz, eMoney.</li>
-                            <li>Marketplace & Finansial: Belanja online, cicilan, pinjaman, paylater, kartu kredit.</li>
-                            <li>Voucher Game: Diamond & gold untuk MLBB, Free Fire, dan lainnya.</li>
-                            <li>Transfer & Tarik Tunai: Bank dalam/luar negeri, e-wallet, QRIS, gesek kartu via EDC Brilink.</li>
-                            <li>Catatan: Semua transaksi bersifat tunai, tidak menerima hutang. Proses disaksikan langsung oleh agen. Kesalahan saldo akibat kelalaian pengguna di luar tanggung jawab kami.</li>
+                            <li>Pulsa & Data: Semua operator, kuota, paket telepon/SMS, haji/umroh.</li>
+                            <li>Token & Tagihan: PLN, BPJS, pendidikan, pajak, PPN.</li>
+                            <li>Top-up e-Wallet: DANA, GoPay, OVO, ShopeePay, e-Toll (Brizzi, Flazz).</li>
+                            <li>Marketplace & Finansial: Belanja online, cicilan, paylater, kartu kredit.</li>
+                            <li>Voucher Game: Diamond/gold untuk Mobile Legends, Free Fire, dll.</li>
+                            <li>Transfer & Tarik Tunai: Bank dalam/luar negeri, e-wallet, QRIS, EDC Brilink.</li>
+                            <li><strong>Aturan:</strong> Transaksi tunai, tanpa hutang. Proses disaksikan agen resmi dengan software bersertifikat. Kesalahan saldo di luar tanggung jawab kami.</li>
                         </ul>
                     </div>
                 </div>
@@ -731,9 +746,10 @@
                         <h3 class="service-title">Agen SPX Express</h3>
                         <p class="service-desc">Pengiriman paket cepat dengan pelacakan real-time.</p>
                         <ul>
-                            <li>Kirim dan terima paket</li>
-                            <li>Jangkauan nasional</li>
-                            <li>Proses efisien</li>
+                            <li>Kirim dan terima paket.</li>
+                            <li>Jangkauan nasional.</li>
+                            <li>Proses efisien dan terpercaya.</li>
+                            <li><a href="https://wa.me/6285175127954" target="_blank" rel="noopener noreferrer">Cek Status Pengiriman</a></li>
                         </ul>
                     </div>
                 </div>
@@ -757,18 +773,54 @@
         <button class="close-button" onclick="hideSection('galeri')" aria-label="Tutup Galeri"><i class="fas fa-times"></i></button>
         <div class="container">
             <h2 class="section-title">Galeri Kami</h2>
-            <div class="gallery-grid">
-                <div class="gallery-item">
-                    <img src="images/ceker-ayam.jpg" alt="Ceker Ayam Tanpa Tulang" />
-                    <p>Ceker ayam tanpa tulang siap dikemas untuk pengiriman.</p>
+            <div class="gallery-container">
+                <div class="gallery-subcategory">
+                    <h3>Ceker Ayam Tanpa Tulang</h3>
+                    <div class="slider" data-slider-id="ceker">
+                        <div class="slider-track">
+                            <div class="gallery-item"><img src="https://via.placeholder.com/600x400?text=Ceker+1" alt="Ceker Ayam 1" /><p>Proses produksi higienis oleh warga lokal.</p></div>
+                            <div class="gallery-item"><img src="https://via.placeholder.com/600x400?text=Ceker+2" alt="Ceker Ayam 2" /><p>Ceker siap kemas untuk pengiriman.</p></div>
+                            <div class="gallery-item"><img src="https://via.placeholder.com/600x400?text=Ceker+3" alt="Ceker Ayam 3" /><p>Hasil ceker tanpa tulang berkualitas.</p></div>
+                            <div class="gallery-item"><img src="https://via.placeholder.com/600x400?text=Ceker+4" alt="Ceker Ayam 4" /><p>Packing untuk pembelian partai besar.</p></div>
+                            <div class="gallery-item"><img src="https://via.placeholder.com/600x400?text=Ceker+5" alt="Ceker Ayam 5" /><p>Proses borongan fleksibel.</p></div>
+                        </div>
+                        <div class="slider-nav">
+                            <button onclick="prevSlide('ceker')">Prev</button>
+                            <button onclick="nextSlide('ceker')">Next</button>
+                        </div>
+                    </div>
                 </div>
-                <div class="gallery-item">
-                    <img src="images/laser-marking.jpg" alt="Jasa Laser Marking" />
-                    <p>Hasil laser marking presisi pada insole sepatu.</p>
+                <div class="gallery-subcategory">
+                    <h3>Jasa Laser Marking</h3>
+                    <div class="slider" data-slider-id="laser">
+                        <div class="slider-track">
+                            <div class="gallery-item"><img src="https://via.placeholder.com/600x400?text=Laser+1" alt="Laser Marking 1" /><p>Logo presisi pada insole sepatu.</p></div>
+                            <div class="gallery-item"><img src="https://via.placeholder.com/600x400?text=Laser+2" alt="Laser Marking 2" /><p>Ornamen pada akrilik.</p></div>
+                            <div class="gallery-item"><img src="https://via.placeholder.com/600x400?text=Laser+3" alt="Laser Marking 3" /><p>Desain custom pada kulit.</p></div>
+                            <div class="gallery-item"><img src="https://via.placeholder.com/600x400?text=Laser+4" alt="Laser Marking 4" /><p>Proses marking pada kayu.</p></div>
+                            <div class="gallery-item"><img src="https://via.placeholder.com/600x400?text=Laser+5" alt="Laser Marking 5" /><p>Aplikasi pada aksesoris.</p></div>
+                        </div>
+                        <div class="slider-nav">
+                            <button onclick="prevSlide('laser')">Prev</button>
+                            <button onclick="nextSlide('laser')">Next</button>
+                        </div>
+                    </div>
                 </div>
-                <div class="gallery-item">
-                    <img src="images/ikan-mujair.jpg" alt="Budidaya Ikan Mujair" />
-                    <p>Ikan mujair segar dari kolam budidaya kami.</p>
+                <div class="gallery-subcategory">
+                    <h3>Budidaya Ikan Mujair</h3>
+                    <div class="slider" data-slider-id="mujair">
+                        <div class="slider-track">
+                            <div class="gallery-item"><img src="https://via.placeholder.com/600x400?text=Mujair+1" alt="Ikan Mujair 1" /><p>Kolam budidaya ikan mujair.</p></div>
+                            <div class="gallery-item"><img src="https://via.placeholder.com/600x400?text=Mujair+2" alt="Ikan Mujair 2" /><p>Ikan segar siap distribusi.</p></div>
+                            <div class="gallery-item"><img src="https://via.placeholder.com/600x400?text=Mujair+3" alt="Ikan Mujair 3" /><p>Proses pemeliharaan kolam.</p></div>
+                            <div class="gallery-item"><img src="https://via.placeholder.com/600x400?text=Mujair+4" alt="Ikan Mujair 4" /><p>Pengiriman untuk kolam pancing.</p></div>
+                            <div class="gallery-item"><img src="https://via.placeholder.com/600x400?text=Mujair+5" alt="Ikan Mujair 5" /><p>Rencana kolam pancing umum.</p></div>
+                        </div>
+                        <div class="slider-nav">
+                            <button onclick="prevSlide('mujair')">Prev</button>
+                            <button onclick="nextSlide('mujair')">Next</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -780,6 +832,7 @@
             <div class="contact-item"><i class="fas fa-globe"></i><span>idm.web.id</span></div>
             <div class="contact-item"><i class="fas fa-envelope"></i><span>cs@idm.web.id</span></div>
             <div class="contact-item"><i class="fas fa-phone"></i><span>+62 851 7512 7954</span></div>
+            <div class="contact-item"><i class="fas fa-clock"></i><span>Jam Operasional: 06.00–21.00 WIB (opsional di luar jam)</span></div>
             <a href="https://wa.me/6285175127954" target="_blank" rel="noopener noreferrer" class="cta-button" aria-label="Hubungi IDM Group via WhatsApp"><i class="fab fa-whatsapp"></i> Hubungi via WhatsApp</a>
             <p class="contact-desc">Kirim pesan atau pertanyaan Anda melalui WhatsApp atau email, kami akan merespons secepatnya!</p>
             <div class="map-container">
@@ -792,10 +845,11 @@
     <canvas id="firework-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 4;"></canvas>
     <footer>
         <div class="container">
-            <p>© 2025 Ismaya Dewa Mitra</p>
+            <p>© 2025 Ismaya Dewa Mitra | <a href="https://shopee.co.id/pt.ismayadewamitra#product_list" target="_blank" rel="noopener noreferrer">Belanja di Shopee</a></p>
         </div>
     </footer>
     <script>
+        // JavaScript untuk animasi existing (tetap sama)
         const menuToggle = document.getElementById("menu-toggle");
         const navbar = document.getElementById("navbar");
         const body = document.body;
@@ -1126,6 +1180,25 @@
             heroSection.style.paddingTop = `${headerHeight + 32}px`;
             heroSection.style.paddingBottom = `${footerHeight + 32}px`;
         }
+
+        // Slider JavaScript
+        const sliders = document.querySelectorAll('.slider');
+        sliders.forEach(slider => {
+            const sliderId = slider.dataset.sliderId;
+            let currentSlide = 0;
+            const slides = slider.querySelectorAll('.gallery-item');
+            const totalSlides = slides.length;
+
+            window[`nextSlide_${sliderId}`] = function() {
+                currentSlide = (currentSlide + 1) % totalSlides;
+                slider.querySelector('.slider-track').style.transform = `translateX(-${currentSlide * 100}%)`;
+            };
+
+            window[`prevSlide_${sliderId}`] = function() {
+                currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+                slider.querySelector('.slider-track').style.transform = `translateX(-${currentSlide * 100}%)`;
+            };
+        });
 
         initGridLines();
         initSmokeParticles();
