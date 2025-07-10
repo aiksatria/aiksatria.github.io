@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Canvas App</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden; /* Sembunyikan scrollbar */
+            font-family: 'Inter', sans-serif; /* Gunakan font Inter */
+            background-color: #1a1a2e; /* Warna latar belakang gelap */
+            color: #e0e0e0; /* Warna teks terang */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        canvas {
+            display: block;
+            width: 100vw; /* Lebar 100% dari viewport */
+            height: 80vh; /* Tinggi 80% dari viewport */
+            background-color: #0f0f1f; /* Warna latar belakang canvas */
+            border-radius: 10px; /* Sudut membulat */
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5); /* Bayangan neon */
+            touch-action: none; /* Mencegah tindakan sentuh default browser */
+        }
+        .controls {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #2e2e4a;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        .message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none; /* Sembunyikan secara default */
+        }
+        #loadingMessage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #00ffff;
+            font-size: 24px;
+            display: none; /* Sembunyikan secara default */
+        }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas"></canvas>
+    <div id="loadingMessage">Memuat gambar...</div>
+    <div class="controls">
+        <button id="resetView">Reset Tampilan</button>
+        <button id="toggleAnimation">Toggle Animasi</button>
+    </div>
+    <div id="messageBox" class="message-box"></div>
+
+    <script>
+        // Variabel global untuk scene, kamera, dan renderer
+        let scene, camera, renderer;
+        // Objek gambar yang akan dianimasikan
+        let imagePlane;
+        // Status animasi
+        let isAnimating = true;
+
+        // Variabel untuk interaksi mouse
+        let isDragging = false;
+        let previousMousePosition = {
+            x: 0,
+            y: 0
+        };
+
+        // URL gambar placeholder. GANTI DENGAN URL GAMBAR ANDA SENDIRI!
+        // Atau gunakan Base64 data URL jika Anda mengonversi gambar Anda ke Base64.
+        // Contoh Base64: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=='
+        const IMAGE_URL = "https://idm.web.id/logo.png"; // Placeholder mirip gambar Anda
+
+        // Inisialisasi scene 3D
+        function init() {
+            // Dapatkan elemen canvas
+            const canvas = document.getElementById('myCanvas');
+            const loadingMessage = document.getElementById('loadingMessage');
+
+            // Buat scene
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x0f0f1f); // Atur latar belakang scene
+
+            // Buat kamera perspektif
+            // FOV, Rasio Aspek, Near, Far
+            camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+            camera.position.z = 5; // Atur posisi kamera
+
+            // Buat renderer WebGL
+            renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true }); // alpha: true untuk latar belakang transparan jika gambar memiliki transparansi
+            renderer.setSize(canvas.clientWidth, canvas.clientHeight); // Atur ukuran renderer
+            renderer.setPixelRatio(window.devicePixelRatio); // Atur rasio piksel perangkat
+
+            // Tambahkan pencahayaan (opsional, karena MeshBasicMaterial tidak merespons cahaya)
+            const ambientLight = new THREE.AmbientLight(0x404040);
+            scene.add(ambientLight);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(1, 1, 1).normalize();
+            scene.add(directionalLight);
+
+            // Tampilkan pesan loading
+            loadingMessage.style.display = 'block';
+
+            // Muat tekstur gambar
+            const textureLoader = new THREE.TextureLoader();
+            textureLoader.load(
+                IMAGE_URL,
+                // Callback saat tekstur berhasil dimuat
+                function (texture) {
+                    loadingMessage.style.display = 'none'; // Sembunyikan pesan loading
+                    // Buat geometri bidang (plane)
+                    // Ukuran plane disesuaikan agar gambar tidak terdistorsi
+                    const aspectRatio = texture.image.width / texture.image.height;
+                    const planeWidth = 3; // Lebar bidang
+                    const planeHeight = planeWidth / aspectRatio; // Tinggi bidang disesuaikan aspek rasio
+
+                    const geometryPlane = new THREE.PlaneGeometry(planeWidth, planeHeight);
+                    // Buat material dengan tekstur
+                    const materialPlane = new THREE.MeshBasicMaterial({
+                        map: texture,
+                        transparent: true, // Penting jika gambar memiliki area transparan
+                        side: THREE.DoubleSide // Tampilkan tekstur di kedua sisi bidang
+                    });
+                    imagePlane = new THREE.Mesh(geometryPlane, materialPlane);
+                    scene.add(imagePlane);
+
+                    showMessage("Seret mouse atau sentuh untuk memutar objek!");
+                },
+                // Callback saat proses loading
+                function (xhr) {
+                    console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+                },
+                // Callback saat terjadi error
+                function (err) {
+                    console.error('Terjadi error saat memuat tekstur:', err);
+                    loadingMessage.textContent = 'Gagal memuat gambar.';
+                    showMessage("Gagal memuat gambar. Pastikan URL gambar benar dan dapat diakses.", 5000);
+                }
+            );
+
+            // Tambahkan event listener untuk mengubah ukuran canvas saat jendela diubah ukurannya
+            window.addEventListener('resize', onWindowResize, false);
+
+            // Tambahkan event listener untuk interaksi mouse
+            canvas.addEventListener('mousedown', onMouseDown, false);
+            canvas.addEventListener('mouseup', onMouseUp, false);
+            canvas.addEventListener('mousemove', onMouseMove, false);
+
+            // Tambahkan event listener untuk interaksi sentuh (mobile)
+            canvas.addEventListener('touchstart', onTouchStart, false);
+            canvas.addEventListener('touchend', onTouchEnd, false);
+            canvas.addEventListener('touchmove', onTouchMove, false);
+
+            // Tambahkan event listener untuk tombol
+            document.getElementById('resetView').addEventListener('click', resetView);
+            document.getElementById('toggleAnimation').addEventListener('click', toggleAnimation);
+        }
+
+        // Fungsi untuk menampilkan pesan
+        function showMessage(message, duration = 3000) {
+            const messageBox = document.getElementById('messageBox');
+            messageBox.textContent = message;
+            messageBox.style.display = 'block';
+            setTimeout(() => {
+                messageBox.style.display = 'none';
+            }, duration);
+        }
+
+        // Fungsi untuk menangani perubahan ukuran jendela
+        function onWindowResize() {
+            const canvas = document.getElementById('myCanvas');
+            camera.aspect = canvas.clientWidth / canvas.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+        }
+
+        // Fungsi untuk menangani penekanan tombol mouse
+        function onMouseDown(event) {
+            isDragging = true;
+            previousMousePosition.x = event.clientX;
+            previousMousePosition.y = event.clientY;
+        }
+
+        // Fungsi untuk menangani pelepasan tombol mouse
+        function onMouseUp(event) {
+            isDragging = false;
+        }
+
+        // Fungsi untuk menangani pergerakan mouse
+        function onMouseMove(event) {
+            if (!isDragging) return;
+
+            const deltaX = event.clientX - previousMousePosition.x;
+            const deltaY = event.clientY - previousMousePosition.y;
+
+            // Putar objek berdasarkan pergerakan mouse
+            if (imagePlane) { // Pastikan imagePlane sudah dimuat
+                imagePlane.rotation.y += deltaX * 0.005;
+                imagePlane.rotation.x += deltaY * 0.005;
+            }
+
+            previousMousePosition.x = event.clientX;
+            previousMousePosition.y = event.clientY;
+        }
+
+        // Fungsi untuk menangani sentuhan awal
+        function onTouchStart(event) {
+            if (event.touches.length === 1) {
+                isDragging = true;
+                previousMousePosition.x = event.touches[0].clientX;
+                previousMousePosition.y = event.touches[0].clientY;
+            }
+        }
+
+        // Fungsi untuk menangani sentuhan akhir
+        function onTouchEnd(event) {
+            isDragging = false;
+        }
+
+        // Fungsi untuk menangani pergerakan sentuhan
+        function onTouchMove(event) {
+            if (!isDragging || event.touches.length !== 1) return;
+
+            const deltaX = event.touches[0].clientX - previousMousePosition.x;
+            const deltaY = event.touches[0].clientY - previousMousePosition.y;
+
+            // Putar objek berdasarkan pergerakan sentuhan
+            if (imagePlane) { // Pastikan imagePlane sudah dimuat
+                imagePlane.rotation.y += deltaX * 0.005;
+                imagePlane.rotation.x += deltaY * 0.005;
+            }
+
+            previousMousePosition.x = event.touches[0].clientX;
+            previousMousePosition.y = event.touches[0].clientY;
+
+            event.preventDefault(); // Mencegah scrolling default
+        }
+
+        // Fungsi untuk mereset tampilan kamera dan rotasi objek
+        function resetView() {
+            camera.position.set(0, 0, 5);
+            if (imagePlane) {
+                imagePlane.rotation.set(0, 0, 0);
+            }
+            showMessage("Tampilan direset!");
+        }
+
+        // Fungsi untuk mengaktifkan/menonaktifkan animasi
+        function toggleAnimation() {
+            isAnimating = !isAnimating;
+            const button = document.getElementById('toggleAnimation');
+            button.textContent = isAnimating ? "Toggle Animasi (Aktif)" : "Toggle Animasi (Nonaktif)";
+            showMessage(isAnimating ? "Animasi diaktifkan." : "Animasi dinonaktifkan.");
+        }
+
+        // Fungsi animasi utama
+        function animate() {
+            requestAnimationFrame(animate); // Minta frame animasi berikutnya
+
+            if (isAnimating && imagePlane) {
+                // Rotasi objek gambar
+                imagePlane.rotation.y += 0.005;
+                imagePlane.rotation.x += 0.002;
+            }
+
+            renderer.render(scene, camera); // Render scene dengan kamera
+        }
+
+        // Panggil fungsi inisialisasi saat jendela dimuat
+        window.onload = function () {
+            init();
+            animate(); // Mulai loop animasi
+        };
+    </script>
+</body>
+</html>
+
+
