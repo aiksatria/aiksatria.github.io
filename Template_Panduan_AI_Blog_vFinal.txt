@@ -1,0 +1,70 @@
+=============================================
+ TEMPLATE PENULISAN AI UNTUK BLOG idm.web.id
+=============================================
+
+⚠️ STRUKTUR WAJIB PENULISAN (untuk seluruh agen AI)
+Gunakan urutan berikut TANPA menambah label tambahan.
+Semua bagian ditulis dalam BLOK KODE (```plaintext atau ```) sesuai contoh.
+
+---------------------------------------------
+1. JUDUL
+---------------------------------------------
+Tulis judul singkat, emosional, dan menarik dalam blok kode `plaintext`.
+⚠️ Tidak boleh menyebut nama pribadi, selebritas, atau tokoh publik.
+
+Contoh:
+```plaintext
+Masa Depan Tanpa Kontrol: Apakah AI Akan Menghapus Peran Manusia?
+```
+
+---------------------------------------------
+2. KONTEN
+---------------------------------------------
+Tulis seluruh isi artikel dalam satu blok kode.
+
+❗ Jumlah kata: MINIMAL 10.000 kata, MAKSIMAL 30.000 kata.
+❗ Tidak perlu ada kalimat pengantar atau penutup — cukup struktur utama dan kesimpulan jika diperlukan.
+
+Struktur disarankan:
+- Subjudul/Subbagian dengan heading (gunakan format manual)
+- Isi poin-poin penting, argumentatif, dan mendalam
+- Minimal 10 internal link acak (seperti: https://blog.idm.web.id/?s=etika-ai)
+- Minimal 1 link eksternal terpercaya (jika relevan)
+- Gunakan Bahasa Indonesia baku, kalimat aktif, dan gaya formal netral
+
+Contoh Awal Format:
+```plaintext
+Subjudul 1: Evolusi Sistem Otonom
+
+AI telah berevolusi dari sekadar alat bantu menjadi aktor utama dalam pengambilan keputusan...
+(link internal: https://blog.idm.web.id/?s=otonomi-mesin)
+
+Subjudul 2: Risiko Hilangnya Peran Manusia
+
+Dalam sektor industri dan pendidikan, AI menggantikan fungsi manusia secara bertahap...
+(link eksternal: https://www.nature.com/articles/s41586-020-03093-8)
+
+...
+
+Kesimpulan
+
+Eksplorasi ini menunjukkan bahwa pengelolaan AI sangat krusial dalam menjaga keseimbangan sosial...
+```
+
+---------------------------------------------
+3. TAG
+---------------------------------------------
+Gunakan MINIMAL 50 TAG yang relevan dengan isi konten.
+Tulis dalam satu blok kode, dipisahkan dengan koma. Jangan beri label tambahan.
+
+Contoh:
+```plaintext
+ai, etika, masa depan teknologi, otonomi mesin, regulasi, pendidikan, ekonomi digital, kecerdasan buatan, society 5.0, etika teknologi, transformasi digital, otomatisasi, deep learning, machine learning, teknologi disruptif, filsafat ai, pengambilan keputusan, artificial general intelligence, neural network, data ethics, keadilan algoritma, privasi digital, hukum teknologi, bias algoritmik, pengawasan ai, akuntabilitas mesin, teknologi dan kemanusiaan, revolusi industri 5.0, digitalisasi, evolusi teknologi, tantangan etika, kebijakan publik, sistem cerdas, pemrograman etis, transparansi algoritma, teknologi dan pendidikan, dampak sosial teknologi, robotika, pengaruh terhadap pekerjaan, keamanan digital, kecerdasan kolektif, manusia dan mesin, interaksi manusia-komputer, teknologi masa depan, kontrol etis, teknopolitik, inovasi sosial, desain sistem ai, panduan ai, refleksi teknologi
+```
+
+---------------------------------------------
+🧠 CATATAN PENTING
+---------------------------------------------
+- Jangan menulis label seperti "Judul:", "Konten:", atau "Tag:" di dalam blok.
+- Format penulisan ini WAJIB untuk semua AI kontributor blog.
+- Meta description dan kategori diatur manual oleh pemilik situs.
