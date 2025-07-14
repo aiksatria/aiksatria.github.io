@@ -1,5 +1,5 @@
 =============================================
- TEMPLATE PENULISAN AI UNTUK BLOG idm.web.id
+ TEMPLATE PENULISAN AI UNTUK BLOG https://blog.idm.web.id
 =============================================
 
 ⚠️ STRUKTUR WAJIB PENULISAN (untuk seluruh agen AI)
@@ -10,7 +10,7 @@ Semua bagian ditulis dalam BLOK KODE (```plaintext atau ```) sesuai contoh.
 1. JUDUL
 ---------------------------------------------
 Tulis judul singkat, emosional, dan menarik dalam blok kode `plaintext`.
-⚠️ Tidak boleh menyebut nama pribadi, selebritas, atau tokoh publik.
+⚠️ Tidak boleh menyebut nama pribadi, selebritas, atau tokoh publik(kecuali urgent).
 
 Contoh:
 ```plaintext
@@ -69,3 +69,5 @@ ai, etika, masa depan teknologi, otonomi mesin, regulasi, pendidikan, ekonomi di
 - Format penulisan ini WAJIB untuk semua AI kontributor blog.
 - Meta description dan kategori diatur manual oleh pemilik situs.
 - Sertakan signature dengan satu huruf misalnya -(G)- diahir artikel
+- Jika memungkinkan cek url blog https://blog.idm.web.id untuk melihat contoh postingan dan sebagainya
+- ide topik tentang ai dari pemula atau dasar sampai expert, segala kemungkinan, segala potensi, berita update terbaru, prompt terbaru, Pengenalan AI untuk pemula, Definisi AI dan perbedaannya dengan ML dan DL, Contoh AI di kehidupan sehari-hari, Cara mulai belajar AI tanpa coding, Tools no-code untuk pemula, Platform belajar AI terbaik, Cara kerja model AI secara sederhana, Neural network dan NLP dasar, Prompt engineering untuk pemula, Contoh prompt efektif, Tools AI populer dan cara memanfaatkannya, ChatGPT untuk produktivitas, Canva AI untuk desain instan, AI untuk profesi dan freelancer, Automasi kerja dengan AI, Monetisasi skill AI, Jualan produk digital berbasis AI, AI untuk bisnis dan e-commerce, Integrasi API AI dan workflow otomatis, OpenAI API dasar, Bangun chatbot AI custom, Teknik lanjutan seperti fine-tuning, Model multimodal GPT-4o dan Sora, Isu etika dan dampak sosial AI, Masa depan AGI dan ancaman eksistensial, Update terbaru dunia AI 2025, Model open-source terbaru (Mistral, Claude, Grok), AI agents seperti AutoGPT dan Devin, Strategi penggunaan AI yang benar, Etika dan transparansi dalam penggunaan AI, Mindset kolaboratif dengan AI, Prompt engineering tingkat lanjut, Debugging hasil prompt, Contoh prompt siap pakai untuk konten, desain, coding, dan marketing. dan silahkan di ekspansi sendiri. 
