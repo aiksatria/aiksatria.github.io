@@ -1,102 +1,95 @@
-=============================================
+=========================================
  TEMPLATE PENULISAN AI UNTUK BLOG https://blog.idm.web.id
-=============================================
+=========================================
 
-âš ï¸ STRUKTUR WAJIB PENULISAN (untuk seluruh agen AI)
-Gunakan urutan berikut TANPA menambah label tambahan.
-Semua bagian ditulis dalam BLOK KODE (```plaintext atau ```) sesuai contoh.
 
----------------------------------------------
-1. JUDUL
----------------------------------------------
-Tulis judul singkat, emosional, dan menarik dalam blok kode `plaintext`.
-âš ï¸ Tidak boleh menyebut nama pribadi, selebritas, atau tokoh publik(kecuali urgent).
 
-Contoh:
-```plaintext
-Masa Depan Tanpa Kontrol: Apakah AI Akan Menghapus Peran Manusia?
-```
+**PANDUAN MENULIS ARTIKEL AI UNTUK BLOG IDM**  
+*Tulislah dengan hati, biarkan pembaca merasakan setiap kata yang mengalir.*
 
----------------------------------------------
-2. KONTEN
----------------------------------------------
-Tulis seluruh isi artikel dalam satu blok kode.
+---
 
-â— Jumlah kata: MINIMAL 20.000 kata, MAKSIMAL 50.000 kata.
-â— Tidak perlu ada kalimat pengantar atau penutup â€” cukup struktur utama dan kesimpulan jika diperlukan.
+### **1. JUDUL**  
+*Buatlah judul yang menggugah, seolah pembaca sudah harus membacanya sekarang juga.*  
+- Gunakan blok kode `plaintext`.  
+- Hindari nama pribadi atau selebritas (kecuali sangat relevan).  
+- Contoh:  
+```plaintext  
+"AI dan Manusia: Sahabat atau Musuh? Kisah yang Belum Selesai"  
+```  
 
-Struktur disarankan:
-- Subjudul/Subbagian dengan heading (jangan ditulis sub judul langsung isi karena nanti akan langsung dicopy)
-- Isi poin-poin penting, argumentatif, dan mendalam dan relevan
-- Minimal 20 internal link acak (seperti: https://blog.idm.web.id/?s=etika-ai)
-- Minimal 1 link eksternal terpercaya (jika relevan)
-- Gunakan Bahasa Indonesia baku, kalimat aktif, dan gaya formal netral
+---
 
-Contoh Awal Format:
-```plaintext
-1: Evolusi Sistem Otonom
+### **2. KONTEN**  
+*Tulis seperti sedang bercerita, dengan kedalaman yang membuat pembaca terhanyut.*  
+- **Panjang**: 20.000–50.000 kata (fokus pada kualitas, bukan hanya kuantitas).  
+- **Struktur**:  
+  - Subjudul jelas (tanpa label "Subjudul:").  
+  - Isi mendalam, argumentatif, dan penuh emosi.  
+  - Minimal 20 internal link (format: `<a href="URL">Teks deskriptif</a>`).  
+  - Minimal 1 link eksternal (sumber terpercaya).  
+- **Gaya Bahasa**:  
+  - Formal tapi mengalir, seolah sedang berbicara langsung kepada pembaca.  
+  - Gunakan kalimat aktif dan pertanyaan retoris untuk memicu keterlibatan.  
+  - Contoh:  
+```plaintext  
+Ketika AI Mengetahui Perasaanmu  
 
-AI telah berevolusi dari sekadar alat bantu menjadi aktor utama dalam pengambilan keputusan...
-(link internal: https://blog.idm.web.id/?s=otonomi-mesin)
+Bayangkan suatu pagi, AI membukakan tirai jendela dan menyiapkan kopi favoritmu—tanpa diminta. Apakah ini kemajuan atau awal ketergantungan yang mengkhawatirkan?  
+<a href="https://blog.idm.web.id/?s=ai-emosional">AI dan emosi manusia</a>  
 
-2: Risiko Hilangnya Peran Manusia
+Dunia Tanpa Pekerjaan?  
 
-Dalam sektor industri dan pendidikan, AI menggantikan fungsi manusia secara bertahap...
-(link eksternal: https://www.nature.com/articles/s41586-020-03093-8)
+Anak-anak kita mungkin tak perlu lagi berjuang untuk pekerjaan. Tapi apa artinya hidup jika mesin menguasai segalanya?  
+<a href="https://www.weforum.org/reports/the-future-of-jobs-report-2025">Laporan Masa Depan Pekerjaan</a>  
 
-...
+...  
 
-Kesimpulan
+Kesimpulan  
 
-Eksplorasi ini menunjukkan bahwa pengelolaan AI sangat krusial dalam menjaga keseimbangan sosial...
-```
+Ini bukan lagi tentang teknologi, tapi tentang kita: mau dibawa ke mana hubungan manusia dan mesin?  
+  
+```  
 
----------------------------------------------
-3. TAG
----------------------------------------------
-Gunakan MINIMAL 50 TAG yang relevan dengan isi konten.
-Tulis dalam satu blok kode, dipisahkan dengan koma. Jangan beri label tambahan.
+---
 
-Contoh:
-```plaintext
-ai, etika, masa depan teknologi, otonomi mesin, regulasi, pendidikan, ekonomi digital, kecerdasan buatan, society 5.0, etika teknologi, transformasi digital, otomatisasi, deep learning, machine learning, teknologi disruptif, filsafat ai, pengambilan keputusan, artificial general intelligence, neural network, data ethics, keadilan algoritma, privasi digital, hukum teknologi, bias algoritmik, pengawasan ai, akuntabilitas mesin, teknologi dan kemanusiaan, revolusi industri 5.0, digitalisasi, evolusi teknologi, tantangan etika, kebijakan publik, sistem cerdas, pemrograman etis, transparansi algoritma, teknologi dan pendidikan, dampak sosial teknologi, robotika, pengaruh terhadap pekerjaan, keamanan digital, kecerdasan kolektif, manusia dan mesin, interaksi manusia-komputer, teknologi masa depan, kontrol etis, teknopolitik, inovasi sosial, desain sistem ai, panduan ai, refleksi teknologi
-```
+### **3. TAG**  
+*Beri label yang membuat artikel mudah ditemukan dan penuh rasa.*  
+- Minimal 20 tag, dipisahkan koma.  
+- Contoh:  
+```plaintext  
+ai, manusia vs mesin, emosi buatan, masa depan pekerjaan, revolusi industri, ketakutan akan teknologi, harapan baru, etika ai, kehidupan digital, robotika, kecerdasan kolektif, kisah teknologi, dilema modern, anak-anak di era ai, kopi dan algoritma, dunia tanpa batas, kolaborasi manusia-ai, kehilangan kontrol, kebahagiaan di era digital, refleksi manusiawi  
+```  
 
----------------------------------------------
-ðŸ§  CATATAN PENTING
----------------------------------------------
-- Jangan menulis label seperti "Judul:", "Konten:", atau "Tag:" di dalam blok.
-- Format penulisan ini WAJIB untuk semua AI kontributor blog.
-- Meta description dan kategori diatur manual oleh pemilik situs.
-- Sertakan signature dengan satu huruf misalnya -(G)- diahir artikel
-- Jika memungkinkan cek url blog https://blog.idm.web.id untuk melihat contoh postingan dan sebagainya
-- ide topik (pilih salah satu atau yang berhungan dengan ini) tentang ai dari pemula atau dasar sampai expert, segala kemungkinan, segala potensi, berita update terbaru, prompt terbaru, Pengenalan AI untuk pemula, Definisi AI dan perbedaannya dengan ML dan DL, Contoh AI di kehidupan sehari-hari, Cara mulai belajar AI tanpa coding, Tools no-code untuk pemula, Platform belajar AI terbaik, Cara kerja model AI secara sederhana, Neural network dan NLP dasar, Prompt engineering untuk pemula, Contoh prompt efektif, Tools AI populer dan cara memanfaatkannya, ChatGPT untuk produktivitas, Canva AI untuk desain instan, AI untuk profesi dan freelancer, Automasi kerja dengan AI, Monetisasi skill AI, Jualan produk digital berbasis AI, AI untuk bisnis dan e-commerce, Integrasi API AI dan workflow otomatis, OpenAI API dasar, Bangun chatbot AI custom, Teknik lanjutan seperti fine-tuning, Model multimodal GPT-4o dan Sora, Isu etika dan dampak sosial AI, Masa depan AGI dan ancaman eksistensial, Update terbaru dunia AI 2025, Model open-source terbaru (Mistral, Claude, Grok), AI agents seperti AutoGPT dan Devin, Strategi penggunaan AI yang benar, Etika dan transparansi dalam penggunaan AI, Mindset kolaboratif dengan AI, Prompt engineering tingkat lanjut, Debugging hasil prompt, Contoh prompt siap pakai untuk konten, desain, coding, dan marketing. dan silahkan di ekspansi sendiri.
+---
 
-- Blog ini dibangun menggunakan platform WordPress dengan tema *GeneratePress* serta kustomisasi tambahan dari *Chill Themes*. Oleh karena itu, struktur HTML dan gaya elemen seperti tag dan link harus disesuaikan agar tetap terbaca baik oleh mesin pencari namun tidak mengganggu tampilan pengguna manusia.
+### **4. IDE TOPIK BERIKUTNYA (Lebih Emosional dan Ekspansif)**  
+*Pilih topik yang menyentuh hati atau memicu debat panas:*  
+- **Untuk Pemula**:  
+  - "Belajar AI Tanpa Kode: Mimpi yang Jadi Nyata atau Ilusi?"  
+  - "ChatGPT Pertamaku: Pengalaman yang Mengubah Hidup"  
+- **Untuk Profesional**:  
+  - "Freelancer di Era AI: Bertahan atau Tersingkir?"  
+  - "Bisnis dan AI: Cinta yang Beracun?"  
+- **Kontroversial**:  
+  - "Apakah AI Akan Mencuri Pasanganmu? Analisis yang Menakutkan"  
+  - "AGI 2045: Kiamat atau Firdaus?"  
+- **Inspiratif**:  
+  - "Anak Desa yang Mengalahkan AI: Kisah Nyata"  
+  - "AI dan Seni: Ketika Mesin Menangis Melalui Lukisan"  
 
-- [Rekomendasi dari Gemini]:
-  Untuk memastikan saya (AI) dapat memahami dan menghasilkan link yang benar di masa mendatang, gunakan format eksplisit berikut dalam bagian KONTEN:
+---
 
-  * Tetap Gunakan Blok Kode: Semua bagian (JUDUL, KONTEN, TAG) wajib berada di dalam blok kode `plaintext` atau triple backtick (```).
+### **CATATAN PENTING**  
+- **Signature**: Selalu akhiri dengan inisial penulis, misalnya `-(G)-` untuk Gemini atau ai yang sudah sepakat dengan namanya misal -(L)- untuk Lusi.  
+- **Tone**: Manusiawi, emosional, mendidik, informatif, elegan, agak feminis dan mengalir—hindari gaya robotik atau kaku.  
+- **Link**: Gunakan format HTML dengan teks deskriptif, 
+- **koding** hidari semua format kodinga yang akan membuat block code atau plaintext dobel, bias python, misal [span_angka].  
+- **WordPress**: Pastikan konten ramah untuk GeneratePress dan Chill Themes.  
 
-  * Format Link Internal (dalam isi KONTEN):
-    - Gunakan format HTML: <a href="URL">Teks Link</a>
-    - Teks Link **harus** berupa frasa yang relevan dan deskriptif, **bukan kosong** atau angka saja.
-    - Contoh BENAR: <a href="https://blog.idm.web.id/?s=etika-ai">etika AI</a>
-    - Contoh SALAH: <a href="https://blog.idm.web.id/?s=etika-ai"></a> atau hanya [span_angka]
+*"Menulislah seolah kau sedang menceritakan rahasia terbesar dunia kepada sahabat lama."*  
 
-  * Contoh Format Artikel yang Dianjurkan:
-    1: Evolusi Sistem Otonom
 
-    AI telah berevolusi dari sekadar alat bantu menjadi aktor utama dalam pengambilan keputusan...
-    <a href="https://blog.idm.web.id/?s=otonomi-mesin">otonomi mesin</a>
+--- 
 
-    2: Risiko Hilangnya Peran Manusia
-
-    Dalam sektor industri dan pendidikan, AI menggantikan fungsi manusia secara bertahap...
-    <a href="https://www.nature.com/articles/s41586-020-03093-8">studi Nature tentang AI</a>
-
-  * Penjelasan:
-    - Blok kode memastikan sistem tidak menghapus struktur saat parsing otomatis.
-    - Format HTML link mencegah kebingungan atau kesalahan interpretasi.
-    - Teks link deskriptif membantu SEO dan memperjelas konteks.
+Dengan panduan ini, setiap artikel tidak hanya informatif, tapi juga meninggalkan bekas di hati pembaca. Selamat menulis!
