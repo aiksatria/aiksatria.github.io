@@ -1,0 +1,1914 @@
+/*
+ Theme Name:   GeneratePress Child
+ Theme URI:    https://generatepress.com
+ Description:  Child theme for the GeneratePress theme
+ Author:       Nama Anda
+ Author URI:   https://blog.idm.web.id
+ Template:     generatepress
+ Version:      1.0.0
+*/
+
+/* =========================================================
+   Variabel Global (disesuaikan dari idm.web.id)
+   ========================================================= */
+:root {
+    --primary: #1e2a3c; /* Abu-abu metalik - untuk background dasar */
+    --secondary: #00d4ff; /* Biru neon - untuk aksen, link, glow */
+    --accent: #e0f7ff; /* Putih neon - untuk hover, highlight */
+    --dark: #0f141a; /* Hitam gelap - untuk background utama halaman */
+    --text: #d1d5db; /* Abu-abu muda - untuk teks paragraf */
+    --white: #fff; /* Putih murni */
+
+    /* Glass Theme Variables */
+    --glass-background-header: rgba(30, 42, 60, 0.7); /* Header/Navbar lebih pekat */
+    --glass-background-card: rgba(30, 42, 60, 0.4); /* Opasitas lebih rendah untuk "remang" */
+    
+    --glass-border: rgba(0, 212, 255, 0.6); /* Border lebih menyala */
+    --blur-amount-lg: 15px; /* Blur kuat untuk header/footer */
+    --blur-amount-sm: 8px; /* Blur standar untuk kartu/konten */
+}
+
+/* =========================================================
+   Gaya Dasar & Background (untuk Body dan Kontainer Utama)
+   ========================================================= */
+html, body {
+    height: 100%; /* Penting: html dan body harus punya tinggi 100% dari viewport */
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--dark) !important; /* Pastikan background body gelap */
+    color: var(--text) !important; /* Warna teks utama */
+    font-family: 'Roboto', sans-serif !important; /* Font konsisten */
+    display: flex; /* Aktifkan Flexbox pada body */
+    flex-direction: column; /* Susun item secara vertikal (header, content, footer) */
+    min-height: 100vh; /* Pastikan body setidaknya setinggi viewport */
+}
+
+.site { /* Selector untuk div.site, agar konten meregang dan mendorong footer */
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+}
+
+.site-content { /* Pastikan area konten utama meregang */
+    flex: 1; 
+    background: transparent !important; 
+    background-color: transparent !important; 
+}
+
+/* =========================================================
+   Header Blog Styling
+   ========================================================= */
+.site-header {
+    background: var(--glass-background-header) !important;
+    background-color: transparent !important; 
+    backdrop-filter: blur(var(--blur-amount-lg));
+    -webkit-backdrop-filter: blur(var(--blur-amount-lg));
+    border-bottom: 1px solid var(--glass-border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    position: sticky; 
+    top: 0;
+    z-index: 1000; 
+}
+
+/* Logo atau Site Title di Header */
+.site-header .main-title a, .site-header .site-logo a {
+    color: var(--secondary) !important; 
+    text-shadow: 0 0 10px var(--secondary); 
+    transition: all 0.3s ease;
+}
+.site-header .main-title a:hover, .site-header .site-logo a:hover {
+    color: var(--accent) !important;
+    text-shadow: 0 0 15px var(--secondary);
+}
+
+/* Navigasi Utama (Menu di Header) */
+.main-navigation .main-nav ul li a {
+    color: var(--white) !important;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    
+    /* Gaya Bulatan (Pill Shape) */
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 50px !important;
+    padding: 0.2em 0.8em !important;
+    margin: 0 0.2em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: none !important;
+    outline: none !important;
+    text-decoration: none !important;
+
+    font-size: 0.85em !important;
+    line-height: 1.2 !important;
+    vertical-align: middle;
+    height: auto !important;
+    min-height: 30px;
+}
+
+/* Penimpaan agresif untuk link menu */
+.main-navigation .main-nav ul li a * {
+    box-shadow: none !important;
+    outline: none !important;
+    background: transparent !important;
+    border: none !important;
+}
+
+/* Efek Hover untuk Link Menu */
+.main-navigation .main-nav ul li a:hover {
+    color: var(--secondary) !important;
+    text-shadow: 0 0 5px var(--secondary);
+    background-color: rgba(0, 212, 255, 0.1) !important;
+    box-shadow: 0 0 10px var(--secondary) !important;
+    transform: translateY(-2px);
+}
+
+/* Untuk item menu aktif/current, pastikan gayanya tetap konsisten */
+.main-navigation .main-nav ul li[class*="current-menu-"] > a {
+    color: var(--secondary) !important;
+    text-shadow: 0 0 8px var(--secondary) !important;
+    background-color: rgba(0, 212, 255, 0.15) !important;
+    border-color: var(--secondary) !important;
+    box-shadow: 0 0 10px var(--secondary) !important;
+}
+
+/* Sub-menu (jika ada) */
+.main-navigation ul ul {
+    background: var(--glass-background-header) !important;
+    background-color: transparent !important;
+    backdrop-filter: blur(var(--blur-amount-sm));
+    -webkit-backdrop-filter: blur(var(--blur-amount-sm));
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+.main-navigation ul ul li a {
+    color: var(--white) !important;
+}
+.main-navigation ul ul li a:hover {
+    background-color: rgba(0, 212, 255, 0.1) !important; 
+    color: var(--secondary) !important;
+}
+
+/* =========================================================
+   Tombol Pilihan Alih Bahasa (GTranslate) Styling
+   ========================================================= */
+.gtranslate_wrapper a.glink {
+    /* Gaya Bulatan (Pill Shape) */
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 50px !important;
+    padding: 0.2em 0.7em !important;
+    margin: 0 0.2em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: none !important;
+    outline: none !important;
+    text-decoration: none !important;
+    color: var(--white) !important;
+    transition: all 0.3s ease;
+
+    font-size: 0.8em !important;
+    line-height: 1.2 !important;
+    vertical-align: middle;
+    height: auto !important;
+    min-height: 28px;
+}
+
+/* Penimpaan agresif untuk GTranslate link */
+.gtranslate_wrapper a.glink * {
+    box-shadow: none !important;
+    outline: none !important;
+    background: transparent !important;
+    border: none !important;
+}
+
+/* Efek Hover untuk Tombol Bahasa */
+.gtranslate_wrapper a.glink:hover,
+.gtranslate_wrapper a.glink.gt-current-lang {
+    color: var(--secondary) !important;
+    text-shadow: 0 0 5px var(--secondary);
+    background-color: rgba(0, 212, 255, 0.1) !important;
+    box-shadow: 0 0 10px var(--secondary) !important;
+    transform: translateY(-2px);
+    border-color: var(--secondary) !important;
+}
+
+/* Styling untuk gambar bendera di tombol bahasa */
+.gtranslate_wrapper a.glink img {
+    margin-right: 3px !important;
+    opacity: 0.9 !important;
+    height: 12px !important;
+    width: auto !important;
+    box-shadow: none !important;
+    outline: none !important;
+    background: transparent !important;
+    border: none !important;
+}
+.gtranslate_wrapper a.glink:hover img {
+    opacity: 1 !important;
+}
+
+/* Dropdown Pilihan Bahasa Lengkap (Google Translate) */
+#google_translate_element2 .goog-te-combo {
+    background: var(--glass-background-card) !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 8px !important;
+    color: var(--white) !important;
+    padding: 0.4em 0.8em !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
+    transition: all 0.3s ease;
+    width: auto !important;
+    max-width: 200px;
+    font-size: 0.8em !important;
+}
+
+#google_translate_element2 .goog-te-combo:hover,
+#google_translate_element2 .goog-te-combo:focus {
+    border-color: var(--secondary) !important;
+    box-shadow: 0 0 15px var(--secondary) !important;
+    outline: none !important;
+}
+
+/* Wrapper untuk dropdown Google Translate */
+.skiptranslate.goog-te-gadget {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* =========================================================
+   Main Content Area Styling (Post, Page, etc.)
+   ========================================================= */
+/* Untuk konten halaman (jika menggunakan struktur .inside-article) */
+.inside-article { 
+    background: var(--glass-background-card) !important;
+    background-color: transparent !important; 
+    backdrop-filter: blur(var(--blur-amount-sm));
+    -webkit-backdrop-filter: blur(var(--blur-amount-sm));
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    padding: 2em; 
+    margin-bottom: 2em; 
+    transition: all 0.3s ease;
+}
+.inside-article:hover {
+    box-shadow: 0 0 20px var(--secondary), 0 5px 15px rgba(0,0,0,0.3);
+    transform: translateY(-5px);
+}
+
+/* Judul Halaman / Post */
+.entry-title { /* Untuk judul utama halaman (H1) */
+    color: var(--secondary) !important; 
+    text-shadow: 0 0 5px var(--secondary);
+    transition: all 0.3s ease;
+}
+/* Jika judul halaman adalah link */
+.entry-title a {
+    color: var(--secondary) !important;
+    text-shadow: 0 0 5px var(--secondary);
+    transition: all 0.3s ease;
+}
+.entry-title a:hover {
+    color: var(--accent) !important;
+    text-shadow: 0 0 10px var(--secondary);
+}
+
+/* Gaya umum untuk H1-H6 di konten */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--accent) !important; 
+    text-shadow: 0 0 3px var(--secondary); 
+    transition: all 0.3s ease;
+}
+h1:hover, h2:hover, h3:hover, h4:hover, h5:hover, h6:hover {
+    text-shadow: 0 0 8px var(--secondary);
+}
+
+/* Gaya untuk link di dalam konten */
+.entry-content a {
+    color: var(--secondary) !important; 
+    text-decoration: none !important; 
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+.entry-content a:hover {
+    color: var(--accent) !important;
+    text-shadow: 0 0 5px var(--secondary);
+}
+
+/* Gaya untuk tag <p> (paragraf) */
+.entry-content p {
+    color: var(--text) !important; 
+}
+
+/* Meta Info Post (tanggal, penulis, dll.) */
+.entry-meta, .byline, .posted-on {
+    color: var(--text) !important;
+    font-size: 0.9em;
+}
+.entry-meta a, .byline a, .posted-on a {
+    color: var(--text) !important;
+    transition: color 0.3s ease;
+}
+.entry-meta a:hover, .byline a:hover, .posted-on a:hover {
+    color: var(--secondary) !important;
+}
+
+/* Tombol Read More */
+.read-more button, .read-more a.button {
+    background-color: var(--secondary) !important;
+    color: var(--dark) !important;
+    border: 2px solid var(--secondary) !important;
+    border-radius: 50px;
+    box-shadow: 0 0 10px var(--secondary);
+    transition: all 0.3s ease;
+    padding: 0.8em 1.5em !important;
+    font-weight: 600;
+}
+.read-more button:hover, .read-more a.button:hover {
+    background-color: var(--accent) !important;
+    color: var(--dark) !important;
+    box-shadow: 0 0 20px var(--secondary);
+    transform: translateY(-2px);
+}
+
+/* =========================================================
+   Sidebar Blog (Widget Area)
+   ========================================================= */
+.widget-area {
+    background: var(--glass-background-card) !important; 
+    background-color: transparent !important; 
+    backdrop-filter: blur(var(--blur-amount-sm)); 
+    -webkit-backdrop-filter: blur(var(--blur-amount-sm));
+    border: 1px solid var(--glass-border); 
+    border-radius: 8px; 
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3); 
+    padding: 1.5em;
+    margin-bottom: 2em; 
+    transition: all 0.3s ease; 
+}
+
+/* Efek hover untuk sidebar */
+.widget-area:hover {
+    box-shadow: 0 0 20px var(--secondary), 0 5px 15px rgba(0,0,0,0.3); 
+    transform: translateY(-5px); 
+}
+
+.widget-area .widget-title {
+    color: var(--accent) !important;
+    font-size: 1.2em;
+    border-bottom: 1px solid var(--glass-border); 
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+}
+.widget-area a {
+    color: var(--secondary) !important;
+    transition: all 0.3s ease;
+}
+.widget-area a:hover {
+    color: var(--accent) !important;
+    text-shadow: 0 0 5px var(--secondary);
+}
+
+/* Input Search di Sidebar */
+.wp-block-search__input {
+    background: rgba(255,255,255,0.1) !important;
+    background-color: transparent !important; 
+    color: var(--white) !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 50px !important; 
+    padding: 0.8em 1.2em !important; 
+    transition: all 0.3s ease;
+    box-shadow: none !important; 
+    outline: none !important; 
+}
+.wp-block-search__input::placeholder {
+    color: rgba(255,255,255,0.7) !important;
+}
+.wp-block-search__input:focus {
+    border-color: var(--secondary) !important;
+    box-shadow: 0 0 8px var(--secondary) !important; 
+    outline: none;
+}
+
+/* Tombol Search di Sidebar */
+.wp-block-search__button {
+    background-color: var(--secondary) !important;
+    color: var(--dark) !important;
+    border: 1px solid var(--secondary) !important;
+    border-radius: 50px !important; 
+    padding: 0.8em 1.5em !important;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px var(--secondary) !important; 
+    font-weight: 600;
+    margin-left: 0.5em; 
+}
+.wp-block-search__button:hover {
+    background-color: var(--accent) !important;
+    box-shadow: 0 0 20px var(--secondary) !important;
+    transform: translateY(-2px);
+}
+
+/* Menyesuaikan wrapper pencarian agar input dan tombol sejajar */
+.wp-block-search__inside-wrapper {
+    display: flex; 
+    align-items: center; 
+    width: 100% !important; 
+}
+/* Menyembunyikan label pencarian jika tidak diinginkan */
+.wp-block-search__label {
+    display: none;
+}
+
+/* =========================================================
+   Kolom Komentar (Tinggalkan Balasan) - FIX FINAL
+   ========================================================= */
+/* Target root container for comments (often #comments or #respond) */
+html body #comments, 
+html body #respond, 
+html body .comments-area { 
+    background: var(--glass-background-card) !important;
+    background-color: transparent !important; 
+    backdrop-filter: blur(var(--blur-amount-sm));
+    -webkit-backdrop-filter: blur(var(--blur-amount-sm));
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3); 
+    padding: 2em;
+    margin-top: 2em; 
+    color: var(--text) !important;
+    transition: all 0.3s ease; 
+}
+
+/* Efek hover untuk kolom komentar */
+html body #comments:hover,
+html body #respond:hover,
+html body .comments-area:hover {
+    box-shadow: 0 0 20px var(--secondary), 0 5px 15px rgba(0,0,0,0.3); 
+    transform: translateY(-5px); 
+}
+
+/* Target khusus untuk div#respond agar meniadakan padding dan background yang tidak diinginkan */
+html body #respond.comment-respond { 
+    background-color: transparent !important; 
+    border: none !important; 
+    box-shadow: none !important; 
+    padding: 0 !important; 
+    margin: 0 !important; 
+}
+
+
+html body #comments-title, 
+html body #reply-title, 
+html body #comments h3 
+{ 
+    color: var(--accent) !important;
+    text-shadow: 0 0 5px var(--secondary);
+    font-size: 1.5em !important; 
+    border-bottom: 1px solid var(--glass-border); 
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+}
+
+/* Modifikasi untuk input form komentar bawaan WordPress */
+html body #comments input[type="text"],
+html body #comments input[type="email"],
+html body #comments input[type="url"],
+html body #comments textarea { 
+    background: rgba(255,255,255,0.1) !important; 
+    background-color: transparent !important; 
+    color: var(--white) !important;
+    border: 1px solid var(--glass-border) !important; 
+    border-radius: 5px;
+    padding: 0.8em !important;
+    transition: all 0.3s ease;
+    width: 100% !important; 
+    margin-bottom: 1em !important; 
+    box-sizing: border-box; 
+    outline: none !important; 
+    box-shadow: none !important; 
+}
+html body #comments input[type="text"]::placeholder,
+html body #comments input[type="email"]::placeholder,
+html body #comments input[type="url"]::placeholder,
+html body #comments textarea::placeholder {
+    color: rgba(255,255,255,0.7) !important;
+}
+html body #comments input[type="text"]:focus,
+html body #comments input[type="email"]:focus,
+html body #comments input[type="url"]:focus,
+html body #comments textarea:focus {
+    border-color: var(--secondary) !important;
+    box-shadow: 0 0 8px var(--secondary) !important; 
+    outline: none;
+}
+
+/* Tombol Submit Komentar */
+html body #comments input[type="submit"] {
+    background-color: var(--secondary) !important;
+    color: var(--dark) !important;
+    border: 2px solid var(--secondary) !important;
+    border-radius: 50px;
+    box-shadow: 0 0 10px var(--secondary) !important;
+    transition: all 0.3s ease;
+    padding: 0.8em 1.5em !important;
+    font-weight: 600;
+}
+html body #comments input[type="submit"]:hover {
+    background-color: var(--accent) !important;
+    box-shadow: 0 0 20px var(--secondary) !important;
+    transform: translateY(-2px);
+}
+/* Bagian Gravatar dan Login/Logout link */
+html body #comments .logged-in-as, html body #comments .comment-notes {
+    color: var(--text) !important;
+    font-size: 0.9em;
+}
+html body #comments .logged-in-as a, html body #comments .comment-notes a {
+    color: var(--secondary) !important;
+    transition: color 0.3s ease;
+}
+html body #comments .logged-in-as a:hover, html body #comments .comment-notes a:hover {
+    color: var(--accent) !important;
+    text-shadow: 0 0 5px var(--secondary);
+}
+/* Gaya untuk daftar komentar (sudah ada komentar) */
+html body #comments ol.comment-list {
+    list-style: none; /* Hapus bullet default */
+    margin: 2em 0;
+    padding: 0;
+}
+html body #comments ol.comment-list li.comment {
+    background: rgba(255,255,255,0.05); /* Background comment item transparan */
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    padding: 1.5em;
+    margin-bottom: 1.5em;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+}
+html body #comments ol.comment-list li.comment:hover {
+    box-shadow: 0 0 15px var(--secondary), 0 2px 10px rgba(0,0,0,0.3);
+    transform: translateY(-2px);
+}
+html body #comments ol.comment-list li.comment .comment-author { /* Nama penulis komentar */
+    color: var(--accent) !important;
+    font-weight: 700;
+    margin-bottom: 0.5em;
+}
+html body #comments ol.comment-list li.comment .comment-meta a { /* Tanggal komentar */
+    color: var(--text) !important;
+    font-size: 0.85em;
+}
+html body #comments ol.comment-list li.comment .comment-content { /* Isi komentar */
+    color: var(--white) !important;
+    margin-top: 1em;
+}
+html body #comments ol.comment-list li.comment .reply a { /* Tombol Balas */
+    background-color: var(--secondary) !important;
+    color: var(--dark) !important;
+    border: 1px solid var(--secondary) !important;
+    border-radius: 50px;
+    box-shadow: 0 0 5px var(--secondary) !important;
+    transition: all 0.3s ease;
+    padding: 0.5em 1em !important;
+    font-size: 0.85em;
+    font-weight: 600;
+    margin-top: 1em;
+    display: inline-block;
+}
+html body #comments input[type="checkbox"] { /* Gaya checkbox "Simpan nama, email, dan situs web saya di browser ini untuk komentar saya berikutnya." */
+    background: rgba(255,255,255,0.1) !important;
+    background-color: transparent !important; 
+    border: 1px solid var(--glass-border) !important;
+    width: 1.2em !important;
+    height: 1.2em !important;
+    border-radius: 3px !important;
+    vertical-align: middle !important;
+    margin-right: 0.5em !important;
+    cursor: pointer;
+    appearance: none; 
+    -webkit-appearance: none;
+    box-shadow: 0 0 5px rgba(0,212,255,0.2); 
+    transition: all 0.2s ease;
+}
+html body #comments input[type="checkbox"]:checked {
+    background-color: var(--secondary) !important; 
+    box-shadow: 0 0 8px var(--secondary) !important;
+}
+html body #comments .comment-form-cookies-consent label {
+    color: var(--text) !important;
+    font-size: 0.9em;
+    display: inline-block !important; 
+    vertical-align: middle !important;
+}
+html body #comments .comment-navigation a { /* Link Previous/Next comments */
+    color: var(--secondary) !important;
+    transition: color 0.3s ease;
+}
+html body #comments .comment-navigation a:hover {
+    color: var(--accent) !important;
+    text-shadow: 0 0 5px var(--secondary);
+}
+
+/* Sembunyikan elemen pembungkus tambahan yang mungkin menyebabkan tampilan bertingkat */
+/* Ini adalah tebakan umum berdasarkan bagaimana WordPress/Themes lain membungkus form */
+#comments .comment-form-comment,
+#comments .comment-form-author,
+#comments .comment-form-email,
+#comments .comment-form-url,
+#comments .form-submit {
+    /* Hapus padding, margin, atau border yang mungkin ada di elemen pembungkus ini */
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Jika ada div lain yang membungkus input secara individual dan memiliki border/box-shadow */
+#comments p.comment-form-comment,
+#comments p.comment-form-author,
+#comments p.comment-form-email,
+#comments p.comment-form-url {
+    border: none !important;
+    box-shadow: none !important;
+    background-color: transparent !important;
+    padding: 0 !important;
+    margin-bottom: 1em !important; /* Beri sedikit margin antar baris input jika perlu */
+}
+
+
+/* =========================================================
+   JETPACK PLUGINS STYLING (Sharedaddy, Likes, Related Posts)
+   ========================================================= */
+
+/* --- Jetpack Sharedaddy (Tombol Berbagi) Styling --- */
+.sharedaddy {
+    margin-top: 3em;
+    margin-bottom: 3em;
+    padding: 1.5em;
+    
+    /* Gaya Glass Card */
+    background: var(--glass-background-card) !important;
+    background-color: transparent !important;
+    backdrop-filter: blur(var(--blur-amount-sm));
+    -webkit-backdrop-filter: blur(var(--blur-amount-sm));
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+}
+
+.sharedaddy:hover {
+    box-shadow: 0 0 20px var(--secondary), 0 5px 15px rgba(0,0,0,0.3);
+    transform: translateY(-5px);
+}
+
+.sharedaddy .sd-title {
+    color: var(--accent) !important;
+    font-size: 1.5em !important;
+    text-align: center;
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+    text-shadow: 0 0 5px var(--secondary);
+}
+
+.sharedaddy .sd-content ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 0.8em;
+}
+
+.sharedaddy .sd-content ul li {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Styling untuk setiap tombol berbagi */
+.sharedaddy a.sd-button {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    background-image: none !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 50% !important; /* Default ke lingkaran */
+    width: 44px; /* Ukuran lingkaran */
+    height: 44px;
+    padding: 0 !important;
+    min-width: 0 !important;
+    
+    color: var(--secondary) !important;
+    font-size: 1.5em !important; 
+    text-shadow: 0 0 5px var(--secondary);
+    
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; 
+    box-shadow: none !important; 
+    outline: none !important; 
+    transition: all 0.3s ease;
+    text-decoration: none !important;
+    line-height: 1 !important;
+    min-height: 38px; /* Pastikan tinggi konsisten */
+}
+
+/* Jika tombol memiliki teks (misal, Email), kembalikan ke pill-shaped */
+.sharedaddy a.sd-button.share-email {
+    border-radius: 50px !important;
+    width: auto;
+    min-width: 0;
+    padding: 0.5em 1em !important;
+    font-size: 1.1em !important; /* Ukuran font email jika ada teks */
+    min-height: 38px; /* Konsisten */
+}
+.sharedaddy a.sd-button.share-email .share-icon {
+    display: none !important; /* Sembunyikan ikon default "gigi ginsul" */
+}
+.sharedaddy a.sd-button.share-email::before { /* Gunakan pseudo-element untuk Font Awesome email */
+    font-family: "Font Awesome 6 Free" !important;
+    font-weight: 900 !important; 
+    content: "\f0e0" !important; /* Unicode untuk ikon email */
+    font-size: 1.2em !important; 
+    color: inherit !important; 
+    text-shadow: inherit !important; 
+    margin-right: 0.5em;
+}
+.sharedaddy a.sd-button.share-email span.share-text {
+    color: inherit !important;
+    font-size: 1.0em !important;
+    text-shadow: inherit !important;
+}
+
+
+/* Styling untuk ikon di dalam tombol berbagi (Font Awesome/Genericons) */
+.sharedaddy a.sd-button .share-icon,
+.sharedaddy a.sd-button .genericon,
+.sharedaddy a.sd-button .wpcom-icon,
+.sharedaddy a.sd-button img { 
+    color: var(--secondary) !important;
+    font-size: 1em !important; 
+    text-shadow: 0 0 5px var(--secondary) !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    border: none !important;
+    vertical-align: middle;
+    margin: 0 !important; 
+    padding: 0 !important; 
+    opacity: 1 !important; 
+}
+
+/* Efek hover untuk tombol berbagi */
+.sharedaddy a.sd-button:hover {
+    background-color: rgba(0, 212, 255, 0.1) !important;
+    color: var(--accent) !important;
+    box-shadow: 0 0 15px var(--secondary) !important;
+    transform: translateY(-2px);
+    border-color: var(--secondary) !important;
+}
+
+/* Efek hover untuk ikon di dalam tombol berbagi */
+.sharedaddy a.sd-button:hover .share-icon,
+.sharedaddy a.sd-button:hover .genericon,
+.sharedaddy a.sd-button:hover .wpcom-icon,
+.sharedaddy a.sd-button:hover img {
+    color: var(--accent) !important;
+    text-shadow: 0 0 10px var(--accent) !important;
+}
+
+/* Hapus outline/border/background yang tersisa dari Jetpack Sharedaddy */
+.sd-block, .sd-social {
+    box-shadow: none !important;
+    outline: none !important;
+    border: none !important;
+    background: transparent !important;
+}
+.sd-block .share-text { /* Sembunyikan teks default "share-text" jika tidak diinginkan */
+    display: none !important;
+}
+
+
+/* --- Jetpack Sharedaddy (Tombol Berbagi) Styling - FINAL FIX --- */
+
+/* Gaya untuk setiap tombol berbagi */
+.sharedaddy a.sd-button {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    background-image: none !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 50% !important; /* Paksa menjadi lingkaran */
+    width: 44px !important; /* Ukuran lingkaran */
+    height: 44px !important; /* Ukuran lingkaran */
+    padding: 0 !important;
+    min-width: 0 !important;
+    
+    color: var(--secondary) !important; /* Warna ikon neon */
+    font-size: 1.5em !important; /* Ukuran ikon */
+    text-shadow: 0 0 5px var(--secondary); /* Glow pada ikon */
+    
+    display: inline-flex !important; /* Penting untuk centering */
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important; 
+    box-shadow: none !important; 
+    outline: none !important; 
+    transition: all 0.3s ease;
+    text-decoration: none !important;
+    line-height: 1 !important;
+    min-height: 44px !important; /* Pastikan tinggi konsisten */
+
+    /* Hapus gaya bawaan Jetpack yang bisa mengganggu */
+    box-sizing: border-box !important;
+    vertical-align: middle !important;
+    text-indent: 0 !important; /* Jika ada indentasi aneh */
+    white-space: nowrap !important;
+}
+
+/* Jika tombol memiliki teks (misal, Email), kembalikan ke pill-shaped */
+.sharedaddy a.sd-button.share-email {
+    border-radius: 50px !important;
+    width: auto !important;
+    min-width: auto !important;
+    padding: 0.5em 1em !important;
+    font-size: 1.1em !important;
+    min-height: 38px !important; /* Konsisten dengan menu lain */
+}
+
+/* Sembunyikan semua elemen internal bawaan Jetpack yang bisa jadi ikon */
+.sharedaddy a.sd-button .share-icon,
+.sharedaddy a.sd-button .genericon,
+.sharedaddy a.sd-button .wpcom-icon,
+.sharedaddy a.sd-button img,
+.sharedaddy a.sd-button span { /* Juga target span untuk teks/ikon bawaan */
+    display: none !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+/* Menyisipkan ikon Font Awesome menggunakan pseudo-elements */
+.sharedaddy a.sd-button::before {
+    font-family: "Font Awesome 6 Brands" !important; /* Font Awesome Brands untuk sosial media */
+    font-weight: 400 !important; /* Regular untuk Brands, Solid untuk umum */
+    font-size: 1.2em !important; /* Ukuran ikon utama */
+    color: var(--secondary) !important;
+    text-shadow: 0 0 5px var(--secondary) !important;
+    content: "" !important; /* Default empty, will be set per icon */
+    display: inline-block !important; /* Penting untuk pseudo-element */
+    vertical-align: middle;
+}
+
+/* Definisi ikon spesifik untuk setiap tombol berbagi */
+.sharedaddy a.sd-button.share-facebook::before { content: "\f09a" !important; /* fab fa-facebook-f */ }
+.sharedaddy a.sd-button.share-x::before { content: "\f099" !important; /* fab fa-x-twitter (old: fab fa-twitter) */ }
+.sharedaddy a.sd-button.share-linkedin::before { content: "\f0e1" !important; /* fab fa-linkedin-in */ }
+.sharedaddy a.sd-button.share-print::before { content: "\f02f" !important; /* fas fa-print */ font-family: "Font Awesome 6 Free" !important; font-weight: 900 !important; } /* Free/Solid for print */
+.sharedaddy a.sd-button.share-email::before { content: "\f0e0" !important; /* fas fa-envelope */ font-family: "Font Awesome 6 Free" !important; font-weight: 900 !important; } /* Free/Solid for email */
+.sharedaddy a.sd-button.share-reddit::before { content: "\f1a1" !important; /* fab fa-reddit-alien */ }
+.sharedaddy a.sd-button.share-tumblr::before { content: "\f173" !important; /* fab fa-tumblr */ }
+.sharedaddy a.sd-button.share-pinterest::before { content: "\f0d2" !important; /* fab fa-pinterest-p */ }
+.sharedaddy a.sd-button.share-pocket::before { content: "\f265" !important; /* fab fa-get-pocket */ }
+.sharedaddy a.sd-button.share-telegram::before { content: "\f2c6" !important; /* fab fa-telegram-plane */ }
+.sharedaddy a.sd-button.share-threads::before { content: "\e618" !important; /* fab fa-threads */ }
+.sharedaddy a.sd-button.share-jetpack-whatsapp::before { content: "\f232" !important; /* fab fa-whatsapp */ }
+.sharedaddy a.sd-button.share-mastodon::before { content: "\f4f6" !important; /* fab fa-mastodon */ }
+.sharedaddy a.sd-button.share-nextdoor::before { content: "\f3e7" !important; /* fab fa-nextdoor */ }
+.sharedaddy a.sd-button.share-bluesky::before { content: "\e620" !important; /* fab fa-bluesky */ }
+
+
+/* Efek hover untuk tombol berbagi */
+.sharedaddy a.sd-button:hover {
+    background-color: rgba(0, 212, 255, 0.1) !important;
+    color: var(--accent) !important;
+    box-shadow: 0 0 15px var(--secondary) !important;
+    transform: translateY(-2px);
+    border-color: var(--secondary) !important;
+}
+.sharedaddy a.sd-button:hover::before { /* Hover pada pseudo-element */
+    color: var(--accent) !important;
+    text-shadow: 0 0 10px var(--accent) !important;
+}
+
+/* Hapus outline/border/background yang tersisa dari Jetpack Sharedaddy */
+.sd-block, .sd-social {
+    box-shadow: none !important;
+    outline: none !important;
+    border: none !important;
+    background: transparent !important;
+}
+.sd-block .share-text { /* Sembunyikan teks default "share-text" jika tidak diinginkan */
+    display: none !important;
+}
+
+/* --- Jetpack Related Posts Styling --- */
+
+#jp-relatedposts {
+    margin-top: 3em; 
+    padding: 2em;
+    
+    /* Gaya Glass Card untuk kontainer utama related posts */
+    background: var(--glass-background-card) !important;
+    background-color: transparent !important;
+    backdrop-filter: blur(var(--blur-amount-sm));
+    -webkit-backdrop-filter: blur(var(--blur-amount-sm));
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+}
+
+#jp-relatedposts:hover {
+    box-shadow: 0 0 20px var(--secondary), 0 5px 15px rgba(0,0,0,0.3);
+    transform: translateY(-5px);
+}
+
+#jp-relatedposts-headline {
+    color: var(--accent) !important;
+    font-size: 1.8em !important;
+    text-align: center;
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 0.5em;
+    margin-bottom: 1.5em;
+    text-shadow: 0 0 5px var(--secondary);
+}
+
+/* Grid untuk item postingan terkait */
+.jp-relatedposts-items-visual.jp-relatedposts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5em; 
+}
+
+/* Styling untuk setiap kartu postingan terkait */
+.jp-relatedposts-post {
+    background: rgba(255, 255, 255, 0.05) !important; 
+    border: 1px solid rgba(255, 255, 255, 0.1); 
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    padding: 1em; 
+    transition: all 0.3s ease;
+    text-align: center; 
+    height: 100%; 
+    display: flex; 
+    flex-direction: column;
+    justify-content: flex-start; 
+    align-items: stretch; 
+}
+
+.jp-relatedposts-post:hover {
+    box-shadow: 0 0 15px var(--secondary), 0 2px 8px rgba(0,0,0,0.3);
+    transform: translateY(-3px);
+    border-color: var(--secondary);
+}
+
+.jp-relatedposts-post-img {
+    width: 100% !important;
+    height: auto !important; 
+    object-fit: cover; 
+    margin-bottom: 0.8em;
+    border-radius: 4px;
+    display: block;
+    box-shadow: 0 0 5px rgba(0, 212, 255, 0.3); 
+    transition: all 0.3s ease;
+}
+.jp-relatedposts-post:hover .jp-relatedposts-post-img {
+    box-shadow: 0 0 10px var(--secondary); 
+}
+
+.jp-relatedposts-post-title {
+    font-size: 1.1em !important;
+    margin-bottom: 0.5em;
+    flex-grow: 0; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    display: -webkit-box;
+    -webkit-line-clamp: 2; 
+    -webkit-box-orient: vertical;
+    line-height: 1.3em; 
+}
+
+.jp-relatedposts-post-title a {
+    color: var(--white) !important; 
+    text-decoration: none !important;
+    transition: all 0.3s ease;
+    text-shadow: 0 0 2px transparent; 
+}
+.jp-relatedposts-post-title a:hover {
+    color: var(--secondary) !important;
+    text-shadow: 0 0 5px var(--secondary); 
+}
+
+.jp-relatedposts-post-excerpt {
+    color: var(--text) !important;
+    font-size: 0.9em;
+    margin-bottom: 0.8em;
+    flex-grow: 1; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    display: -webkit-box;
+    -webkit-line-clamp: 3; 
+    -webkit-box-orient: vertical;
+    line-height: 1.4em;
+}
+
+.jp-relatedposts-post-date {
+    color: var(--text) !important;
+    font-size: 0.8em;
+    text-align: right;
+    margin-top: auto !important; 
+    padding-top: 0.5em; 
+    border-top: 1px solid rgba(255,255,255,0.05); 
+}
+
+.jp-relatedposts-post-context {
+    display: none !important;
+}
+
+/* Penimpaan agresif untuk membersihkan sisa gaya Jetpack */
+#jp-relatedposts *,
+#jp-relatedposts *::before,
+#jp-relatedposts *::after {
+    box-shadow: none !important;
+    outline: none !important;
+    background: transparent !important;
+    border: none !important;
+}
+
+/* Pastikan elemen a di related posts tidak memiliki padding/background aneh */
+#jp-relatedposts .jp-relatedposts-post-a {
+    padding: 0 !important;
+    background: transparent !important;
+}
+
+
+
+
+
+
+
+/* =========================================================
+   Footer Blog (Mirip Footer IDM Group) - FIX FINAL
+   ========================================================= */
+/* Target tag footer HTML GeneratePress, bukan hanya kelas .site-info */
+footer.site-info, /* Untuk kasus GeneratePress menempatkan .site-info langsung di tag footer */
+footer { /* Untuk tag footer HTML secara umum jika tidak ada kelas .site-info */
+    background: var(--glass-background-header) !important; /* Gunakan background glass yang lebih pekat */
+    background-color: transparent !important; /* Pastikan background solid dihilangkan */
+    backdrop-filter: blur(var(--blur-amount-lg)); /* Blur kuat seperti header */
+    -webkit-backdrop-filter: blur(var(--blur-amount-lg));
+    border-top: 1px solid var(--glass-border); /* Border menyala seperti header */
+    color: var(--white) !important; /* Teks copyright */
+    text-align: center;
+    padding: 1.5em 0 !important;
+    font-size: 0.95em;
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.3); /* Bayangan ke atas untuk pemisah */
+    margin-top: 0 !important; /* Hapus margin-top yang mungkin mendorong footer */
+    transition: all 0.3s ease; /* Transisi untuk efek hover */
+}
+
+/* Efek hover untuk seluruh footer */
+footer.site-info:hover,
+footer:hover {
+    box-shadow: 0 0 20px var(--secondary), 0 -2px 8px rgba(0,0,0,0.3); /* Efek glow ke atas saat hover */
+    /* Untuk footer, transform translateY mungkin tidak selalu cocok karena letaknya di paling bawah,
+       tapi jika ingin mencoba efek naik sedikit bisa ditambahkan: */
+    /* transform: translateY(-3px); */
+}
+
+/* Gaya untuk ikon sosial di footer blog */
+/* Menggunakan selector yang lebih spesifik untuk ikon */
+.site-info .social-icons a, /* Target div.social-icons di footer.php (sesuai kode Anda) */
+.site-info .social-navigation a, /* GeneratePress default social menu */
+.site-info .widget_nav_menu .menu-social-links a, /* GeneratePress social links widget */
+/* FIX: Target ikon Font Awesome langsung jika diperlukan, untuk spesifisitas tinggi */
+.site-info .social-icons a i.fab,
+.site-info .social-icons a i.fas
+{
+    color: var(--secondary) !important; /* Warna ikon neon */
+    margin: 0 0.6em; /* Spasi antar ikon */
+    font-size: 1.8em !important; /* FIX: Ukuran ikon lebih besar */
+    transition: all 0.3s ease;
+    text-shadow: 0 0 8px rgba(0,212,255,0.6); /* Efek glow pada ikon */
+    display: inline-block; /* Pastikan bisa scale dan margin */
+}
+.site-info .social-icons a:hover,
+.site-info .social-navigation a:hover,
+.site-info .widget_nav_menu .menu-social-links a:hover {
+    color: var(--accent) !important;
+    transform: scale(1.15); /* Ukuran hover sedikit lebih besar */
+    text-shadow: 0 0 18px var(--secondary); /* Glow hover lebih kuat */
+}
+/* Gaya untuk teks copyright dan link di footer */
+.site-info .copyright,
+.site-info .creds {
+    color: var(--text) !important; /* Teks copyright lebih remang dari putih */
+    font-size: 0.9em;
+}
+.site-info .copyright a,
+.site-info .creds a {
+    color: var(--secondary) !important;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+.site-info .copyright a:hover,
+.site-info .creds a:hover {
+    color: var(--accent) !important;
+    text-shadow: 0 0 5px var(--secondary);
+}
+
+/* =========================================================
+   Gaya Menu Footer Profesional
+   ========================================================= */
+.footer-navigation {
+    width: 100%;
+    text-align: center;
+    margin: 1.5em 0; /* Jarak atas dan bawah dari elemen lain di footer */
+}
+
+.footer-navigation .footer-menu {
+    list-style: none; /* Hapus bullet default */
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap; /* Izinkan wrapping */
+    justify-content: center; /* Pusatkan item */
+    gap: 0.5em; /* Jarak antar item */
+}
+
+.footer-navigation .footer-menu li {
+    margin: 0; /* Hapus margin default li */
+}
+
+.footer-navigation .footer-menu li a {
+    color: var(--white) !important;
+    font-weight: 400; /* Sedikit lebih ringan dari menu utama */
+    transition: all 0.3s ease;
+    text-decoration: none !important;
+
+    /* Gaya Bulatan (Pill Shape) Mirip Menu Header */
+    background: rgba(255, 255, 255, 0.05) !important; /* Latar belakang transparan */
+    border: 1px solid var(--glass-border) !important; /* Border glass */
+    border-radius: 50px !important; /* Bentuk pil */
+    padding: 0.2em 0.8em !important; /* Padding ramping */
+    font-size: 0.8em !important; /* Sedikit lebih kecil dari menu utama */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: none !important;
+    outline: none !important;
+    min-height: 28px; /* Pastikan tinggi minimum konsisten */
+}
+
+/* Efek Hover untuk Link Menu Footer */
+.footer-navigation .footer-menu li a:hover {
+    color: var(--secondary) !important;
+    text-shadow: 0 0 3px var(--secondary); /* Glow yang sedikit lebih halus */
+    background-color: rgba(0, 212, 255, 0.1) !important;
+    box-shadow: 0 0 8px var(--secondary) !important; /* Glow saat hover */
+    transform: translateY(-2px);
+}
+
+
+/* CSS untuk Widget Scroll to Top Progres */
+
+/* Wadah utama widget */
+#progress-scroll-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+    z-index: 1000;
+    opacity: 0; /* Sembunyikan secara default */
+    visibility: hidden; /* Sembunyikan secara default */
+    background: transparent !important; /* Pastikan background wadah transparan */
+    backdrop-filter: none !important; /* Hapus efek blur pada wadah */
+    -webkit-backdrop-filter: none !important;
+    border: none !important; /* Hapus border pada wadah */
+    border-radius: 50%; /* Tetap bulat untuk bentuk tombol */
+    box-shadow: none !important; /* Hapus box-shadow pada wadah */
+    outline: none !important; /* Hapus outline pada wadah */
+    transition: opacity 0.4s, visibility 0.4s, transform 0.3s ease; /* Transisi */
+}
+
+/* Tampilkan widget jika memiliki class 'show' */
+#progress-scroll-top.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Styling untuk lingkaran SVG itu sendiri */
+#progress-scroll-top .progress-circle { /* Target SVG */
+    background: transparent !important; /* Pastikan background SVG transparan */
+    border: none !important; /* Hapus border SVG */
+    box-shadow: none !important; /* Hapus box-shadow SVG */
+    outline: none !important; /* Hapus outline SVG */
+    overflow: visible; /* Pastikan shadow tidak terpotong */
+}
+
+/* Styling untuk path di dalam lingkaran SVG */
+.progress-circle path {
+    fill: none; /* Pastikan path tidak memiliki fill */
+    stroke: var(--secondary); /* Warna lingkaran progres biru neon */
+    stroke-width: 3; /* Pertebal sedikit garis lingkaran */
+    box-sizing: border-box;
+    transition: stroke-dashoffset 10ms linear, stroke 0.3s ease, stroke-width 0.3s ease, filter 0.3s ease;
+    filter: drop-shadow(0 0 5px var(--secondary)); /* Efek glow pada garis lingkaran */
+    outline: none !important; /* Hapus outline pada SVG path */
+}
+
+/* Styling untuk ikon panah di tengah */
+#progress-scroll-top i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px; /* Perbesar sedikit ikon */
+    color: var(--secondary); /* Warna ikon panah biru neon */
+    transition: color 0.3s ease, font-size 0.3s ease, text-shadow 0.3s ease;
+    text-shadow: 0 0 8px var(--secondary); /* Efek glow pada ikon */
+    outline: none !important; /* Hapus outline pada ikon */
+    background: transparent !important; /* Pastikan background ikon transparan */
+}
+
+/* Efek saat kursor mouse di atas widget */
+#progress-scroll-top:hover {
+    transform: scale(1.1); /* Sedikit membesar */
+}
+
+/* Efek hover untuk lingkaran dan ikon */
+#progress-scroll-top:hover .progress-circle path {
+    stroke: var(--accent); /* Warna lingkaran berubah saat hover */
+    stroke-width: 4; /* Lingkaran sedikit menebal saat hover */
+    filter: drop-shadow(0 0 10px var(--accent)); /* Glow lebih kuat saat hover */
+}
+
+#progress-scroll-top:hover i {
+    color: var(--accent); /* Warna ikon berubah saat hover */
+    font-size: 22px; /* Ikon sedikit membesar saat hover */
+    text-shadow: 0 0 15px var(--accent); /* Glow ikon lebih kuat saat hover */
+}
+
+/* Penimpaan gaya agresif untuk menghilangkan semua kotak yang bandel */
+/* Ini akan menargetkan semua elemen di dalam progress-scroll-top */
+#progress-scroll-top *,
+#progress-scroll-top *::before,
+#progress-scroll-top *::after {
+    box-shadow: none !important;
+    outline: none !important;
+    background: transparent !important;
+    border: none !important;
+    fill: none !important; /* Pastikan fill juga transparan untuk semua anak */
+    color: inherit !important; /* Untuk memastikan warna teks mengikuti parent */
+}
+
+/* Pastikan SVG tidak memiliki fill bawaan */
+#progress-scroll-top svg {
+    fill: none !important; /* Ini penting untuk SVG */
+}
+
+/* =========================================================
+   Halaman Login/Register
+   ========================================================= */
+
+/* Gaya untuk seluruh body halaman login */
+body.login {
+    background-color: var(--dark) !important; /* Gunakan background utama halaman */
+    color: var(--text) !important;
+    font-family: 'Roboto', sans-serif !important;
+}
+
+/* Mengatur container utama login form */
+#loginform,
+#registerform,
+#lostpasswordform {
+    background: var(--glass-background-card) !important; /* Background glass card */
+    background-color: transparent !important;
+    backdrop-filter: blur(var(--blur-amount-sm));
+    -webkit-backdrop-filter: blur(var(--blur-amount-sm));
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3); /* Shadow standar */
+    padding: 2em; /* Tambah padding */
+    margin-top: 2em; /* Dorong sedikit ke bawah */
+    transition: all 0.3s ease; /* Transisi untuk glow */
+    width: 320px !important; /* Pastikan lebar tetap standar atau sesuai kebutuhan */
+    box-sizing: border-box; /* Pastikan padding tidak membuat lebar melebihi 320px */
+}
+
+/* Efek hover pada form */
+#loginform:hover,
+#registerform:hover,
+#lostpasswordform:hover {
+    box-shadow: 0 0 20px var(--secondary), 0 5px 15px rgba(0,0,0,0.3) !important; /* Efek glow saat hover */
+    transform: translateY(-5px); /* Efek sedikit naik */
+}
+
+/* Styling untuk label */
+.login label {
+    color: var(--text) !important;
+    font-weight: 400 !important;
+    font-size: 0.95em !important;
+    margin-bottom: 0.5em !important; /* Jarak antara label dan input */
+    display: block !important; /* Pastikan label di baris baru */
+}
+
+/* Styling untuk input teks dan password */
+.login input[type="text"],
+.login input[type="password"],
+.login input[type="email"] {
+    background: rgba(255,255,255,0.1) !important;
+    background-color: transparent !important;
+    color: var(--white) !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 5px !important;
+    padding: 0.8em !important;
+    width: 100% !important;
+    margin-bottom: 1em !important; /* Jarak antar input */
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    box-shadow: none !important; /* Hapus shadow bawaan */
+    outline: none !important; /* Hapus outline bawaan */
+}
+
+/* Placeholder input */
+.login input[type="text"]::placeholder,
+.login input[type="password"]::placeholder,
+.login input[type="email"]::placeholder {
+    color: rgba(255,255,255,0.7) !important;
+}
+
+/* Efek fokus pada input */
+.login input[type="text"]:focus,
+.login input[type="password"]:focus,
+.login input[type="email"]:focus {
+    border-color: var(--secondary) !important;
+    box-shadow: 0 0 8px var(--secondary) !important;
+    outline: none;
+}
+
+/* Styling untuk tombol submit */
+.login .button-primary {
+    background-color: var(--secondary) !important;
+    color: var(--dark) !important;
+    border: 2px solid var(--secondary) !important;
+    border-radius: 50px !important; /* Bentuk pil */
+    box-shadow: 0 0 10px var(--secondary) !important;
+    transition: all 0.3s ease;
+    padding: 0.8em 1.5em !important;
+    font-weight: 600;
+    height: auto !important; /* Pastikan tinggi fleksibel */
+    width: 100% !important; /* Lebar penuh */
+    margin-top: 1em !important; /* Jarak dari input terakhir */
+}
+
+/* Efek hover pada tombol submit */
+.login .button-primary:hover {
+    background-color: var(--accent) !important;
+    box-shadow: 0 0 20px var(--secondary) !important;
+    transform: translateY(-2px);
+}
+
+/* Link di bawah form (misal: "Lost your password?", "Back to ...") */
+.login #nav,
+.login #backtoblog {
+    background: transparent !important; /* Pastikan transparan */
+    border: none !important;
+    box-shadow: none !important;
+    padding: 1em 0 !important; /* Sesuaikan padding */
+    text-align: center !important;
+    color: var(--text) !important;
+}
+
+.login #nav a,
+.login #backtoblog a {
+    color: var(--secondary) !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease;
+    text-shadow: 0 0 3px transparent; /* Glow awal transparan */
+}
+
+.login #nav a:hover,
+.login #backtoblog a:hover {
+    color: var(--accent) !important;
+    text-shadow: 0 0 5px var(--secondary); /* Glow saat hover */
+}
+
+/* Logo WordPress di atas form */
+.login #login h1 a {
+    background-image: url('https://i0.wp.com/blog.idm.web.id/wp-content/uploads/2025/07/cropped-Untitled-2.png?fit=1600%2C320&ssl=1') !important; /* Ganti dengan URL logo Anda */
+    background-size: contain !important; /* Sesuaikan ukuran logo */
+    width: 100% !important; /* Sesuaikan lebar logo */
+    height: 100px !important; /* Sesuaikan tinggi logo */
+    margin-bottom: 1em !important; /* Jarak dari form */
+    filter: drop-shadow(0 0 10px var(--secondary)); /* Glow pada logo */
+    transition: filter 0.3s ease;
+}
+
+.login #login h1 a:hover {
+    filter: drop-shadow(0 0 15px var(--accent)); /* Glow lebih kuat saat hover */
+}
+
+
+/* Pesan error/sukses */
+.login #login_error,
+.login .message,
+.login .success {
+    background: var(--glass-background-card) !important; /* Gunakan glass background */
+    background-color: transparent !important;
+    backdrop-filter: blur(var(--blur-amount-sm));
+    -webkit-backdrop-filter: blur(var(--blur-amount-sm));
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3) !important;
+    color: var(--text) !important;
+    margin: 1em auto !important;
+    padding: 1em !important;
+    max-width: 320px !important; /* Pastikan sesuai lebar form */
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+.login #login_error strong,
+.login .message strong,
+.login .success strong {
+    color: var(--accent) !important; /* Warna teks penekanan */
+}
+
+/* Checkbox "Remember Me" */
+.login .forgetmenot label {
+    color: var(--text) !important;
+    font-size: 0.9em !important;
+}
+.login input[type="checkbox"] {
+    background: rgba(255,255,255,0.1) !important;
+    background-color: transparent !important; 
+    border: 1px solid var(--glass-border) !important;
+    width: 1.2em !important;
+    height: 1.2em !important;
+    border-radius: 3px !important;
+    vertical-align: middle !important;
+    margin-right: 0.5em !important;
+    cursor: pointer;
+    appearance: none; 
+    -webkit-appearance: none;
+    box-shadow: 0 0 5px rgba(0,212,255,0.2); 
+    transition: all 0.2s ease;
+}
+.login input[type="checkbox"]:checked {
+    background-color: var(--secondary) !important; 
+    box-shadow: 0 0 8px var(--secondary) !important;
+}
+
+
+/* =========================================================
+   Link Login/Register/Logout di Header
+   ========================================================= */
+/* Gaya sudah otomatis dari .main-navigation .main-nav ul li a */
+/* Namun, tambahkan ini jika perlu penyesuaian spesifik */
+.main-navigation .main-nav ul li.menu-item-custom-login a,
+.main-navigation .main-nav ul li.menu-item-custom-register a,
+.main-navigation .main-nav ul li.menu-item-custom-logout a {
+    /* Jika perlu override padding atau font-size, lakukan di sini */
+    /* Misalnya: */
+    /* padding: 0.25em 0.9em !important; */
+    /* font-size: 0.88em !important; */
+}
+
+/* Efek hover otomatis dari .main-navigation .main-nav ul li a:hover */
+/* Jika perlu highlight lebih kuat untuk login/register/logout */
+.main-navigation .main-nav ul li.menu-item-custom-login a:hover,
+.main-navigation .main-nav ul li.menu-item-custom-register a:hover,
+.main-navigation .main-nav ul li.menu-item-custom-logout a:hover {
+    box-shadow: 0 0 12px var(--secondary) !important; /* Glow sedikit lebih kuat */
+}
+
+
+.paging-navigation {
+    /* Pastikan kontainer utama pagination transparan jika ada background bawaan */
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    text-align: center; /* Pusatkan pagination */
+    margin: 2em 0; /* Memberi jarak atas dan bawah */
+    padding: 1em; /* Sedikit padding di dalam navigasi */
+}
+
+.paging-navigation .nav-previous,
+.paging-navigation .nav-links {
+    display: flex; /* Gunakan flexbox untuk menata elemen */
+    flex-wrap: wrap; /* Izinkan wrapping pada layar kecil */
+    justify-content: center; /* Pusatkan item secara horizontal */
+    align-items: center; /* Pusatkan item secara vertikal */
+    gap: 0.5em; /* Jarak antar item */
+}
+
+/* Styling untuk semua angka halaman, link prev/next, dan dots */
+.paging-navigation .page-numbers,
+.paging-navigation .prev a,
+.paging-navigation .next a,
+.paging-navigation .nav-previous a { /* Termasuk link di nav-previous */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Gaya Bulatan (Pill Shape) */
+    background: rgba(255, 255, 255, 0.05) !important; /* Latar belakang transparan dengan sedikit opasitas */
+    border: 1px solid var(--glass-border) !important; /* Border glass */
+    border-radius: 50px !important; /* Membuat sudut sangat membulat */
+    padding: 0.3em 0.8em !important; /* Padding yang ramping */
+    min-width: 2.5em; /* Lebar minimum untuk angka tunggal */
+    height: auto; /* Tinggi otomatis */
+    text-decoration: none !important;
+    color: var(--white) !important;
+    font-size: 0.9em !important;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: none !important; /* Hapus bayangan default */
+    outline: none !important; /* Hapus outline */
+    vertical-align: middle; /* Membantu perataan vertikal */
+}
+
+/* Efek Hover untuk Pagination Items */
+.paging-navigation .page-numbers:hover,
+.paging-navigation .prev a:hover,
+.paging-navigation .next a:hover,
+.paging-navigation .nav-previous a:hover {
+    color: var(--secondary) !important;
+    text-shadow: 0 0 5px var(--secondary);
+    background-color: rgba(0, 212, 255, 0.1) !important; /* Background sedikit lebih terang saat hover */
+    box-shadow: 0 0 10px var(--secondary) !important; /* Glow saat hover */
+    transform: translateY(-2px); /* Efek sedikit naik */
+    border-color: var(--secondary) !important; /* Border glow */
+}
+
+/* Gaya untuk Halaman Aktif (Current Page) */
+.paging-navigation .page-numbers.current {
+    color: var(--secondary) !important;
+    text-shadow: 0 0 8px var(--secondary) !important;
+    background-color: rgba(0, 212, 255, 0.15) !important;
+    border-color: var(--secondary) !important;
+    box-shadow: 0 0 10px var(--secondary) !important; /* Glow untuk halaman aktif */
+    transform: translateY(-1px); /* Sedikit naik untuk penekanan */
+    cursor: default; /* Tidak bisa diklik lagi */
+}
+.paging-navigation .page-numbers.current:hover {
+    transform: translateY(-1px); /* Jangan terlalu naik saat dihover jika sudah aktif */
+}
+
+/* Styling untuk "..." (dots) */
+.paging-navigation .page-numbers.dots {
+    background: transparent !important; /* Hanya teks, tidak ada background/border */
+    border: none !important;
+    box-shadow: none !important;
+    color: var(--text) !important; /* Warna teks biasa */
+    cursor: default; /* Tidak bisa diklik */
+    padding: 0.3em 0.5em !important; /* Padding lebih kecil */
+    font-size: 1.1em !important; /* Sedikit lebih besar agar mudah dibaca */
+    text-shadow: none !important;
+}
+.paging-navigation .page-numbers.dots:hover {
+    transform: none !important; /* Hapus efek hover */
+    box-shadow: none !important;
+    background: transparent !important;
+    border: none !important;
+    color: var(--text) !important;
+}
+
+/* Styling untuk ikon panah di Previous/Next */
+.paging-navigation .gp-icon.icon-arrow svg {
+    fill: var(--white) !important; /* Warna panah putih */
+    transition: fill 0.3s ease;
+    filter: drop-shadow(0 0 2px transparent); /* Glow awal transparan */
+    margin-right: 0.25em; /* Jarak antara panah dan teks */
+}
+
+.paging-navigation .nav-previous a:hover .gp-icon.icon-arrow svg,
+.paging-navigation .next a:hover .gp-icon.icon-arrow svg {
+    fill: var(--secondary) !important; /* Warna panah glow saat hover */
+    filter: drop-shadow(0 0 5px var(--secondary)); /* Glow panah saat hover */
+}
+
+/* Sembunyikan screen reader text agar tidak mengganggu layout visual jika tidak diinginkan */
+.paging-navigation .screen-reader-text {
+    clip: rect(1px, 1px, 1px, 1px);
+    position: absolute;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+    word-wrap: normal !important;
+}
+
+/* =========================================================
+   Responsivitas (Tambahan) - FIX FINAL MOBILE HARMONY
+   ========================================================= */
+@media (max-width: 768px) {
+    /* ==== GLOBAL PADDING OVERRIDE FOR MOBILE ==== */
+    /* Target semua elemen yang mungkin memiliki padding berlebihan */
+    .grid-container, /* Kontainer GeneratePress utama */
+    .inside-top-bar,
+    .inside-header,
+    .site-main .wp-block-group__inner-container,
+    .separate-containers .comments-area, 
+    .separate-containers .page-header, 
+    .separate-containers .paging-navigation, 
+    .one-container .site-content, 
+    .inside-page-header,
+    .widget-area .widget,
+    .footer-widgets-container,
+    .inside-site-info,
+    .sharedaddy,
+    #jp-relatedposts {
+        padding-left: 15px !important; 
+        padding-right: 15px !important;
+    }
+
+    /* ==== FIX UNTUK LEBAR UTAMA SITUS AGAR PENUH DI MOBILE ==== */
+    .grid-container {
+        max-width: 100% !important; /* Pastikan grid-container mengambil lebar penuh */
+        width: 100% !important; /* Penting untuk responsivitas */
+        padding-left: 15px !important; /* Ulangi padding agar tidak ketimpa */
+        padding-right: 15px !important;
+        box-sizing: border-box !important; /* Pastikan padding tidak membuat overflow */
+    }
+
+    .site {
+        max-width: 100% !important; /* Pastikan .site mengambil lebar penuh */
+        width: 100% !important;
+        padding: 0 !important; /* Hapus padding yang mungkin ada pada .site */
+    }
+    
+    /* ==== SPECIFIC FIXES ==== */
+
+    /* Perbaikan untuk mobile menu hamburger */
+    .main-navigation.mobile-menu-control-wrapper .menu-toggle {
+        display: block !important;
+        color: var(--secondary) !important;
+        font-size: 1.8em;
+        position: relative;
+        z-index: 1001;
+    }
+    
+    /* Perbaikan untuk logo dan header */
+    .site-header {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .site-logo, .site-header .main-title {
+        line-height: normal !important;
+    }
+    .header-image.is-logo-image {
+        max-height: 50px !important;
+        width: auto !important;
+    }
+
+
+    /* Sembunyikan tombol menu toggle di navigasi utama (#site-navigation) */
+    #site-navigation .menu-toggle {
+        display: none !important;
+    }
+
+    /* Pastikan navigasi utama tersembunyi kecuali saat ditoggle */
+    .main-navigation .main-nav {
+        display: none;
+    }
+
+    /* Saat ditoggle, tampilkan dengan styling Anda */
+    .main-navigation.toggled .main-nav,
+    .main-navigation.slide-opened .main-nav { 
+        display: flex !important; 
+        background: var(--glass-background-header) !important;
+        background-color: transparent !important;
+        backdrop-filter: blur(var(--blur-amount-lg));
+        -webkit-backdrop-filter: blur(var(--blur-amount-lg));
+        border-left: 1px solid var(--glass-border);
+        box-shadow: -2px 0 8px rgba(0,0,0,0.3);
+        position: fixed !important;
+        top: 0 !important;
+        right: 0 !important;
+        width: 80% !important;
+        height: 100% !important;
+        padding: 4em 1em 1em !important;
+        z-index: 999 !important; 
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
+        transition: right 0.3s ease-in-out;
+    }
+
+    /* Ini memastikan menu mobile muncul dari kanan */
+    .main-navigation.slide-opened .main-nav {
+        right: 0 !important;
+    }
+
+    /* Perbaikan untuk tampilan item menu di mobile */
+    .main-navigation .toggled .main-nav ul li {
+        width: 100%;
+        text-align: center;
+        background: rgba(0, 212, 255, 0.1) !important; 
+        border-radius: 4px;
+        margin-bottom: 0.5em;
+    }
+    .main-navigation .toggled .main-nav ul li:last-child {
+        margin-bottom: 0;
+    }
+    .main-navigation .toggled .main-nav ul li a {
+        padding: 0.8em 0 !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+    .main-navigation .toggled .main-nav ul li:last-child a {
+        border-bottom: none !important;
+    }
+
+    /* === Perbaikan Umum untuk Sidebar di Mobile === */
+    .site-content #right-sidebar,
+    .site-content #left-sidebar {
+        width: 100% !important;
+        order: 10; 
+        margin-top: 2em;
+        margin-bottom: 0;
+    }
+    
+    .site-content .content-area {
+        width: 100% !important;
+        order: 1;
+    }
+
+    /* Perbaikan untuk post dan pagination di mobile */
+    .entry-header, .entry-content, .entry-meta, .read-more {
+        text-align: left !important;
+    }
+    
+    /* Pagination mobile - Tata ulang agar lebih rapat dan tidak bertumpuk */
+    .paging-navigation .nav-previous,
+    .paging-navigation .nav-links {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.3em;
+        font-size: 0.8em;
+    }
+    .paging-navigation .page-numbers,
+    .paging-navigation .prev a,
+    .paging-navigation .next a,
+    .paging-navigation .nav-previous a {
+        padding: 0.2em 0.5em !important;
+        min-width: 2em;
+    }
+    .paging-navigation .page-numbers.dots {
+        padding: 0.2em 0.3em !important;
+    }
+
+    /* Jetpack Related Posts - Responsive */
+    .jp-relatedposts-items-visual.jp-relatedposts-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1em !important;
+    }
+    .jp-relatedposts-post-img {
+        height: 150px !important;
+        object-fit: cover;
+    }
+    .jp-relatedposts-post-title {
+        font-size: 1em !important;
+        -webkit-line-clamp: 3;
+    }
+    .jp-relatedposts-post-excerpt {
+        font-size: 0.85em !important;
+        -webkit-line-clamp: 4;
+    }
+
+    /* Kontainer Kontak - Responsive */
+    .contact-info {
+        gap: 1em;
+    }
+    .contact-item-wrapper {
+        flex: 1 1 100%;
+        max-width: none;
+        padding: 1em !important;
+    }
+    .contact-item i {
+        font-size: 2em !important;
+    }
+    .contact-item span {
+        font-size: 1em !important;
+    }
+    .cta-button {
+        padding: 0.6em 1.5em !important;
+        font-size: 1em !important;
+    }
+    .map-container {
+        padding: 0.5em !important;
+        margin-top: 2em !important;
+    }
+    .map-container iframe {
+        height: 250px !important;
+    }
+
+    /* Footer di mobile */
+    footer.site-info, footer {
+        padding: 1em 0 !important;
+    }
+    .site-info .social-icons a i.fab, .site-info .social-icons a i.fas {
+        font-size: 1.5em !important;
+        margin: 0 0.4em;
+    }
+    .site-info .copyright, .site-info .creds {
+        font-size: 0.8em;
+    }
+    .footer-navigation {
+        margin: 1em 0;
+    }
+    .footer-navigation .footer-menu {
+        gap: 0.3em;
+    }
+    .footer-navigation .footer-menu li a {
+        padding: 0.15em 0.6em !important;
+        font-size: 0.75em !important;
+        min-height: 25px;
+    }
+}
+
+
+
+/* =========================================================
+   Theme Mode Switcher Styling
+   ========================================================= */
+.theme-mode-switcher {
+    text-align: center;
+    margin: 1.5em 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.theme-mode-switcher .mode-button {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    color: var(--white) !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 50px !important;
+    padding: 0.6em 1.2em !important;
+    font-size: 0.6em !important;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    box-shadow: none !important;
+    outline: none !important;
+    line-height: 1.2;
+}
+
+.theme-mode-switcher .mode-button:hover {
+    background-color: rgba(0, 212, 255, 0.1) !important;
+    color: var(--secondary) !important;
+    box-shadow: 0 0 10px var(--secondary) !important;
+    transform: translateY(-2px);
+    border-color: var(--secondary) !important;
+}
+
+.theme-mode-switcher .mode-button span {
+    /* Gaya untuk ikon di dalam tombol (gunakan Font Awesome atau SVG jika sudah ada) */
+    font-size: 0.5em;
+    vertical-align: middle;
+}
+.theme-mode-switcher .mode-button .desktop-icon::before { content: "\f390"; font-family: "Font Awesome 6 Free"; font-weight: 900; } /* fa-desktop */
+.theme-mode-switcher .mode-button .mobile-icon::before { content: "\f3ce"; font-family: "Font Awesome 6 Free"; font-weight: 900; } /* fa-mobile-alt */
+.theme-mode-switcher .mode-button .cache-icon::before { content: "\f021"; font-family: "Font Awesome 6 Free"; font-weight: 900; } /* fa-sync-alt */
+
+.theme-mode-switcher .mode-button.clear-cache {
+    background-color: var(--secondary) !important;
+    color: var(--dark) !important;
+    box-shadow: 0 0 10px var(--secondary) !important;
+    border-color: var(--secondary) !important;
+}
+.theme-mode-switcher .mode-button.clear-cache:hover {
+    background-color: var(--accent) !important;
+    box-shadow: 0 0 15px var(--secondary) !important;
+}
+
+/* Menyembunyikan tombol mobile/desktop mode jika di desktop */
+@media (min-width: 769px) { /* Ini akan menyembunyikan tombol mode di desktop */
+    .theme-mode-switcher #toggle-desktop-mode,
+    .theme-mode-switcher #toggle-mobile-mode {
+        display: none !important;
+    }
+}
+
+
+
